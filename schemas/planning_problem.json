@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PDDL Problem",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "problem",
+    "domain",
+    "objects",
+    "initial_state",
+    "goal"
+  ],
+  "properties": {
+    "problem": {
+      "type": "string"
+    },
+
+    "domain": {
+      "type": "string"
+    },
+
+    "objects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/object"
+      }
+    },
+
+    "initial_state": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/groundLiteral"
+      }
+    },
+
+    "goal": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/groundLiteral"
+      }
+    }
+  },
+
+  "$defs": {
+    "object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+
+    "groundLiteral": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["predicate", "arguments"],
+      "properties": {
+        "predicate": {
+          "type": "string"
+        },
+
+        "arguments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+
+        "negated": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}

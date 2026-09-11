@@ -1,18 +1,17 @@
-from pathlib import Path
-import requests
-
-
 import base64
-import requests
+import json
 from pathlib import Path
+
+import requests
 
 
 class PerceptionModule:
-    def __init__(self, model, prompt_library, token, url="https://nebula.cs.vu.nl/api/chat/completions"):
+    def __init__(self, model, prompt_library, token, url="https://nebula.cs.vu.nl/api/chat/completions", schema_root=None):
         self.model = model
         self.prompts = prompt_library
         self.token = token
         self.url = url
+        self.schema_root = Path(schema_root) if schema_root is not None else Path(__file__).parent / "schemas"
 
     def _encode_image(self, image_path):
         path = Path(image_path)
@@ -45,16 +44,27 @@ class PerceptionModule:
             },
         ]
 
+        payload = {"model": self.model, "messages": messages}
+        if task == "perception.create_scene_graph":
+            schema_path = self.schema_root / "perception" / "create_scene_graph.json"
+            schema = json.loads(schema_path.read_text(encoding="utf-8"))
+            payload["response_format"] = {
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "scene_graph",
+                    "strict": True,
+                    "schema": schema,
+                },
+            }
+
         response = requests.post(
             self.url,
             headers={
                 "Authorization": f"Bearer {self.token}",
                 "Content-Type": "application/json",
             },
-            json={
-                "model": self.model,
-                "messages": messages,
-            },
+            json=payload,
+            timeout=(15, 120),
         )
 
         if not response.ok:
@@ -79,4 +89,3 @@ class PromptLibrary:
 
     def list(self):
         return list(self.prompts)
-    
