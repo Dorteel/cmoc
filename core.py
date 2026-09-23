@@ -18,51 +18,46 @@ class PerceptionModule:
         image = base64.b64encode(path.read_bytes()).decode("utf-8")
         mime = {"png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg"}[path.suffix[1:].lower()]
         return image, mime
+    def perceive(self, image_path=None, prompt_name="perception.create_scene_graph", schema_name=None, instruction=None):
+        """
+        Call the remote model using a named prompt and optional JSON schema.
 
-    def perceive(self, image_path, task="perception.create_scene_graph"):
-        image, mime = self._encode_image(image_path)
+        - `image_path`: Path to image to include (optional).
+        - `prompt_name`: key used with `PromptLibrary.get()` to load the task prompt.
+        - `schema_name`: optional dot-separated schema name (e.g. 'perception.create_scene_graph');
+          when provided the schema is loaded from `schema_root` and attached as a json_schema response_format.
+        - `instruction`: optional instruction string injected into the user content to guide attention.
+        """
 
-        messages = [
-            {
-                "role": "system",
-                "content": self.prompts.get("perception.system"),
-            },
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": self.prompts.get(task),
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:{mime};base64,{image}"
-                        },
-                    },
-                ],
-            },
-        ]
+        system_msg = {"role": "system", "content": self.prompts.get("perception.system")}
+
+        prompt_text = self.prompts.get(prompt_name)
+
+        user_content = []
+        if instruction:
+            user_content.append({"type": "text", "text": instruction})
+        user_content.append({"type": "text", "text": prompt_text})
+
+        if image_path is not None:
+            image, mime = self._encode_image(image_path)
+            user_content.append({"type": "image_url", "image_url": {"url": f"data:{mime};base64,{image}"}})
+
+        messages = [system_msg, {"role": "user", "content": user_content}]
 
         payload = {"model": self.model, "messages": messages}
-        if task == "perception.create_scene_graph":
-            schema_path = self.schema_root / "perception" / "create_scene_graph.json"
+
+        if schema_name is not None:
+            # schema_name like 'perception.create_scene_graph' -> schemas/perception/create_scene_graph.json
+            schema_path = self.schema_root / Path(schema_name.replace('.', '/')).with_suffix('.json')
             schema = json.loads(schema_path.read_text(encoding="utf-8"))
             payload["response_format"] = {
                 "type": "json_schema",
-                "json_schema": {
-                    "name": "scene_graph",
-                    "strict": True,
-                    "schema": schema,
-                },
+                "json_schema": {"name": "scene_graph", "strict": True, "schema": schema},
             }
 
         response = requests.post(
             self.url,
-            headers={
-                "Authorization": f"Bearer {self.token}",
-                "Content-Type": "application/json",
-            },
+            headers={"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"},
             json=payload,
             timeout=(15, 120),
         )

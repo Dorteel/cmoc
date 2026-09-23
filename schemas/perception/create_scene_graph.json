@@ -1,39 +1,16 @@
 {
   "type": "object",
   "properties": {
-    "entities": {
+    "objects": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string"
-          },
-          "attributes": {
-            "type": "object",
-            "properties": {
-              "color": {
-                "type": "string"
-              },
-              "material": {
-                "type": "string"
-              },
-              "state": {
-                "type": "string"
-              }
-            },
-            "required": [],
-            "additionalProperties": false
-          }
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "type": { "type": "string" }
         },
-        "required": [
-          "id",
-          "label",
-          "attributes"
-        ],
+        "required": ["id", "label", "type"],
         "additionalProperties": false
       }
     },
@@ -42,28 +19,29 @@
       "items": {
         "type": "object",
         "properties": {
-          "subject": {
-            "type": "string"
-          },
+          "subject": { "type": "string" },
           "predicate": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "in",
+              "on",
+              "under",
+              "next_to",
+              "touching",
+              "attached_to",
+              "held_by",
+              "above",
+              "in_front_of",
+              "behind"
+            ]
           },
-          "object": {
-            "type": "string"
-          }
+          "object": { "type": "string" }
         },
-        "required": [
-          "subject",
-          "predicate",
-          "object"
-        ],
+        "required": ["subject", "predicate", "object"],
         "additionalProperties": false
       }
     }
   },
-  "required": [
-    "entities",
-    "relations"
-  ],
+  "required": ["objects", "relations"],
   "additionalProperties": false
 }

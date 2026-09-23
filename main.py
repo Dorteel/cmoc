@@ -19,6 +19,22 @@ perception = PerceptionModule(
     token=os.getenv("NEBULA_API_KEY"),
 )
 
-result = perception.perceive(BASE_DIR / "test.png")
+# Example: neutral scene-graph using the shared schema
+print("Running neutral scene-graph (no instruction)...")
+result_neutral = perception.perceive(
+    image_path=BASE_DIR / "test.png",
+    prompt_name="perception.create_scene_graph_neutral",
+    schema_name="perception.create_scene_graph",
+)
+print(result_neutral)
 
-print(result)
+# Example: instruction-primed scene-graph using the same schema
+instruction_text = "Focus on objects the person is holding and nearby table surfaces."
+print("\nRunning instruction-primed scene-graph...")
+result_instruction = perception.perceive(
+    image_path=BASE_DIR / "test.png",
+    prompt_name="perception.create_scene_graph_instruction",
+    schema_name="perception.create_scene_graph",
+    instruction=instruction_text,
+)
+print(result_instruction)
