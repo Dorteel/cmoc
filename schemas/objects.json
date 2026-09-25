@@ -1,0 +1,13 @@
+{
+    "id":"cup_1",
+    "type":"cup",
+    "qualities":
+    {
+        "material":null,
+        "orientation":null,
+        "location":null,
+        "color":null,
+        "size":null,
+        "shape":null
+    }
+}

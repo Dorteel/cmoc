@@ -1,0 +1,42 @@
+@prefix scene: <http://example.org/scene#> .
+@prefix rel:   <http://example.org/relation#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# --- Entities -------------------------------------------------------
+
+scene:kitchen
+    rdf:type scene:Location .
+
+scene:table
+    rdf:type scene:Surface ;
+    rel:at scene:kitchen .
+
+scene:counter
+    rdf:type scene:Surface ;
+    rel:at scene:kitchen .
+
+scene:cup
+    rdf:type scene:Item ;
+    rel:at scene:kitchen ;
+    rel:on_top scene:table .
+
+scene:yoghurt
+    rdf:type scene:Item ;
+    rel:at scene:kitchen ;
+    rel:on_top scene:table ;
+    rel:next_to scene:cup .
+
+scene:egg_box
+    rdf:type scene:Container ;
+    rel:at scene:kitchen ;
+    rel:on_top scene:counter .
+
+scene:egg_1
+    rdf:type scene:Item ;
+    rel:in scene:egg_box .
+
+scene:bread
+    rdf:type scene:Item ;
+    rel:at scene:kitchen ;
+    rel:on_top scene:counter ;
+    rel:next_to scene:egg_box .
