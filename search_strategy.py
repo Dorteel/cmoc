@@ -1,47 +1,53 @@
-"""Resolve a known source or rank places to search for a theme."""
+"""Resolve a search target and an ordered list of candidate locations.
 
-import re
+Semantic memory:
+    locatedAt(muffin, KITCHEN)
+    = hypothesis / prior
+
+Episodic memory:
+    in(cupcake1, KITCHEN)
+    = grounded fact
+"""
 
 
-def resolve_search(frame, kb):
-    # Always search for the requested theme, whether or not memory contains it.
+def resolve_search(frame, knowledge_interface, semantic_memory):
+    """Branch on whether the Source is already known.
+
+    The task instruction tells us which Theme category to search for. We do not
+    check whether a grounded instance already exists; we only decide whether the
+    search should be anchored to a known source or ranked across known locations.
+    """
     theme = frame["Theme"]
     source = frame["Source"]
 
-    # If the source is known, search for the theme at that source.
+    # Source known: the search is already grounded to one location.
     if source is not None:
         return {"target": theme, "locations": [source]}
 
-    # If the source is unknown, get all known environment locations.
-    locations = kb.query_locations()
-
-    # Rank those locations for the theme, then search them in that order.
-    ranked_locations = rank_locations(theme, locations)
+    # Source unknown: query the known environment locations, then rank them by
+    # semantic plausibility that the theme might be there.
+    locations = knowledge_interface.query_locations()
+    ranked_locations = semantic_memory.rank_locations(theme, locations)
     return {"target": theme, "locations": ranked_locations}
 
 
-def rank_locations(theme, locations):
-    # With no locations, return immediately without loading the model.
-    if not locations:
-        return []
+if __name__ == "__main__":
+    from knowledge_interface import KnowledgeInterface
+    from semantic_memory import SemanticMemory
 
-    from sentence_transformers import CrossEncoder
+    frame = {
+        "Agent": "robot",
+        "Theme": "muffin",
+        "Source": None,
+        "Destination": "user",
+    }
 
-    # Turn each location ID into readable text, keeping its original ID for output.
-    question = f"Where is a {theme} likely to be found?"
-    pairs = []
-    for location in locations:
-        label = re.sub(r"_\d+$", "", location["id"])
-        label = label.replace("_", " ").lower()
-        pairs.append((question, label))
+    kb = KnowledgeInterface("scene_graph.json")
+    semantic_memory = SemanticMemory()
+    search = resolve_search(frame, kb, semantic_memory)
 
-    # Score each question/location pair with the requested cross-encoder.
-    model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L6-v2")
-    scores = model.predict(pairs)
-
-    # Return the original IDs and numeric scores, highest score first.
-    ranked = []
-    for location, score in zip(locations, scores):
-        ranked.append({"location": location["id"], "score": float(score)})
-    ranked.sort(key=lambda item: item["score"], reverse=True)
-    return ranked
+    print(f"Target: {search['target']}")
+    print()
+    print("Search order:")
+    for index, result in enumerate(search["locations"], start=1):
+        print(f"{index}. {result['location']:<15} {result['score']}")

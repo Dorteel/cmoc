@@ -5,6 +5,11 @@ import json
 import math
 
 
+# Match declared types, never object names. The generated Webots fridge uses
+# lowercase "fridge" as its type; keep that explicit alongside common variants.
+CONTAINER_TYPES = {"Cabinet", "Refrigerator", "Fridge", "fridge"}
+
+
 def get_locations(scene_graph):
     # Find all objects explicitly marked as environment locations.
     return [obj for obj in scene_graph.get("objects", [])
@@ -57,7 +62,7 @@ def is_inside(object_position, bounds):
             and bounds["min_y"] <= y <= bounds["max_y"])
 
 
-def ground_in_relations(scene_graph):
+def ground_room_in_relations(scene_graph):
     """Return inferred 'in' relations without changing the supplied graph."""
     # Separate rooms from candidate contained objects.
     locations = get_locations(scene_graph)
@@ -111,6 +116,68 @@ def get_object_bounds(obj):
         "min_z": z,
         "max_z": z + height,
     }
+
+
+def get_container_bounds(container):
+    """Return a known container's world volume, or None without complete size."""
+    # First require an explicitly supported container type, excluding Locations.
+    if container.get("type") not in CONTAINER_TYPES:
+        return None
+
+    # Reuse the demo's geometry convention: centered XY footprint, base-to-top Z.
+    # This validates all three position/size numbers; partial sizes are skipped.
+    return get_object_bounds(container)
+
+
+def is_inside_3d(position, bounds):
+    """Test a representative point strictly inside a world-aligned volume."""
+    # An object's position is sufficient; its dimensions are not required.
+    if bounds is None or not isinstance(position, list) or len(position) != 3:
+        return False
+    for value in position:
+        if type(value) not in (int, float) or not math.isfinite(value):
+            return False
+
+    # Check all three axes. Do not enlarge bounds or include surface points:
+    # a point on the cabinet top should not become a containment relation.
+    for axis, coordinate in zip(("x", "y", "z"), position):
+        if not bounds[f"min_{axis}"] < coordinate < bounds[f"max_{axis}"]:
+            return False
+    return True
+
+
+def ground_container_in_relations(scene_graph):
+    """Infer point-in-volume containment separately from room containment."""
+    objects = scene_graph.get("objects", [])
+    relations = []
+    seen = set()
+
+    # For each candidate container, require its declared type and complete bounds.
+    for container in objects:
+        bounds = get_container_bounds(container)
+        if bounds is None:
+            continue
+
+        # For each non-Location object, test its known point against that volume.
+        for obj in objects:
+            if obj.get("type") == "Location" or obj["id"] == container["id"]:
+                continue
+            position = obj.get("qualities", {}).get("location")
+            pair = (obj["id"], container["id"])
+            if pair not in seen and is_inside_3d(position, bounds):
+                relations.append({
+                    "subject": obj["id"], "predicate": "in", "object": container["id"],
+                })
+                seen.add(pair)
+    return relations
+
+
+def ground_in_relations(scene_graph):
+    """Combine unchanged room tests with the separate container-volume tests."""
+    # Keep room relations first so existing room lookup ordering stays unchanged.
+    room_relations = ground_room_in_relations(scene_graph)
+    container_relations = ground_container_in_relations(scene_graph)
+    return room_relations + container_relations
 
 
 def is_on(subject, support, tolerance=0.04):
@@ -187,6 +254,25 @@ def print_objects_by_location(scene_graph):
         print()
 
 
+def print_container_contents(scene_graph):
+    # Ground container containment once, then show object IDs under each container.
+    print("CONTAINER CONTENTS:")
+    relations = ground_container_in_relations(scene_graph)
+    for container in scene_graph.get("objects", []):
+        if container.get("type") not in CONTAINER_TYPES:
+            continue
+        print(f"\n{container['id']}")
+        if get_container_bounds(container) is None:
+            print("  (complete geometry unavailable)")
+            continue
+        contents = [relation for relation in relations if relation["object"] == container["id"]]
+        if not contents:
+            print("  (no grounded contents)")
+        for relation in contents:
+            print(f"  - {relation['subject']}")
+    print()
+
+
 def print_on_relations(scene_graph, tolerance=0.04):
     # Show physical support separately from the existing room-containment report.
     print("ON relations:")
@@ -207,4 +293,5 @@ if __name__ == "__main__":
     with open(args.scene_graph_path, encoding="utf-8") as source:
         scene_graph = json.load(source)
     print_objects_by_location(scene_graph)
+    print_container_contents(scene_graph)
     print_on_relations(scene_graph, args.tolerance)

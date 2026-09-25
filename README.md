@@ -165,6 +165,13 @@ selectional restrictions and their logical groups without enforcing them.
 The schema includes `verbnet_class` metadata. Calling
 `verbnet_to_schema(class_id)` also returns the schema dictionary.
 
+## Search strategy for unknown sources
+
+Source unknown
+→ query known Locations
+→ semantic ranking
+→ search highest-ranked location first
+
 ## Notes
 
 - Keep a `.env` file with `NEBULA_API_KEY` for API access. Do not commit secrets.
@@ -246,3 +253,14 @@ remain available through the same interface.
 
 Run `python knowledge_interface.py scene_graph.json` to inspect the known rooms
 for plates, wine glasses, and an unknown object.
+
+## VerbNet semantic patterns
+
+Run `python -m tools.verbnet_semantic_patterns bring-11.3` to inspect normalized
+predicates across a class's direct frames (requires NLTK's `verbnet` corpus).
+The summary reports invariants, strict-majority predicates, positive role-presence
+frequency associations, and single-frame predicates. These are observations,
+not logical implications. Event variables are normalized within each predicate;
+raw semantics remain available through `analyze_class()` for cross-predicate
+links. Run the embedded sanity test with
+`python -m pytest tools/verbnet_semantic_patterns.py`.

@@ -362,6 +362,58 @@ def get_world_orientation(node):
     return [x / sine, y / sine, z / sine, 2 * math.atan2(sine, w)]
 
 
+def _nested_box_corners(node):
+    """Collect every corner of a fully serialized Box-only geometry subtree."""
+    if node["type"] == "Box":
+        dimensions = node["fields"].get("size", [])
+        if len(dimensions) != 3 or any(not math.isfinite(v) or v <= 0 for v in dimensions):
+            return None
+        # A Box has no pose of its own. Its corners inherit all enclosing Poses.
+        parent = node["parent"]
+        if parent and parent["type"] == "Shape":
+            parent = parent["parent"]
+        origin_node = {"type": "Pose", "fields": {"translation": [0, 0, 0]}, "parent": parent}
+        origin, _, basis = get_world_transform(origin_node)
+        if origin is None or basis is None:
+            return None
+        corners = []
+        for signs in product((-1, 1), repeat=3):
+            local = [signs[i] * dimensions[i] / 2 for i in range(3)]
+            corners.append([origin[axis] + sum(local[i] * basis[i][axis] for i in range(3))
+                            for axis in range(3)])
+        return corners
+
+    # Only descend through geometry wrappers, never component Solids, joints,
+    # handles, or unknown PROTOs. Any unsupported part invalidates this fallback.
+    if node["type"] not in {"Group", "Pose", "Transform", "Shape"}:
+        return None
+    corners = []
+    for child in node["children"]:
+        if child["field"] not in {"children", "geometry"}:
+            continue
+        child_corners = _nested_box_corners(child)
+        if not child_corners:
+            return None
+        corners.extend(child_corners)
+    return corners or None
+
+
+def _nested_world_dimensions(node):
+    """Use a complete collision body, or one unambiguous visual subtree."""
+    # A boundingObject explicitly belongs to the whole object. Combine ALL its
+    # serialized boxes, including their offsets; never choose just one shelf.
+    roots = [child for child in node["children"] if child["field"] == "boundingObject"]
+    if not roots:
+        roots = [child for child in node["children"] if child["field"] == "children"]
+    if len(roots) != 1:
+        return None
+    corners = _nested_box_corners(roots[0])
+    if not corners:
+        return None
+    return [max(point[axis] for point in corners) - min(point[axis] for point in corners)
+            for axis in range(3)]
+
+
 def get_world_dimensions(node):
     """Bound direct geometry or an explicit 3D size in world coordinates."""
     # First look for one direct visual. Never borrow dimensions from child
@@ -384,6 +436,15 @@ def get_world_dimensions(node):
         geometry = None
         dimensions = node["fields"].get("size", [])
         expected = 3
+        # After direct size, accept width/depth/height only as a complete triple.
+        # Do not infer the Cabinet PROTO's dimensions from row/column parameters.
+        if not dimensions:
+            components = [node["fields"].get(key, []) for key in ("width", "depth", "height")]
+            if all(len(values) == 1 for values in components):
+                dimensions = [values[0] for values in components]
+        # Finally inspect an explicit whole-body subtree, including all offsets.
+        if not dimensions:
+            return _nested_world_dimensions(node)
     _, _, basis = get_world_transform(node)
     if basis is None:
         return None
