@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VerbNet task frame: bring-11.3",
+  "verbnet_class": "bring-11.3",
+  "type": "object",
+  "properties": {
+    "agent": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Entity ID for the Agent role, or null if unknown. VerbNet selectional restrictions: (+int_control)."
+    },
+    "theme": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Entity ID for the Theme role, or null if unknown. VerbNet selectional restrictions: (+concrete)."
+    },
+    "source": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Entity ID for the Source role, or null if unknown. VerbNet selectional restrictions: (+location)."
+    },
+    "destination": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Entity ID for the Destination role, or null if unknown. VerbNet selectional restrictions: (+animate or (+location and -region))."
+    }
+  },
+  "required": [
+    "agent",
+    "theme",
+    "source",
+    "destination"
+  ],
+  "additionalProperties": false
+}

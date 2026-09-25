@@ -5,7 +5,6 @@ from nltk.corpus import verbnet as vn
 from nltk.corpus import framenet as fn
 
 lemmatizer = WordNetLemmatizer()
-instruction = "Bring me the cup on the table."
 
 def detect_command(tagged_tokens):
     """Detect simple direct or polite robot commands."""
@@ -61,18 +60,16 @@ def get_trigger_verbs(frame_name="Bringing"):
 def build_task_dictionary():
     return {frame: get_trigger_verbs(frame) for frame in get_allowed_frames()}
 
+def fill_frame(instruction, frame_info):
+    pass
 
-def listen():
+def listen(instruction="Bring me the cup on the table."):
     
     # instruction = input("Instruction: ")
-        
-    result = detect_frame(instruction)
-    task_dictionary = build_task_dictionary()
-    print(task_dictionary)
-    print(f"Trigger verb: {result['trigger_verb']}")
-    print(f"Frame: {result['frame']}")
-
-    return result
+    
+    frame = detect_frame(instruction)
+    schema = fill_frame(instruction, frame)
+#
 
 
 if __name__ == "__main__":

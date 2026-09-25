@@ -150,6 +150,21 @@ never replaced by another sense. A member may declare several WordNet senses:
 these are linked candidates, not a claim that every sense is equivalent to the
 FrameNet frame. No synonym search or semantic-similarity guessing is performed.
 
+## VerbNet task-frame schemas
+
+Generate an exploratory JSON Schema from a VerbNet class's direct thematic
+roles (requires NLTK and its `verbnet` corpus):
+
+```bash
+python -m tools.verbnet_to_schema bring-11.3
+```
+
+This saves `schemas/task_frames/bring-11.3.json`. Every lowercase role key is
+required and accepts a string entity ID or `null`; descriptions preserve
+selectional restrictions and their logical groups without enforcing them.
+The schema includes `verbnet_class` metadata. Calling
+`verbnet_to_schema(class_id)` also returns the schema dictionary.
+
 ## Notes
 
 - Keep a `.env` file with `NEBULA_API_KEY` for API access. Do not commit secrets.
@@ -184,3 +199,50 @@ currently visible types. Blank nodes use dashed diamonds and the `_:identifier`
 convention (their parser-assigned identifiers may change on reload); literals use
 neutral rounded rectangles. This lightweight layout is intended for small debug
 graphs rather than very large datasets.
+
+## Scene graph from a Webots world
+
+Extract a conservative reference graph from explicit names and DEF scene groups
+in a saved world (requires `jsonschema`):
+
+```bash
+python -m tools.scene_graph_generator_from_simulation resources/simulation_worlds/setting_the_table_complete_apartment_tiago_ros2.wbt
+```
+
+The utility saves `<world>.scene_graph.json` beside the world and returns the
+graph dictionary. Objects are validated against `schemas/objects.json`; relations
+use the existing predicate schema and reference object IDs. Names take precedence
+over DEF identifiers; duplicate names receive a deterministic source-path suffix.
+Types come from explicit `model` values or Webots node types, except for named
+direct spatial children of the object named `floor`: these become `Location`
+objects with their stable IDs preserved. A direct Shape containing a Plane with
+explicit width and height supplies numeric `qualities.area` in square metres
+(`width * height`); missing geometry yields no area. Other Pose nodes are not
+reclassified. Unknown qualities are omitted; objects with empty `qualities`
+remain in the graph. Locations are numeric world-frame `[x, y, z]` coordinates
+in metres, composed through the complete parent hierarchy using axis-angle
+rotations and translations (and explicit Transform scaling). Unknown positions,
+including offsets hidden inside external PROTO parents, are omitted. Orientations are numeric world-frame axis-angle arrays. Sizes are world-aligned
+bounds computed from transformed Box/Plane corners (or exact Sphere bounds),
+including explicit ancestor scaling; horizontal floor locations use two numbers.
+Incomplete dimensions and hidden PROTO geometry are omitted. RGB colours retain
+their existing labelled strings.
+Known unnamed physical node types receive deterministic `type_N` IDs (for
+example `pedestrian_1`); anonymous rendering and grouping helpers stay excluded.
+Only explicit joint attachments produce relations. PROTO defaults,
+texture colours, material guesses, and spatial/contact guesses are
+omitted; this reads the saved file rather than a running simulation. External
+PROTOs are not loaded, spatial `USE` instances warn and are skipped, and inline
+PROTO definitions are rejected.
+
+## Episodic spatial knowledge
+
+`KnowledgeInterface(scene_graph_path)` loads the quantitative scene graph once
+and grounds `in` and `on` relations once, combining them with explicit relations
+in memory without changing the JSON file. `query_theme_location(theme)` follows
+only `in` relations and returns the first matching `Location` ID (or `None`),
+ready to use as the frame's `Source`. Theme matching and `query_locations()`
+remain available through the same interface.
+
+Run `python knowledge_interface.py scene_graph.json` to inspect the known rooms
+for plates, wine glasses, and an unknown object.

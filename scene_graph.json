@@ -1,0 +1,4023 @@
+{
+  "objects": [
+    {
+      "id": "ROOF",
+      "type": "Group",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "floor",
+      "type": "floor",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -4.96,
+          -6.5,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "LIVING_ROOM_1",
+      "type": "Location",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -6.87,
+          -3.3,
+          0.0
+        ],
+        "size": [
+          6.3,
+          6.26
+        ],
+        "shape": "Plane",
+        "area": 39.437999999999995
+      }
+    },
+    {
+      "id": "LIVING_ROOM_2",
+      "type": "Location",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -11.2,
+          -1.6600000000000001,
+          0.0
+        ],
+        "size": [
+          2.4000117542401394,
+          3.2000088156706603
+        ],
+        "shape": "Plane",
+        "area": 7.68
+      }
+    },
+    {
+      "id": "GARDEN",
+      "type": "Location",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -11.25,
+          -8.370000000000001,
+          0.0
+        ],
+        "size": [
+          2.6000359973924727,
+          9.800009550267156
+        ],
+        "shape": "Plane",
+        "area": 25.480000000000004
+      }
+    },
+    {
+      "id": "KITCHEN",
+      "type": "Location",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -1.94,
+          -3.3,
+          0.0
+        ],
+        "size": [
+          3.6000231411678643,
+          6.300013223495871
+        ],
+        "shape": "Plane",
+        "area": 22.68
+      }
+    },
+    {
+      "id": "CORRIDOR",
+      "type": "Location",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -4.81,
+          -7.514,
+          0.0
+        ],
+        "size": [
+          9.933007842225884,
+          2.135036485931888
+        ],
+        "shape": "Plane",
+        "area": 21.206954999999997
+      }
+    },
+    {
+      "id": "BATHROOM_1",
+      "type": "Location",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -4.48,
+          -10.891,
+          0.0
+        ],
+        "size": [
+          2.0,
+          4.6185
+        ],
+        "shape": "Plane",
+        "area": 9.237
+      }
+    },
+    {
+      "id": "ROOM_1",
+      "type": "Location",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -7.7,
+          -10.891,
+          0.0
+        ],
+        "size": [
+          4.300016964668761,
+          4.618515794750787
+        ],
+        "shape": "Plane",
+        "area": 19.85955
+      }
+    },
+    {
+      "id": "ROOM_2",
+      "type": "Location",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -1.6600000000000001,
+          -10.891,
+          0.0
+        ],
+        "size": [
+          3.600016964673483,
+          4.618513223507215
+        ],
+        "shape": "Plane",
+        "area": 16.6266
+      }
+    },
+    {
+      "id": "oracle",
+      "type": "Robot",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "Ros2Supervisor",
+      "type": "Robot",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "TIAGo",
+      "type": "Tiago++",
+      "qualities": {
+        "location": [
+          -2.69,
+          -2.49,
+          0.095
+        ]
+      }
+    },
+    {
+      "id": "right",
+      "type": "TiagoGripperConnector",
+      "qualities": {}
+    },
+    {
+      "id": "hokuyo",
+      "type": "HokuyoUrg04lxug01",
+      "qualities": {}
+    },
+    {
+      "id": "KITCHEN_BLOCK",
+      "type": "Pose",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -2.09,
+          -2.3,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "KITCHEN_TILES_1",
+      "type": "Pose",
+      "qualities": {
+        "orientation": [
+          0.5773507798711005,
+          -0.5773513685470951,
+          0.5773486591471643,
+          2.0943966344468166
+        ],
+        "location": [
+          -2.48999781088572,
+          -0.15299959215499204,
+          0.8999999999999999
+        ],
+        "size": [
+          2.60000000000539,
+          9.262768993231442e-06,
+          1.7999999999878566
+        ],
+        "shape": "Plane"
+      }
+    },
+    {
+      "id": "KITCHEN_TILES_2",
+      "type": "Pose",
+      "qualities": {
+        "orientation": [
+          5.098076552046849e-07,
+          0.9999999999996728,
+          -6.280410656402244e-07,
+          1.570796445028762
+        ],
+        "location": [
+          -3.7379987866569238,
+          -1.1099983196745868,
+          0.8999999999999999
+        ],
+        "size": [
+          3.057442442920543e-06,
+          2.500000212818394,
+          1.8000002955836862
+        ],
+        "shape": "Plane"
+      }
+    },
+    {
+      "id": "cabinet(6)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5708000000000004
+        ],
+        "location": [
+          -1.0899978078276022,
+          -0.1500010196164281,
+          0.83
+        ]
+      }
+    },
+    {
+      "id": "cabinet(2)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -3.7400001121568263,
+          -2.40999831763468,
+          0.15
+        ]
+      }
+    },
+    {
+      "id": "cabinet(3)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5708000000000004
+        ],
+        "location": [
+          -1.9899978078271343,
+          -0.1500001019626489,
+          1.4
+        ]
+      }
+    },
+    {
+      "id": "cabinet(4)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -3.736999622741479,
+          -1.9299983206937759,
+          1.4
+        ]
+      }
+    },
+    {
+      "id": "cabinet7",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -3.737000601572177,
+          -2.8899983206932767,
+          1.4
+        ]
+      }
+    },
+    {
+      "id": "cabinet(5)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -3.5699991945031355,
+          -1.509998490969751,
+          0.15
+        ]
+      }
+    },
+    {
+      "id": "cabinet(1)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5708000000000004
+        ],
+        "location": [
+          -1.9699978078271447,
+          -0.15000012235495497,
+          0.15
+        ]
+      }
+    },
+    {
+      "id": "box(1)",
+      "type": "SolidBox",
+      "qualities": {
+        "location": [
+          -1.969998419596331,
+          -0.7500001223546429,
+          0.07
+        ]
+      }
+    },
+    {
+      "id": "box(2)",
+      "type": "SolidBox",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          3.1415900000000003
+        ],
+        "location": [
+          -3.169999337249487,
+          -1.6499988988158023,
+          0.07
+        ],
+        "size": [
+          0.20000530717888163,
+          2.000000530710917,
+          0.16
+        ]
+      }
+    },
+    {
+      "id": "solid(1)",
+      "type": "Solid",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          2.3561933071795864
+        ],
+        "location": [
+          -3.569997950572456,
+          -0.28999849097038544,
+          2.09
+        ],
+        "size": [
+          0.5656853412972077,
+          0.5656855086004765,
+          0.61
+        ],
+        "shape": "Box"
+      }
+    },
+    {
+      "id": "box(3)",
+      "type": "SolidBox",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          1.0,
+          3.1415906143591728
+        ],
+        "location": [
+          -0.9699980627314921,
+          -0.40000114197013525,
+          0.07
+        ],
+        "size": [
+          0.20000101961489453,
+          0.5000004078450845,
+          0.16
+        ]
+      }
+    },
+    {
+      "id": "box(4)",
+      "type": "SolidBox",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          1.0,
+          1.5708006143591728
+        ],
+        "location": [
+          -3.505000254903092,
+          -2.5499985572442054,
+          0.07
+        ],
+        "size": [
+          0.4700008575085351,
+          0.20000201515337152,
+          0.16
+        ]
+      }
+    },
+    {
+      "id": "fridge",
+      "type": "fridge",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          -1.0,
+          1.5707946928204135
+        ],
+        "location": [
+          -0.519998164693257,
+          -0.500001600796973,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "upper fridge door",
+      "type": "Solid",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          -1.0,
+          1.5709704880253608
+        ],
+        "location": [
+          -0.17999757646289716,
+          -0.8600010452451681,
+          1.5500000000000003
+        ]
+      }
+    },
+    {
+      "id": "lower fridge door",
+      "type": "Solid",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          -1.0,
+          1.5706188976154667
+        ],
+        "location": [
+          -0.17999757646289716,
+          -0.8600010452451681,
+          0.6500000000000001
+        ]
+      }
+    },
+    {
+      "id": "solid(2)",
+      "type": "Solid",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          1.0,
+          1.963490614359173
+        ],
+        "location": [
+          -3.3899981646917654,
+          -0.49999867450103186,
+          1.7419999999999998
+        ],
+        "shape": "Cylinder"
+      }
+    },
+    {
+      "id": "solid_1",
+      "type": "Solid",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.8325943071795863
+        ],
+        "location": [
+          -3.3899981646917654,
+          -0.49999867450103186,
+          1.692
+        ],
+        "shape": "Cylinder"
+      }
+    },
+    {
+      "id": "sink(1)",
+      "type": "Sink",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -3.4199992046993666,
+          -1.5199986439120423,
+          0.8699999999999999
+        ]
+      }
+    },
+    {
+      "id": "oven(1)",
+      "type": "Oven",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -3.3300001121570393,
+          -2.409998735676958,
+          0.17
+        ]
+      }
+    },
+    {
+      "id": "oven(2)",
+      "type": "Oven",
+      "qualities": {
+        "orientation": [
+          0.0,
+          -0.0,
+          -1.0,
+          1.5707646928204142
+        ],
+        "location": [
+          -1.629998154496527,
+          -0.4900004690239834,
+          0.8899999999999999
+        ]
+      }
+    },
+    {
+      "id": "hot plate(1)",
+      "type": "HotPlate",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          1.0,
+          2.3561906143591727
+        ],
+        "location": [
+          -3.239708338923708,
+          -0.6708788277389282,
+          0.86
+        ]
+      }
+    },
+    {
+      "id": "worktop(1)",
+      "type": "Worktop",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -3.3999996482320367,
+          -1.9549986643041226,
+          0.86
+        ],
+        "size": [
+          0.7000000000000001,
+          0.43000000000000016,
+          0.06
+        ]
+      }
+    },
+    {
+      "id": "worktop(2)",
+      "type": "Worktop",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -3.620999204699262,
+          -1.519998438969365,
+          0.86
+        ],
+        "size": [
+          0.2370000000000001,
+          0.44000000000000006,
+          0.06
+        ]
+      }
+    },
+    {
+      "id": "worktop(3)",
+      "type": "Worktop",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -3.0929992046985166,
+          -1.5199979773262489,
+          0.86
+        ],
+        "size": [
+          0.08500000000000012,
+          0.442,
+          0.06
+        ]
+      }
+    },
+    {
+      "id": "worktop(4)",
+      "type": "Worktop",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          -1.0,
+          4.692820413714081e-06
+        ],
+        "location": [
+          -3.3959987560686424,
+          -1.0799986683830385,
+          0.86
+        ],
+        "size": [
+          0.6900020648333842,
+          0.4400032380412406,
+          0.06
+        ]
+      }
+    },
+    {
+      "id": "worktop_1",
+      "type": "Worktop",
+      "qualities": {
+        "location": [
+          -2.524998174888368,
+          -0.50999955646827,
+          0.86
+        ]
+      }
+    },
+    {
+      "id": "straightstairs_1",
+      "type": "StraightStairs",
+      "qualities": {
+        "location": [
+          -4.32594,
+          -5.824913,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "biscuitboxconnector_1",
+      "type": "BiscuitBoxConnector",
+      "qualities": {
+        "orientation": [
+          1.6945102670757404e-16,
+          6.898193018574404e-16,
+          -1.0,
+          0.2618053071795865
+        ],
+        "location": [
+          -3.6496,
+          -1.06782,
+          0.8897027420903731
+        ]
+      }
+    },
+    {
+      "id": "biscuit box(1)",
+      "type": "BiscuitBoxConnector",
+      "qualities": {
+        "orientation": [
+          -8.362990331528087e-16,
+          -6.17578436501269e-16,
+          -1.0,
+          0.26180530717958617
+        ],
+        "location": [
+          -6.12057,
+          -2.46595,
+          0.5497027420903732
+        ]
+      }
+    },
+    {
+      "id": "cerealboxconnector_1",
+      "type": "CerealBoxConnector",
+      "qualities": {
+        "orientation": [
+          6.967506907737946e-16,
+          -2.983050799681018e-17,
+          1.0,
+          2.35619
+        ],
+        "location": [
+          -1.3122400000000003,
+          -3.1174,
+          0.7592569386307062
+        ]
+      }
+    },
+    {
+      "id": "cereal box(1)",
+      "type": "CerealBoxConnector",
+      "qualities": {
+        "orientation": [
+          -2.5649621257601225e-17,
+          1.0854911268689555e-16,
+          -1.0,
+          3.141585307179585
+        ],
+        "location": [
+          -2.16698,
+          -0.28373299999999996,
+          0.8892569386307062
+        ]
+      }
+    },
+    {
+      "id": "cereal box(2)",
+      "type": "CerealBoxConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -2.26473,
+          -0.288104,
+          0.8892569386307062
+        ]
+      }
+    },
+    {
+      "id": "cereal box(3)",
+      "type": "CerealBoxConnector",
+      "qualities": {
+        "orientation": [
+          -6.155494018076371e-17,
+          -8.116766866911721e-18,
+          1.0,
+          2.618
+        ],
+        "location": [
+          -2.39953,
+          -0.27055099999999993,
+          0.8892569386307062
+        ]
+      }
+    },
+    {
+      "id": "wallplug_1",
+      "type": "WallPlug",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -9.98,
+          -0.15,
+          0.13
+        ]
+      }
+    },
+    {
+      "id": "wall plug(1)",
+      "type": "WallPlug",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -7.73,
+          -0.15,
+          0.13
+        ]
+      }
+    },
+    {
+      "id": "wall plug(2)",
+      "type": "WallPlug",
+      "qualities": {
+        "location": [
+          -6.82,
+          -8.01,
+          0.13
+        ]
+      }
+    },
+    {
+      "id": "wall plug(3)",
+      "type": "WallPlug",
+      "qualities": {
+        "location": [
+          -3.73915,
+          -3.21929,
+          0.13
+        ]
+      }
+    },
+    {
+      "id": "wall plug(4)",
+      "type": "WallPlug",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          3.1415853071795863
+        ],
+        "location": [
+          -0.149129,
+          -6.88575,
+          0.13
+        ]
+      }
+    },
+    {
+      "id": "laptopconnector_1",
+      "type": "LaptopConnector",
+      "qualities": {
+        "orientation": [
+          -0.002445873492968089,
+          -0.0018678151382236368,
+          -0.9999952644735204,
+          1.832601123561604
+        ],
+        "location": [
+          -6.0468140945937545,
+          -3.009982027226295,
+          0.5478499905862728
+        ]
+      }
+    },
+    {
+      "id": "cardboardboxconnector_1",
+      "type": "CardboardBoxConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -0.52547,
+          -5.50157,
+          0.3
+        ]
+      }
+    },
+    {
+      "id": "squaremanhole_1",
+      "type": "SquareManhole",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -0.959202,
+          -5.85302,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "pipesection_1",
+      "type": "PipeSection",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -3.58714,
+          -12.8957,
+          1.2
+        ]
+      }
+    },
+    {
+      "id": "cardboard box(1)",
+      "type": "CardboardBoxConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          2.0944
+        ],
+        "location": [
+          -0.52547,
+          -5.50157,
+          0.77
+        ],
+        "size": [
+          0.5964113027112168,
+          0.6330131740636904,
+          0.3
+        ]
+      }
+    },
+    {
+      "id": "barbecue_1",
+      "type": "Barbecue",
+      "qualities": {
+        "location": [
+          -11.7017,
+          -5.08633,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall plug(5)",
+      "type": "WallPlug",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          3.1415853071795863
+        ],
+        "location": [
+          -4.03587,
+          -4.80291,
+          0.13
+        ]
+      }
+    },
+    {
+      "id": "cabinet 4(3)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -3.52837,
+          -9.4958,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "cabinet 4(6)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -3.52837,
+          -10.4358,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "rubberduckconnector_1",
+      "type": "RubberDuckConnector",
+      "qualities": {
+        "orientation": [
+          1.5130386599266365e-16,
+          -3.060321357418246e-16,
+          1.0,
+          0.785397
+        ],
+        "location": [
+          -5.38744,
+          -11.0827,
+          0.5103826106941951
+        ]
+      }
+    },
+    {
+      "id": "rubber duck(1)",
+      "type": "RubberDuckConnector",
+      "qualities": {
+        "orientation": [
+          -4.9850941903660607e-17,
+          -7.130895794861082e-17,
+          1.0,
+          2.356200000000001
+        ],
+        "location": [
+          -3.84199,
+          -10.7519,
+          0.8603826106941951
+        ]
+      }
+    },
+    {
+      "id": "cabinet 4(4)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -7.2623999999999995,
+          -6.39914,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "cabinet 4(2)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -0.180166,
+          -4.63275,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "cabinet 4(5)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -8.2024,
+          -6.39914,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "book(2)",
+      "type": "BookConnector",
+      "qualities": {
+        "orientation": [
+          -0.6947466663305957,
+          0.18615622268688314,
+          0.6947466663305953,
+          2.7734936634163034
+        ],
+        "location": [
+          -8.232840019344495,
+          -6.125840018476558,
+          0.029777052400515345
+        ]
+      }
+    },
+    {
+      "id": "book(3)",
+      "type": "BookConnector",
+      "qualities": {
+        "orientation": [
+          0.6947464887870867,
+          0.18615754788895503,
+          -0.6947464887870869,
+          2.773491101783955
+        ],
+        "location": [
+          -5.82219995574668,
+          -2.494350004001125,
+          0.009777052400515341
+        ]
+      }
+    },
+    {
+      "id": "book(5)",
+      "type": "BookConnector",
+      "qualities": {
+        "orientation": [
+          0.6947464887870869,
+          0.1861575478889552,
+          -0.6947464887870868,
+          2.7734911017839545
+        ],
+        "location": [
+          -7.380949955746678,
+          -6.158870004001127,
+          0.02977705240051536
+        ]
+      }
+    },
+    {
+      "id": "book(4)",
+      "type": "BookConnector",
+      "qualities": {
+        "orientation": [
+          0.9659260992004939,
+          0.25881802658106673,
+          2.6131702448862172e-18,
+          3.141592653589793
+        ],
+        "location": [
+          -9.64659993132042,
+          -6.231480256317236,
+          0.11977705240051535
+        ]
+      }
+    },
+    {
+      "id": "cabinet 4(1)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -9.22241,
+          -6.39914,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "cabinet_1",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -0.16999999999999998,
+          -9.12,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "bed(1)",
+      "type": "Bed",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -1.657084,
+          -11.861072,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "cabinet(9)",
+      "type": "Cabinet",
+      "qualities": {
+        "location": [
+          -5.445295,
+          -9.996606,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "cabinet(8)",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -5.80579,
+          -10.1734,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wooden chair(4)",
+      "type": "WoodenChair",
+      "qualities": {
+        "location": [
+          -3.40405,
+          -2.90904,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wooden chair(6)",
+      "type": "WoodenChair",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.261799
+        ],
+        "location": [
+          -2.05426,
+          -4.09654,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wooden chair(3)",
+      "type": "WoodenChair",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -0.8981,
+          -2.9595,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "roundtable_1",
+      "type": "RoundTable",
+      "qualities": {
+        "location": [
+          -1.19047,
+          -3.85537,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "cookwareconnector_1",
+      "type": "CookwareConnector",
+      "qualities": {
+        "orientation": [
+          0.002923355323176089,
+          -0.0041692598165169485,
+          0.9999870355490799,
+          0.5233512977534203
+        ],
+        "location": [
+          -1.57107836285837,
+          -0.4584300526928884,
+          1.1596615499158536
+        ]
+      }
+    },
+    {
+      "id": "cookware(1)",
+      "type": "CookwareConnector",
+      "qualities": {
+        "orientation": [
+          0.0012535178864995797,
+          0.0003420478723973728,
+          0.9999991558477243,
+          3.141331812415426
+        ],
+        "location": [
+          -3.2008994687030246,
+          -0.5894934723955153,
+          0.8900018412545323
+        ]
+      }
+    },
+    {
+      "id": "lidconnector_1",
+      "type": "LidConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -2.8007799999999956,
+          -0.5894500000000013,
+          0.8869293972224157
+        ]
+      }
+    },
+    {
+      "id": "woodenspoonconnector_1",
+      "type": "WoodenSpoonConnector",
+      "qualities": {
+        "orientation": [
+          0.0002725863936910125,
+          -3.616648616546669e-10,
+          0.9999999628483283,
+          3.1415900000005865
+        ],
+        "location": [
+          -2.9707796443663748,
+          -0.7894500000012755,
+          0.8891932827272601
+        ]
+      }
+    },
+    {
+      "id": "wooden chair(2)",
+      "type": "WoodenChair",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -6.88,
+          -12.059999999999999,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "bed_1",
+      "type": "Bed",
+      "qualities": {
+        "location": [
+          -8.67447,
+          -10.2627,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "desk(2)",
+      "type": "Desk",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707963071795863
+        ],
+        "location": [
+          -6.905085,
+          -12.493314,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 1",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          0.0,
+          -0.65,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "window 1",
+      "type": "Window",
+      "qualities": {
+        "location": [
+          0.0,
+          -1.65,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "window 1(3)",
+      "type": "Window",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          3.1415923071795864
+        ],
+        "location": [
+          -9.9,
+          -7.46,
+          0.0
+        ],
+        "size": [
+          0.3000002424871268,
+          0.70000010392302,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "window 1(7)",
+      "type": "Window",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.570797
+        ],
+        "location": [
+          -4.4,
+          -13.12,
+          0.0
+        ],
+        "size": [
+          0.7000002019613724,
+          0.3000004712435044,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "window 1(1)",
+      "type": "Window",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707963071795863
+        ],
+        "location": [
+          -7.95,
+          -13.12,
+          0.0
+        ],
+        "size": [
+          1.0000000058845928,
+          0.30000001961531025,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "window 1(4)",
+      "type": "Window",
+      "qualities": {
+        "location": [
+          0.0,
+          -10.87,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "window 1(2)",
+      "type": "Window",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.570797
+        ],
+        "location": [
+          -11.15,
+          -3.48,
+          0.0
+        ],
+        "size": [
+          2.2000002019610325,
+          0.3000014810511594,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "window 1(6)",
+      "type": "Window",
+      "qualities": {
+        "location": [
+          -9.9,
+          -4.73,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "window 1(5)",
+      "type": "Window",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.570797
+        ],
+        "location": [
+          -8.25,
+          0.0,
+          0.0
+        ],
+        "size": [
+          1.0000002019613043,
+          0.3000006732050354,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "radiator_1",
+      "type": "Radiator",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -4.24028,
+          -8.71399,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "radiator(5)",
+      "type": "Radiator",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -0.28465799999999997,
+          -10.58667,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "radiator(4)",
+      "type": "Radiator",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -3.23759,
+          -6.88139,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "radiator(3)",
+      "type": "Radiator",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -7.731897999999999,
+          -12.834878,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "radiator(2)",
+      "type": "Radiator",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -8.531595,
+          -0.282246,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "desktopcomputerconnector_1",
+      "type": "DesktopComputerConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.570796
+        ],
+        "location": [
+          -7.25806,
+          -12.3974,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "keyboardconnector_1",
+      "type": "KeyboardConnector",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          1.0,
+          1.3089963071795863
+        ],
+        "location": [
+          -6.961739,
+          -12.493036,
+          0.71
+        ]
+      }
+    },
+    {
+      "id": "monitorconnector_1",
+      "type": "MonitorConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.570796
+        ],
+        "location": [
+          -6.9690579999999995,
+          -12.713728999999999,
+          0.71
+        ]
+      }
+    },
+    {
+      "id": "computermouseconnector_1",
+      "type": "ComputerMouseConnector",
+      "qualities": {
+        "orientation": [
+          -1.4094191084283042e-06,
+          1.8366025518205117e-06,
+          -0.9999999999973201,
+          1.832496742870322
+        ],
+        "location": [
+          -7.181789990485558,
+          -12.28808683880707,
+          0.7099256813562735
+        ]
+      }
+    },
+    {
+      "id": "radiator(1)",
+      "type": "Radiator",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -0.27999999999999997,
+          -1.53,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "wall 2",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          0.0,
+          -4.57,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 2(1)",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          0.0,
+          -12.32,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 2(2)",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          0.0,
+          -9.18,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 3(3)",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          -9.9,
+          -3.48,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 3(1)",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          -9.9,
+          -10.41,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 3(4)",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          -9.9,
+          -6.47,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 5",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -3.8,
+          0.0,
+          0.0
+        ],
+        "size": [
+          7.900001101908236,
+          0.30002901831829254,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 6",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -10.65,
+          0.0,
+          0.0
+        ],
+        "size": [
+          3.800001101935895,
+          0.3000139581773688,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 3(2)",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          -12.399999999999999,
+          -1.88,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 7",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          -6.969989999999999,
+          -8.139999999999999,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 7(2)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707933071795868
+        ],
+        "location": [
+          -8.42,
+          -6.6,
+          0.0
+        ],
+        "size": [
+          3.2000009058700045,
+          0.3000096627676238,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(6)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          3.1415893071795864
+        ],
+        "location": [
+          -3.369987,
+          -10.679991,
+          0.0
+        ],
+        "size": [
+          0.3000153934852717,
+          4.600001003897305,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(9)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          3.1415893071795864
+        ],
+        "location": [
+          -5.58999,
+          -10.73,
+          0.0
+        ],
+        "size": [
+          0.3000163974083337,
+          4.9000010038956265,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(7)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -9.25,
+          -13.12,
+          0.0
+        ],
+        "size": [
+          1.600001101950737,
+          0.30000587712614146,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(12)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -6.1,
+          -13.12,
+          0.0
+        ],
+        "size": [
+          2.7000011019433163,
+          0.30000991765175516,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(13)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -2.1,
+          -13.12,
+          0.0
+        ],
+        "size": [
+          3.9000011019352203,
+          0.30001432549787915,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(3)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707933071795868
+        ],
+        "location": [
+          -8.42,
+          -8.43,
+          0.0
+        ],
+        "size": [
+          3.2000009058700045,
+          0.3000096627676238,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "door_1",
+      "type": "Door",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -6.24,
+          -8.43,
+          0.0
+        ],
+        "size": [
+          1.0000003058840734,
+          0.3000010196151545,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "door(6)",
+      "type": "Door",
+      "qualities": {
+        "location": [
+          -3.89,
+          -3.95,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "door(5)",
+      "type": "Door",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -4.94,
+          -8.43,
+          0.0
+        ],
+        "size": [
+          1.0000003058840734,
+          0.3000010196151545,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "door(3)",
+      "type": "Door",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -6.97,
+          -7.24,
+          0.0
+        ],
+        "size": [
+          0.3000026535887371,
+          1.0000007960734172,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "door(4)",
+      "type": "Door",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -0.91,
+          -6.6,
+          0.0
+        ],
+        "size": [
+          1.0000011019547848,
+          0.30000367320307947,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "door(1)",
+      "type": "Door",
+      "qualities": {
+        "location": [
+          0.0,
+          -7.49,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "door(2)",
+      "type": "Door",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -2.14977,
+          -8.43,
+          0.0
+        ],
+        "size": [
+          1.0000003058840734,
+          0.3000010196151545,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(1)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -2.93,
+          -6.6,
+          0.0
+        ],
+        "size": [
+          3.0450011019409886,
+          0.30001118490751577,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(14)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -0.29,
+          -6.6,
+          0.0
+        ],
+        "size": [
+          0.30000110195950713,
+          0.30000110195950713,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(8)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -1.94,
+          -5.02,
+          0.0
+        ],
+        "size": [
+          3.600001101937244,
+          0.30001322353634813,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(10)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          1.0,
+          -0.0,
+          2.513185307179586
+        ],
+        "location": [
+          -3.837798,
+          -5.2702,
+          0.26217999999999997
+        ],
+        "size": [
+          1.0441076279814787,
+          0.2,
+          0.911443018030517
+        ]
+      }
+    },
+    {
+      "id": "wall 7(4)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -0.8,
+          -8.43,
+          0.0
+        ],
+        "size": [
+          1.7000011019500623,
+          0.3000062444466518,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(5)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -3.55,
+          -8.43,
+          0.0
+        ],
+        "size": [
+          1.8000011019493876,
+          0.30000661176716215,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 7(11)",
+      "type": "Wall",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -6.78,
+          -8.43,
+          0.0
+        ],
+        "size": [
+          0.08000110196099129,
+          0.30000029385438437,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "wall 9",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          -3.89,
+          -1.8,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "wall 9(1)",
+      "type": "Wall",
+      "qualities": {
+        "location": [
+          -3.89,
+          -4.81,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "ceiling light 1",
+      "type": "CeilingLight",
+      "qualities": {
+        "location": [
+          -1.3341,
+          -2.47061,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "ceiling light 2",
+      "type": "CeilingLight",
+      "qualities": {
+        "location": [
+          -10.1237,
+          -1.47922,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "ceiling light 2(5)",
+      "type": "CeilingLight",
+      "qualities": {
+        "location": [
+          -7.411517,
+          -4.344069,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "ceiling light 2(1)",
+      "type": "CeilingLight",
+      "qualities": {
+        "location": [
+          -1.7941829999999999,
+          -7.551591999999999,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "ceiling light 2(2)",
+      "type": "CeilingLight",
+      "qualities": {
+        "location": [
+          -5.364183,
+          -7.551591999999999,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "ceiling light 2(3)",
+      "type": "CeilingLight",
+      "qualities": {
+        "location": [
+          -7.622198,
+          -10.602905999999999,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "ceiling light 2(4)",
+      "type": "CeilingLight",
+      "qualities": {
+        "location": [
+          -1.945004,
+          -10.56734,
+          2.4
+        ]
+      }
+    },
+    {
+      "id": "floorlight_1",
+      "type": "FloorLight",
+      "qualities": {
+        "location": [
+          -4.7700309999999995,
+          -0.49615699999999996,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "floor light(1)",
+      "type": "FloorLight",
+      "qualities": {
+        "location": [
+          -0.590395,
+          -12.404582999999999,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "table(1)",
+      "type": "Table",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -10.415072,
+          -1.632191,
+          0.0
+        ],
+        "size": [
+          2.5000036731882376,
+          1.000009183006012,
+          0.74
+        ]
+      }
+    },
+    {
+      "id": "carafeconnector_1",
+      "type": "CarafeConnector",
+      "qualities": {
+        "orientation": [
+          -0.0015397654090133373,
+          -0.0012039888658100957,
+          -0.9999980897648236,
+          1.8325988515165108
+        ],
+        "location": [
+          -11.138368272943367,
+          -1.5943857405611872,
+          0.7387072528816973
+        ]
+      }
+    },
+    {
+      "id": "plateconnector_1",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -11.506100000000002,
+          -1.6378599999999999,
+          0.7398885230756005
+        ]
+      }
+    },
+    {
+      "id": "plate1",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -1.43227,
+          -0.71168,
+          0.40989
+        ]
+      }
+    },
+    {
+      "id": "plate2",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          -1.0153e-10,
+          1.0,
+          3.11507e-10,
+          3.46682e-06
+        ],
+        "location": [
+          -1.37694,
+          -0.72324,
+          0.18989
+        ]
+      }
+    },
+    {
+      "id": "table_knife1",
+      "type": "KnifeConnector",
+      "qualities": {
+        "orientation": [
+          0.7071030884624542,
+          -0.7071010884622039,
+          -0.0036432104557855044,
+          3.1344053071795863
+        ],
+        "location": [
+          -3.17553,
+          -2.01127,
+          0.89829
+        ]
+      }
+    },
+    {
+      "id": "waterbottleconnector_1",
+      "type": "WaterBottleConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -1.70218,
+          -3.2776,
+          0.7576284345598181
+        ]
+      }
+    },
+    {
+      "id": "table_knife2",
+      "type": "KnifeConnector",
+      "qualities": {
+        "orientation": [
+          -2.2571597816379283e-06,
+          0.9999869032593025,
+          0.005117939504880478,
+          3.14152
+        ],
+        "location": [
+          -3.35523,
+          -2.00868,
+          0.896627
+        ]
+      }
+    },
+    {
+      "id": "tablefork1",
+      "type": "ForkConnector",
+      "qualities": {
+        "orientation": [
+          0.0033630389571266857,
+          -0.0033630389571266857,
+          -0.9999886899050138,
+          1.5708053071795867
+        ],
+        "location": [
+          -3.08202,
+          -1.94102,
+          0.895599
+        ]
+      }
+    },
+    {
+      "id": "tablefork2",
+      "type": "ForkConnector",
+      "qualities": {
+        "orientation": [
+          -1.7924906182224457e-09,
+          0.003363061159905594,
+          0.9999943448938272,
+          3.14159
+        ],
+        "location": [
+          -3.30326,
+          -1.85667,
+          0.915005
+        ]
+      }
+    },
+    {
+      "id": "plate(8)",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -9.366100000000001,
+          -1.6378600000000003,
+          0.7398885230756005
+        ]
+      }
+    },
+    {
+      "id": "plate(2)",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -11.189200000000001,
+          -1.29784,
+          0.7398885230756005
+        ]
+      }
+    },
+    {
+      "id": "plate(3)",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -11.189200000000001,
+          -1.9278400000000007,
+          0.7398885230756005
+        ]
+      }
+    },
+    {
+      "id": "plate(4)",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -10.479199999999997,
+          -1.927839999999999,
+          0.7398885230756005
+        ]
+      }
+    },
+    {
+      "id": "plate(5)",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          0.06987186263380422,
+          -0.9975558765428798,
+          -0.0004427040203009072,
+          5.940712707596566e-12
+        ],
+        "location": [
+          -10.479199999999961,
+          -1.3078399999999972,
+          0.7398885230756005
+        ]
+      }
+    },
+    {
+      "id": "plate(6)",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -9.769200000000001,
+          -1.3078399999999988,
+          0.7398885230756005
+        ]
+      }
+    },
+    {
+      "id": "plate(7)",
+      "type": "PlateConnector",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -9.769200000000001,
+          -1.947840000000001,
+          0.7398885230756005
+        ]
+      }
+    },
+    {
+      "id": "wineglassconnector_1",
+      "type": "WineglassConnector",
+      "qualities": {
+        "orientation": [
+          0.9999371160957442,
+          0.011194504933073189,
+          -0.0006685158407578997,
+          0.0014260464858250037
+        ],
+        "location": [
+          -9.681700029129061,
+          -1.819647774298537,
+          0.7395676948819941
+        ]
+      }
+    },
+    {
+      "id": "wine glass(7)",
+      "type": "WineglassConnector",
+      "qualities": {
+        "orientation": [
+          -0.7106059842956853,
+          -0.7035900374495936,
+          0.0004407775399880979,
+          0.0013365262281718531
+        ],
+        "location": [
+          -9.4935042846392,
+          -1.5504957022856911,
+          0.7395646072684426
+        ]
+      }
+    },
+    {
+      "id": "wine glass(1)",
+      "type": "WineglassConnector",
+      "qualities": {
+        "orientation": [
+          -0.9999597958939903,
+          0.00896027192760648,
+          0.0003465871210555225,
+          0.0014125018240362087
+        ],
+        "location": [
+          -10.38170000614859,
+          -1.8196921538879816,
+          0.7395671983880236
+        ]
+      }
+    },
+    {
+      "id": "wine glass(2)",
+      "type": "WineglassConnector",
+      "qualities": {
+        "orientation": [
+          -0.9997364429419678,
+          -0.02295481773534283,
+          -0.0003478454808251644,
+          0.0014239305776939752
+        ],
+        "location": [
+          -11.06169996683307,
+          -1.8196921188875321,
+          0.7395671761103989
+        ]
+      }
+    },
+    {
+      "id": "wine glass(3)",
+      "type": "WineglassConnector",
+      "qualities": {
+        "orientation": [
+          0.9981534535063618,
+          -0.060742554658066425,
+          -0.00015908153552808844,
+          0.0014589463232738836
+        ],
+        "location": [
+          -11.404999966363611,
+          -1.755687680377435,
+          0.7395677216017572
+        ]
+      }
+    },
+    {
+      "id": "wine glass(6)",
+      "type": "WineglassConnector",
+      "qualities": {
+        "orientation": [
+          0.018881039556624665,
+          -0.9998217252401757,
+          -0.0001551870480049329,
+          0.001399144378594273
+        ],
+        "location": [
+          -11.301677746109714,
+          -1.4196699971073135,
+          0.7395666438443237
+        ]
+      }
+    },
+    {
+      "id": "wine glass(4)",
+      "type": "WineglassConnector",
+      "qualities": {
+        "orientation": [
+          -0.9979128938343514,
+          0.06457414153741263,
+          -0.00019121677864257746,
+          0.0014023786090415706
+        ],
+        "location": [
+          -10.631700026782912,
+          -1.4196919987988472,
+          0.7395667153775756
+        ]
+      }
+    },
+    {
+      "id": "wine glass(5)",
+      "type": "WineglassConnector",
+      "qualities": {
+        "orientation": [
+          -0.999760827120233,
+          0.021867627595798366,
+          -0.0003088999826240014,
+          0.0014279336603218974
+        ],
+        "location": [
+          -9.881700011784933,
+          -1.4196921852163304,
+          0.739567356153802
+        ]
+      }
+    },
+    {
+      "id": "carafe(1)",
+      "type": "CarafeConnector",
+      "qualities": {
+        "orientation": [
+          0.0017399025660808202,
+          -0.0038446575086720954,
+          0.9999910956342069,
+          0.7854029319653023
+        ],
+        "location": [
+          -9.780522490280221,
+          -1.6413521926908674,
+          0.7387262908936991
+        ]
+      }
+    },
+    {
+      "id": "table(2)",
+      "type": "Table",
+      "qualities": {
+        "location": [
+          -9.55609,
+          -9.09224,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "table(3)",
+      "type": "Table",
+      "qualities": {
+        "location": [
+          -9.56036,
+          -11.3804,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "table(4)",
+      "type": "Table",
+      "qualities": {
+        "location": [
+          -2.74109,
+          -12.7454,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "bookconnector_1",
+      "type": "BookConnector",
+      "qualities": {
+        "orientation": [
+          0.7071067388087033,
+          -0.00034621157889097755,
+          -0.7071067388088327,
+          3.140897585254207
+        ],
+        "location": [
+          -2.7337499886347816,
+          -12.639298333315768,
+          0.409761796383109
+        ]
+      }
+    },
+    {
+      "id": "chair 1(1)",
+      "type": "Chair",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -11.745298,
+          -1.636645,
+          -0.00892739523541719
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "chair 1(2)",
+      "type": "Chair",
+      "qualities": {
+        "orientation": [
+          -9.029171760876371e-18,
+          7.935785239937241e-18,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -11.172214,
+          -1.29268,
+          -0.008927395235417246
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "chair 1(5)",
+      "type": "Chair",
+      "qualities": {
+        "orientation": [
+          1.374239922105041e-16,
+          9.570461764944905e-17,
+          1.0,
+          1.570705307179586
+        ],
+        "location": [
+          -11.160617,
+          -1.997738,
+          -0.00892739523541719
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "chair 1(6)",
+      "type": "Chair",
+      "qualities": {
+        "orientation": [
+          1.0873276842112998e-16,
+          6.671093095794662e-17,
+          1.0,
+          1.570705307179586
+        ],
+        "location": [
+          -10.450617,
+          -1.997809,
+          -0.00892739523541719
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "chair 1(7)",
+      "type": "Chair",
+      "qualities": {
+        "orientation": [
+          1.0873276842112998e-16,
+          6.671093095794662e-17,
+          1.0,
+          1.570705307179586
+        ],
+        "location": [
+          -9.750617,
+          -1.997879,
+          -0.00892739523541719
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "chair 1(3)",
+      "type": "Chair",
+      "qualities": {
+        "orientation": [
+          5.4236386322653604e-18,
+          -8.936131062024925e-18,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -9.774799,
+          -1.2626819999999999,
+          -0.008927395235417246
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "chair 1(4)",
+      "type": "Chair",
+      "qualities": {
+        "orientation": [
+          5.4236386322653604e-18,
+          -8.936131062024925e-18,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -10.485493,
+          -1.2858399999999999,
+          -0.008927395235417246
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "chair 4(1)",
+      "type": "Chair",
+      "qualities": {
+        "orientation": [
+          -1.8077705649774573e-18,
+          1.5685530070227605e-17,
+          1.0,
+          3.141500000000001
+        ],
+        "location": [
+          -9.203731,
+          -1.595154,
+          -0.008927395235417246
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "fruitbowlconnector_1",
+      "type": "FruitBowlConnector",
+      "qualities": {
+        "orientation": [
+          -0.0007955061314114095,
+          -0.0011705798866706511,
+          -0.9999989984558604,
+          0.9448585016505597
+        ],
+        "location": [
+          -10.1273227237379,
+          -1.641747623380128,
+          0.7394055580886953
+        ],
+        "color": "RGB [0, 1]: [0.541176, 0.886275, 0.203922]"
+      }
+    },
+    {
+      "id": "appleconnector_1",
+      "type": "AppleConnector",
+      "qualities": {
+        "orientation": [
+          0.10693916053108157,
+          -0.8881533114935058,
+          0.44693143906870897,
+          0.21969203149055583
+        ],
+        "location": [
+          -10.195566929577646,
+          -1.6204690274870595,
+          0.798894062636892
+        ]
+      }
+    },
+    {
+      "id": "orangeconnector_1",
+      "type": "OrangeConnector",
+      "qualities": {
+        "orientation": [
+          -0.18369743981400685,
+          0.1497183647275747,
+          0.971514107910472,
+          1.5931729081144077
+        ],
+        "location": [
+          -1.4361234109650778,
+          -3.507713382469863,
+          0.8188370340312935
+        ]
+      }
+    },
+    {
+      "id": "orange(2)",
+      "type": "OrangeConnector",
+      "qualities": {
+        "orientation": [
+          0.4215001758598281,
+          -0.09230991595019504,
+          -0.9021177756631348,
+          1.620755507145657
+        ],
+        "location": [
+          -1.4585442482159254,
+          -3.6473407729658147,
+          0.8188369852796242
+        ]
+      }
+    },
+    {
+      "id": "orange(3)",
+      "type": "OrangeConnector",
+      "qualities": {
+        "orientation": [
+          0.10960088408593181,
+          0.4281645452306347,
+          0.8970299707451396,
+          0.3691952979647862
+        ],
+        "location": [
+          -1.3775176530136823,
+          -3.5887378661904745,
+          0.818759593109969
+        ]
+      }
+    },
+    {
+      "id": "orange(1)",
+      "type": "OrangeConnector",
+      "qualities": {
+        "orientation": [
+          -0.8427616877410345,
+          -0.3792580849579591,
+          -0.38198958450447923,
+          1.4023127975726277
+        ],
+        "location": [
+          -10.114525783244448,
+          -1.5618832627605423,
+          0.7988784747267252
+        ]
+      }
+    },
+    {
+      "id": "fruit bowl(1)",
+      "type": "FruitBowlConnector",
+      "qualities": {
+        "orientation": [
+          -0.00038249854375057625,
+          0.0011827417071277096,
+          -0.9999992274081606,
+          0.9446156404828002
+        ],
+        "location": [
+          -1.457394985949148,
+          -3.5759010032843963,
+          0.7592941258809696
+        ],
+        "color": "RGB [0, 1]: [0.6666666666666666, 0.0, 0.0]"
+      }
+    },
+    {
+      "id": "table_1",
+      "type": "Table",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -11.0871,
+          -6.84245,
+          0.02
+        ],
+        "size": [
+          1.2000008156916246,
+          0.8000012235379567,
+          0.53
+        ]
+      }
+    },
+    {
+      "id": "table(5)",
+      "type": "table",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -6.014093,
+          -2.658387,
+          0.02
+        ]
+      }
+    },
+    {
+      "id": "main frame",
+      "type": "SolidBox",
+      "qualities": {
+        "location": [
+          -6.014093,
+          -2.658387,
+          0.525
+        ]
+      }
+    },
+    {
+      "id": "foot 1",
+      "type": "SolidBox",
+      "qualities": {
+        "location": [
+          -5.664093,
+          -2.108387,
+          0.26
+        ]
+      }
+    },
+    {
+      "id": "foot 2",
+      "type": "SolidBox",
+      "qualities": {
+        "location": [
+          -6.3640929999999996,
+          -2.108387,
+          0.26
+        ]
+      }
+    },
+    {
+      "id": "foot 3",
+      "type": "SolidBox",
+      "qualities": {
+        "location": [
+          -5.664093,
+          -3.2083869999999997,
+          0.26
+        ]
+      }
+    },
+    {
+      "id": "foot 4",
+      "type": "SolidBox",
+      "qualities": {
+        "location": [
+          -6.3640929999999996,
+          -3.2083869999999997,
+          0.26
+        ]
+      }
+    },
+    {
+      "id": "solid(3)",
+      "type": "Solid",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -6.17,
+          -3.24,
+          0.5
+        ]
+      }
+    },
+    {
+      "id": "beerbottleconnector_1",
+      "type": "BeerBottleConnector",
+      "qualities": {
+        "orientation": [
+          -0.001142746594479033,
+          0.0013393219389666072,
+          0.9999984501722813,
+          1.570798558654566
+        ],
+        "location": [
+          -6.256749869525467,
+          -2.2767571709898657,
+          0.5504334649745097
+        ]
+      }
+    },
+    {
+      "id": "canconnector_1",
+      "type": "CanConnector",
+      "qualities": {
+        "orientation": [
+          0.9997631995241346,
+          -0.021760597761193188,
+          0.00014581611943856107,
+          0.0021112040746425653
+        ],
+        "location": [
+          -6.286762800478984,
+          -2.5547628613861866,
+          0.6110429259306539
+        ]
+      }
+    },
+    {
+      "id": "beer bottle(1)",
+      "type": "BeerBottleConnector",
+      "qualities": {
+        "orientation": [
+          -0.00018962553434958087,
+          0.0012560211388516693,
+          -0.9999991932262023,
+          2.8797960149672406
+        ],
+        "location": [
+          -5.836439709349598,
+          -2.1971761525899733,
+          0.5504342327975957
+        ]
+      }
+    },
+    {
+      "id": "beer bottle(2)",
+      "type": "BeerBottleConnector",
+      "qualities": {
+        "orientation": [
+          0.009586893075398728,
+          0.0009849837081082767,
+          0.9999535595657709,
+          0.26180804512897626
+        ],
+        "location": [
+          -6.319659985301199,
+          -2.8877954629885645,
+          0.5504343093272122
+        ]
+      }
+    },
+    {
+      "id": "armchair(1)",
+      "type": "Armchair",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          0.21151530717958614
+        ],
+        "location": [
+          -2.57082,
+          -9.80788,
+          0.0
+        ],
+        "color": "RGB [0, 1]: [0.827451, 0.843137, 0.811765]"
+      }
+    },
+    {
+      "id": "armchair(4)",
+      "type": "Armchair",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          1.0,
+          1.3592853071795865
+        ],
+        "location": [
+          -6.495947,
+          -4.354153999999999,
+          0.0
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "armchair(3)",
+      "type": "Armchair",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          1.0,
+          0.5738853071795863
+        ],
+        "location": [
+          -9.0281,
+          -12.1858,
+          0.0
+        ],
+        "color": "RGB [0, 1]: [0.827451, 0.843137, 0.811765]"
+      }
+    },
+    {
+      "id": "sofa_1",
+      "type": "Sofa",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -5.9207339999999995,
+          -0.6887059999999999,
+          0.0
+        ],
+        "color": "RGB [0, 1]: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333]"
+      }
+    },
+    {
+      "id": "sofa 2",
+      "type": "sofa",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "location": [
+          -7.308742,
+          -2.513508,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "sofa 2(1)",
+      "type": "Sofa",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -11.1117,
+          -8.1052,
+          0.0
+        ],
+        "color": "RGB [0, 1]: [0.827451, 0.843137, 0.811765]"
+      }
+    },
+    {
+      "id": "carpet",
+      "type": "carpet",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -5.803488,
+          -2.55795,
+          -0.015
+        ]
+      }
+    },
+    {
+      "id": "bunchofsunflowers_1",
+      "type": "BunchOfSunFlowers",
+      "qualities": {
+        "location": [
+          -7.069851,
+          -0.484029,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "cabinet 4",
+      "type": "Cabinet",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -4.073264,
+          -0.6770999999999999,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "pottedtree_1",
+      "type": "PottedTree",
+      "qualities": {
+        "location": [
+          -11.870923999999999,
+          -0.53674,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "potted tree(1)",
+      "type": "PottedTree",
+      "qualities": {
+        "location": [
+          -6.025363,
+          -12.409485,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "portraitpainting_1",
+      "type": "PortraitPainting",
+      "qualities": {
+        "location": [
+          -12.209999999999999,
+          -1.7999999999999998,
+          1.5999999999999999
+        ]
+      }
+    },
+    {
+      "id": "portrait painting(1)",
+      "type": "PortraitPainting",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -3.28921,
+          -6.76837,
+          1.6
+        ]
+      }
+    },
+    {
+      "id": "landscapepainting_1",
+      "type": "LandscapePainting",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -10.3223,
+          -0.178447,
+          1.62868
+        ]
+      }
+    },
+    {
+      "id": "landscape painting(1)",
+      "type": "LandscapePainting",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          1.5708
+        ],
+        "location": [
+          -2.295442,
+          -4.8501449999999995,
+          1.62868
+        ]
+      }
+    },
+    {
+      "id": "television_1",
+      "type": "Television",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.14159
+        ],
+        "location": [
+          -4.04287,
+          -2.45471,
+          1.5595999999999999
+        ]
+      }
+    },
+    {
+      "id": "fireextinguisherconnector_1",
+      "type": "FireExtinguisherConnector",
+      "qualities": {
+        "orientation": [
+          0.011038120943840478,
+          0.014072484482519366,
+          0.9998400497412165,
+          2.095983903145983
+        ],
+        "location": [
+          -0.4423674757270324,
+          -8.158931931357413,
+          -0.00938371248761033
+        ]
+      }
+    },
+    {
+      "id": "clock_1",
+      "type": "Clock",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -6.165,
+          -0.155075,
+          1.72
+        ]
+      }
+    },
+    {
+      "id": "officetelephoneconnector_1",
+      "type": "OfficeTelephoneConnector",
+      "qualities": {
+        "orientation": [
+          -0.2907400269219462,
+          0.0,
+          0.9568020885979639,
+          3.14159
+        ],
+        "location": [
+          -4.496782,
+          -6.58,
+          1.0611279999999998
+        ]
+      }
+    },
+    {
+      "id": "washingmachine_1",
+      "type": "WashingMachine",
+      "qualities": {
+        "location": [
+          -2.00701,
+          -5.63126,
+          0.51
+        ]
+      }
+    },
+    {
+      "id": "sink(2)",
+      "type": "BathroomSink",
+      "qualities": {
+        "location": [
+          -5.443874,
+          -9.989588999999999,
+          1.07
+        ]
+      }
+    },
+    {
+      "id": "bathtube_1",
+      "type": "Bathtube",
+      "qualities": {
+        "location": [
+          -4.96001,
+          -11.9954,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "bathroomsink_1",
+      "type": "BathroomSink",
+      "qualities": {
+        "orientation": [
+          -0.0,
+          -0.0,
+          -1.0,
+          1.5707953071795862
+        ],
+        "location": [
+          -8.35,
+          -6.75,
+          1.07
+        ]
+      }
+    },
+    {
+      "id": "ceilingspotlight_1",
+      "type": "CeilingSpotLight",
+      "qualities": {
+        "location": [
+          -7.72,
+          -7.51,
+          2.36
+        ]
+      }
+    },
+    {
+      "id": "ceiling light(5)",
+      "type": "CeilingSpotLight",
+      "qualities": {
+        "orientation": [
+          1.0,
+          -0.0,
+          -0.0,
+          1.5707963071795863
+        ],
+        "location": [
+          -4.28,
+          -6.46,
+          0.22999999999999998
+        ]
+      }
+    },
+    {
+      "id": "ceiling light(6)",
+      "type": "CeilingSpotLight",
+      "qualities": {
+        "orientation": [
+          1.0,
+          -0.0,
+          -0.0,
+          1.5707963071795863
+        ],
+        "location": [
+          -3.78,
+          -6.46,
+          0.61
+        ]
+      }
+    },
+    {
+      "id": "ceiling light(7)",
+      "type": "CeilingSpotLight",
+      "qualities": {
+        "orientation": [
+          1.0,
+          -0.0,
+          -0.0,
+          1.5707963071795863
+        ],
+        "location": [
+          -3.02,
+          -6.46,
+          1.14
+        ]
+      }
+    },
+    {
+      "id": "ceiling light(8)",
+      "type": "CeilingSpotLight",
+      "qualities": {
+        "orientation": [
+          1.0,
+          -0.0,
+          -0.0,
+          1.5707963071795863
+        ],
+        "location": [
+          -2.29,
+          -6.46,
+          1.69
+        ]
+      }
+    },
+    {
+      "id": "ceiling light(2)",
+      "type": "CeilingSpotLight",
+      "qualities": {
+        "location": [
+          -4.52,
+          -9.1,
+          2.36
+        ]
+      }
+    },
+    {
+      "id": "ceiling light(3)",
+      "type": "CeilingSpotLight",
+      "qualities": {
+        "location": [
+          -4.52,
+          -10.4,
+          2.36
+        ]
+      }
+    },
+    {
+      "id": "ceiling light(4)",
+      "type": "CeilingSpotLight",
+      "qualities": {
+        "location": [
+          -4.52,
+          -11.68,
+          2.36
+        ]
+      }
+    },
+    {
+      "id": "ceiling light(1)",
+      "type": "CeilingSpotLight",
+      "qualities": {
+        "location": [
+          -8.7,
+          -7.51,
+          2.36
+        ]
+      }
+    },
+    {
+      "id": "pedestrian_1",
+      "type": "Pedestrian",
+      "qualities": {
+        "orientation": [
+          0.0,
+          0.0,
+          1.0,
+          3.141592653589793
+        ],
+        "location": [
+          -8.504000000000048,
+          -5.0,
+          1.245636363636363
+        ]
+      }
+    },
+    {
+      "id": "cupcake1",
+      "type": "Muffin",
+      "qualities": {
+        "location": [
+          -0.64,
+          -0.61,
+          1.03
+        ]
+      }
+    },
+    {
+      "id": "cupcake2",
+      "type": "Muffin",
+      "qualities": {
+        "location": [
+          -0.74,
+          -0.55,
+          1.03
+        ]
+      }
+    }
+  ],
+  "relations": [
+    {
+      "subject": "upper fridge door",
+      "predicate": "attached_to",
+      "object": "fridge"
+    },
+    {
+      "subject": "lower fridge door",
+      "predicate": "attached_to",
+      "object": "fridge"
+    }
+  ]
+}

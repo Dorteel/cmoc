@@ -1,13 +1,26 @@
 {
-    "id":"cup_1",
-    "type":"cup",
-    "qualities":
-    {
-        "material":null,
-        "orientation":null,
-        "location":null,
-        "color":null,
-        "size":null,
-        "shape":null
+  "type": "object",
+  "required": ["id", "type", "qualities"],
+  "properties": {
+    "id": { "type": "string" },
+    "type": { "type": "string" },
+    "qualities": {
+      "type": "object",
+      "properties": {
+        "material": { "type": ["string", "null"] },
+        "orientation": { "type": "array", "items": { "type": "number" }, "minItems": 4, "maxItems": 4 },
+        "location": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "World-frame coordinates [x, y, z] in metres."
+        },
+        "color": { "type": ["string", "null"] },
+        "size": { "type": "array", "items": { "type": "number", "minimum": 0 }, "minItems": 2, "maxItems": 3 },
+        "shape": { "type": ["string", "null"] },
+        "area": { "type": "number", "description": "Floor area in square metres." }
+      }
     }
+  }
 }
