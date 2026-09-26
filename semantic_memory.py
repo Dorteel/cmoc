@@ -1,68 +1,71 @@
-"""Minimal semantic-memory ranking for likely object locations.
-
-Semantic memory:
-    locatedAt(muffin, KITCHEN)
-    = hypothesis / prior
-
-Episodic memory:
-    in(cupcake1, KITCHEN)
-    = grounded fact
-"""
-
+# semantic_memory.py
+import json
 import re
-
-from sentence_transformers import CrossEncoder
+import requests
 
 
 class SemanticMemory:
-    """Rank known locations by how plausible a theme is there."""
+    """Use a local LLM as commonsense semantic memory."""
 
-    def __init__(self, model_name="cross-encoder/ms-marco-MiniLM-L6-v2"):
-        # Load the cross-encoder once and reuse it across all ranking calls.
-        self.model = CrossEncoder(model_name)
+    def __init__(self, model="qwen3:1.7b", url="http://localhost:11434/api/chat"):
+        self.model = model
+        self.url = url
+
+    @staticmethod
+    def _location_type(location_id):
+        """LIVING_ROOM_2 -> living room."""
+        return re.sub(r"_\d+$", "", location_id).replace("_", " ").lower()
 
     def rank_locations(self, theme, locations):
-        """Return ranked location hypotheses for a theme.
+        # Rank semantic types, not individual room instances.
+        location_types = sorted({
+            self._location_type(location["id"])
+            for location in locations
+        })
 
-        Each item is a simple dictionary with the original location ID, the raw
-        score assigned by the model, and the corresponding hypothesis.
+        prompt = f"""
+        Object: {theme}
+        Possible locations: {location_types}
+
+        Rank these locations by how typically a {theme} would be found there.
+
+        Return ONLY JSON in this format:
+        {{
+            "locations": [
+                {{"location": "kitchen", "score": 1.0}},
+                {{"location": "garden", "score": 0.1}}
+            ]
+        }}
         """
-        if not locations:
-            return []
 
-        # Build one commonsense candidate per known location.
-        # Example: "A muffin is typically located in a kitchen."
-        # This is not a fact about the current scene; it is a hypothesis / prior.
-        pairs = []
-        for location in locations:
-            location_id = location["id"]
+        response = requests.post(
+            self.url,
+            json={
+                "model": self.model,
+                "messages": [{"role": "user", "content": prompt}],
+                "stream": False,
+                "format": "json",
+            },
+        )
+        response.raise_for_status()
 
-            # KITCHEN -> kitchen
-            # LIVING_ROOM_1 -> living room
-            readable_name = location_id
-            readable_name = readable_name.replace("_", " ")
-            readable_name = re.sub(r"\s+\d+$", "", readable_name)
-            readable_name = readable_name.lower()
+        result = json.loads(response.json()["message"]["content"])
+        ranked_types = result["locations"]
+        print(response.json()["message"]["content"])
 
-            statement = f"A {theme} is typically located in a {readable_name}."
-            context = "This statement is a plausibility judgment for a location hypothesis."
-            pairs.append((statement, context))
+        # Give every concrete room instance its semantic-type score.
+        scores = {
+            item["location"]: float(item["score"])
+            for item in ranked_types
+        }
 
-        # Score each commonsense statement with the cross-encoder. The raw score
-        # is kept as-is; it is not interpreted as a calibrated probability.
-        scores = self.model.predict(pairs)
+        ranked = [
+            {
+                "location": location["id"],
+                "score": scores.get(self._location_type(location["id"]), 0.0),
+                "hypothesis": f"locatedAt({theme}, {location['id']})",
+            }
+            for location in locations
+        ]
 
-        # The model returns a score per pair, but we keep the original location ID
-        # and store the ranked hypothesis string explicitly.
-        ranked = []
-        for location, score in zip(locations, scores):
-            location_id = location["id"]
-            hypothesis = f"locatedAt({theme}, {location_id})"
-            ranked.append({
-                "location": location_id,
-                "score": float(score),
-                "hypothesis": hypothesis,
-            })
-
-        ranked.sort(key=lambda item: item["score"], reverse=True)
-        return ranked
+        return sorted(ranked, key=lambda x: x["score"], reverse=True)

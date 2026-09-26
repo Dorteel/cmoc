@@ -189,9 +189,23 @@ def show_link(resource, identifier):
 
 
 def main():
-    """Start the demonstration with a FrameNet frame."""
-    links = show_link("verbnet", "bring-11.3")
+    """Inspect explicit links from a FrameNet, VerbNet, or WordNet identifier."""
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "resource",
+        choices=["framenet", "verbnet", "wordnet"],
+    )
+    parser.add_argument("identifier")
+
+    args = parser.parse_args()
+
+    links = show_link(args.resource, args.identifier)
     print(links)
+
+
+    main()
 
 if __name__ == "__main__":
     main()

@@ -7,17 +7,8 @@
   (:predicates
     (robot_at ?r - robot ?l - location)
     (at ?o - object ?l - location)
-
-    (known ?o - object)
-
     (holding ?r - robot ?o - object)
     (hand_empty ?r - robot)
-  )
-
-  (:action look_for
-    :parameters (?r - robot ?o - object)
-    :precondition (not (known ?o))
-    :effect (known ?o)
   )
 
   (:action move
@@ -32,7 +23,6 @@
   (:action pick
     :parameters (?r - robot ?o - object ?l - location)
     :precondition (and
-      (known ?o)
       (robot_at ?r ?l)
       (at ?o ?l)
       (hand_empty ?r)

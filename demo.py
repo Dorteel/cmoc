@@ -1,18 +1,28 @@
 from listener import NaiveFrameFiller
 from knowledge_interface import KnowledgeInterface
-instruction = "Bring me the muffin"
+from semantic_memory import SemanticMemory
+from search_strategy import resolve_search
 
-# Extract frame from the instruction
+instruction = "Bring me the coffee mug"
+
+# 1. Extract semantic roles from language.
 frame = NaiveFrameFiller(instruction).fill()
 
-# Maybe some more reasoning to extract actions
+# 2. Ask episodic memory whether the Source is already known.
+kb = KnowledgeInterface("scene_graph.json")
+frame["Source"] = kb.query_theme_location(frame["Theme"])
 
-# Check whether source is known
-uncertainties = [k for k, v in frame.items() if v is None]
-kb = KnowledgeInterface('scene_graph.json')
-print(frame)
-print(uncertainties)
-themes = kb.query_theme(frame['Theme'])
-source = kb.query_theme_location(frame['Theme'])
-print(source)
+print("Frame:", frame)
 
+# 3. If Source is unknown, semantic memory ranks possible locations.
+semantic_memory = SemanticMemory(model="qwen3:1.7b")
+search = resolve_search(frame, kb, semantic_memory)
+
+print("\nTarget:", search["target"])
+print("Search order:")
+
+for candidate in search["locations"]:
+    if isinstance(candidate, dict):
+        print(candidate["location"], candidate["score"])
+    else:
+        print(candidate)

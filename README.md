@@ -172,6 +172,23 @@ Source unknown
 → semantic ranking
 → search highest-ranked location first
 
+## Planning
+
+`procedural_memory/planning/planner.py` reads PDDL and solves it through Unified
+Planning, providing an abstraction over planner executables such as Metric-FF.
+`Planner(planner_name=None).solve(domain_path, problem_path)` returns a plan or
+raises `RuntimeError` for an unsuccessful solver result. By default, Unified
+Planning selects a compatible installed engine; pass a name to choose one.
+Fast Downward supports the Bringing example's negative precondition.
+
+```bash
+python3 -m pip install 'unified-planning[fast-downward]' pytest
+python3 procedural_memory/planning/planner.py
+python3 -m pytest tests/test_planner.py
+```
+
+This utility is standalone and has no ROS integration.
+
 ## Notes
 
 - Keep a `.env` file with `NEBULA_API_KEY` for API access. Do not commit secrets.
