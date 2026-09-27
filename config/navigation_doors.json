@@ -1,0 +1,7 @@
+{
+  "doors": ["door", "door(1)", "door(2)", "door(3)", "door(4)", "door(5)", "door(6)"],
+  "open_angle": 1.55,
+  "angle_tolerance": 0.08,
+  "settle_seconds": 2.0,
+  "timeout_seconds": 20.0
+}

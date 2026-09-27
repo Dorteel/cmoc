@@ -3,3 +3,6 @@ rdflib
 streamlit
 amrlib
 unified-planning[fast-downward]
+
+PyYAML
+Pillow

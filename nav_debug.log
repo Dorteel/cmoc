@@ -1,0 +1,503 @@
+[INFO] [launch]: All log files can be found below /home/kai/.ros/log/2026-09-27-16-20-06-064121-kai-Precision-7680-508841
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [static_transform_publisher-1]: process started with pid [508847]
+[INFO] [webots-2]: process started with pid [508848]
+[INFO] [ros2_supervisor.py-3]: process started with pid [508849]
+[INFO] [robot_state_publisher-4]: process started with pid [508850]
+[INFO] [static_transform_publisher-5]: process started with pid [508852]
+[INFO] [webots_controller_TIAGo-6]: process started with pid [508854]
+[INFO] [python3-7]: process started with pid [508855]
+[static_transform_publisher-5] [WARN] [1790518806.201191498] []: Old-style arguments are deprecated; see --help for new-style arguments
+[robot_state_publisher-4] [INFO] [1790518806.220118150] [robot_state_publisher]: Robot initialized
+[static_transform_publisher-1] [INFO] [1790518806.226795435] [static_transform_publisher_bkf9WKvexyjvcRR0]: Spinning until stopped - publishing transform
+[static_transform_publisher-1] translation: ('0.000000', '-0.000000', '0.000000')
+[static_transform_publisher-1] rotation: ('0.000000', '0.000000', '-0.000000', '1.000000')
+[static_transform_publisher-1] from 'map' to 'odom'
+[static_transform_publisher-5] [INFO] [1790518806.232546225] [static_transform_publisher_t8PcZJUYUb5Ucwfo]: Spinning until stopped - publishing transform
+[static_transform_publisher-5] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-5] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-5] from 'base_link' to 'base_footprint'
+[webots_controller_TIAGo-6] The specified robot (at /tmp/webots/kai/56139/ipc/TIAGo/extern) is not in the list of robots with <extern> controllers, retrying for another 50 seconds...
+[python3-7] [INFO] [1790518806.649819855] [wait_for_mapping_doors]: Waiting for apartment doors to open and settle before SLAM
+[ros2_supervisor.py-3] The specified robot (at /tmp/webots/kai/56139/ipc/Ros2Supervisor/extern) is not in the list of robots with <extern> controllers, retrying for another 50 seconds...
+[webots_controller_TIAGo-6] The Webots simulation world is not yet ready, pending until loading is done...
+[ros2_supervisor.py-3] The Webots simulation world is not yet ready, pending until loading is done...
+[webots_controller_TIAGo-6] The Webots simulation world is not yet ready, pending until loading is done...
+[ros2_supervisor.py-3] The Webots simulation world is not yet ready, pending until loading is done...
+[webots_controller_TIAGo-6] The Webots simulation world is not yet ready, pending until loading is done...
+[ros2_supervisor.py-3] The Webots simulation world is not yet ready, pending until loading is done...
+[webots_controller_TIAGo-6] The Webots simulation world is not yet ready, pending until loading is done...
+[ros2_supervisor.py-3] The Webots simulation world is not yet ready, pending until loading is done...
+[robot_state_publisher-4] [INFO] [1790518829.044806604] [robot_state_publisher]: Robot initialized
+[webots_controller_TIAGo-6] [INFO] [1790518829.071873630] [controller_manager]: Using ROS clock for triggering controller manager cycles.
+[webots_controller_TIAGo-6] [INFO] [1790518829.074604211] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[webots_controller_TIAGo-6] [INFO] [1790518829.085403830] [controller_manager]: Received robot description from topic.
+[webots_controller_TIAGo-6] [INFO] [1790518829.085522117] [controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[webots_controller_TIAGo-6] [INFO] [1790518829.116729591] [controller_manager]: Initialize hardware 'WebotsControl' 
+[webots_controller_TIAGo-6] [WARN] [1790518829.116813126] [controller_manager.hardware_component.system.WebotsControl]: Executor is not available during hardware component initialization for 'WebotsControl'. Skipping node creation!
+[webots_controller_TIAGo-6] [INFO] [1790518829.116943551] [controller_manager]: Successful initialization of hardware 'WebotsControl'
+[webots_controller_TIAGo-6] [INFO] [1790518829.117140935] [controller_manager]: Activating component 'WebotsControl'.
+[webots_controller_TIAGo-6] [INFO] [1790518829.117167229] [resource_manager]: 'configure' hardware 'WebotsControl' 
+[webots_controller_TIAGo-6] [INFO] [1790518829.117179072] [resource_manager]: Successful 'configure' of hardware 'WebotsControl'
+[webots_controller_TIAGo-6] [INFO] [1790518829.117196461] [resource_manager]: 'activate' hardware 'WebotsControl' 
+[webots_controller_TIAGo-6] [INFO] [1790518829.117217078] [resource_manager]: Successful 'activate' of hardware 'WebotsControl'
+[webots_controller_TIAGo-6] [WARN] [1790518829.117329973] [controller_manager]: Component 'WebotsControl' does not have read or write statistics initialized, skipping registration.
+[webots_controller_TIAGo-6] [INFO] [1790518829.117348466] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[webots_controller_TIAGo-6] [INFO] [1790518829.159399179] [TIAGo]: Controller successfully connected to robot in Webots simulation.
+[INFO] [spawner-8]: process started with pid [509395]
+[INFO] [spawner-9]: process started with pid [509396]
+[spawner-8] [INFO] [1790518829.557658953] [spawner_diffdrive_controller]: waiting for service /controller_manager/list_controllers to become available...
+[webots_controller_TIAGo-6] [INFO] [1790518830.811074805] [controller_manager]: Loading controller : 'diffdrive_controller' of type 'diff_drive_controller/DiffDriveController'
+[webots_controller_TIAGo-6] [INFO] [1790518830.811131771] [controller_manager]: Loading controller 'diffdrive_controller'
+[webots_controller_TIAGo-6] [WARN] [1790518830.815297637] [controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+[webots_controller_TIAGo-6] [INFO] [1790518830.815353067] [controller_manager]: Controller 'diffdrive_controller' node arguments: --ros-args -r /diffdrive_controller/cmd_vel:=/cmd_vel -r /diffdrive_controller/odom:=/wheel/odom -r /scan:=/scan -p use_sim_time:=True -p set_robot_state_publisher:=True --params-file /home/kai/ros2_ws/src/cmoc/external/webots_ros2_simulation/config/ros2_control_wheel_odom.yml --param use_sim_time:=true 
+[spawner-8] [INFO] [1790518830.830645599] [spawner_diffdrive_controller]: Loaded diffdrive_controller
+[webots_controller_TIAGo-6] [INFO] [1790518830.831846779] [controller_manager]: Configuring controller: 'diffdrive_controller'
+[webots_controller_TIAGo-6] [INFO] [1790518830.839099844] [controller_manager]: Activating controllers: [ diffdrive_controller ]
+[webots_controller_TIAGo-6] [INFO] [1790518830.866042940] [controller_manager]: Successfully switched controllers!
+[spawner-8] [INFO] [1790518830.925510250] [spawner_diffdrive_controller]: Configured and activated diffdrive_controller
+[spawner-9] [INFO] [1790518831.040109573] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[INFO] [spawner-8]: process has finished cleanly [pid 509395]
+[webots_controller_TIAGo-6] [INFO] [1790518832.294404177] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[webots_controller_TIAGo-6] [INFO] [1790518832.294485485] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[webots_controller_TIAGo-6] [WARN] [1790518832.298378080] [controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+[webots_controller_TIAGo-6] [INFO] [1790518832.298400974] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args -r /diffdrive_controller/cmd_vel:=/cmd_vel -r /diffdrive_controller/odom:=/wheel/odom -r /scan:=/scan -p use_sim_time:=True -p set_robot_state_publisher:=True --params-file /home/kai/ros2_ws/src/cmoc/external/webots_ros2_simulation/config/ros2_control_wheel_odom.yml --param use_sim_time:=true 
+[spawner-9] [INFO] [1790518832.329222962] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[webots_controller_TIAGo-6] [INFO] [1790518832.330517102] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[webots_controller_TIAGo-6] [INFO] [1790518832.330589276] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[webots_controller_TIAGo-6] [INFO] [1790518832.374151248] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[webots_controller_TIAGo-6] [INFO] [1790518832.427006724] [controller_manager]: Successfully switched controllers!
+[spawner-9] [INFO] [1790518832.472989012] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[INFO] [spawner-9]: process has finished cleanly [pid 509396]
+TIAGo ready: received /wheel/odom.
+[python3-7] [INFO] [1790518835.495759504] [wait_for_mapping_doors]: Apartment doors open and settled (radians): {"door": 1.5501, "door(1)": -1.5501, "door(2)": -1.5501, "door(3)": -1.5501, "door(4)": -1.5501, "door(5)": -1.5501, "door(6)": -1.5501}
+[python3-7] [INFO] [1790518835.496643066] [wait_for_mapping_doors]: Apartment doors ready; starting SLAM and navigation
+[INFO] [python3-7]: process has finished cleanly [pid 508855]
+[INFO] [map_server-10]: process started with pid [509559]
+[INFO] [lifecycle_manager-11]: process started with pid [509560]
+[INFO] [controller_server-12]: process started with pid [509561]
+[INFO] [smoother_server-13]: process started with pid [509562]
+[INFO] [planner_server-14]: process started with pid [509563]
+[INFO] [route_server-15]: process started with pid [509564]
+[INFO] [behavior_server-16]: process started with pid [509565]
+[INFO] [bt_navigator-17]: process started with pid [509566]
+[INFO] [waypoint_follower-18]: process started with pid [509567]
+[INFO] [velocity_smoother-19]: process started with pid [509568]
+[INFO] [collision_monitor-20]: process started with pid [509569]
+[INFO] [opennav_docking-21]: process started with pid [509570]
+[INFO] [lifecycle_manager-22]: process started with pid [509571]
+[INFO] [navigate_to_position_server-23]: process started with pid [509572]
+[INFO] [rviz2-24]: process started with pid [509573]
+[velocity_smoother-19] [INFO] [1790518835.899285204] [velocity_smoother]: 
+[velocity_smoother-19] 	velocity_smoother lifecycle node launched. 
+[velocity_smoother-19] 	Waiting on external lifecycle transitions to activate
+[velocity_smoother-19] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[waypoint_follower-18] [INFO] [1790518835.907543391] [waypoint_follower]: 
+[waypoint_follower-18] 	waypoint_follower lifecycle node launched. 
+[waypoint_follower-18] 	Waiting on external lifecycle transitions to activate
+[waypoint_follower-18] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[waypoint_follower-18] [INFO] [1790518835.909816752] [waypoint_follower]: Creating
+[lifecycle_manager-22] [INFO] [1790518835.910260385] [lifecycle_manager_navigation]: Creating
+[lifecycle_manager-11] [INFO] [1790518835.918047541] [lifecycle_manager_map]: Creating
+[bt_navigator-17] [INFO] [1790518835.920380247] [bt_navigator]: 
+[bt_navigator-17] 	bt_navigator lifecycle node launched. 
+[bt_navigator-17] 	Waiting on external lifecycle transitions to activate
+[bt_navigator-17] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[lifecycle_manager-22] [INFO] [1790518835.921645373] [lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[bt_navigator-17] [INFO] [1790518835.926503083] [bt_navigator]: Creating
+[lifecycle_manager-11] [INFO] [1790518835.928735322] [lifecycle_manager_map]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[controller_server-12] [INFO] [1790518835.930660356] [controller_server]: 
+[controller_server-12] 	controller_server lifecycle node launched. 
+[controller_server-12] 	Waiting on external lifecycle transitions to activate
+[controller_server-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[behavior_server-16] [INFO] [1790518835.938575235] [behavior_server]: 
+[behavior_server-16] 	behavior_server lifecycle node launched. 
+[behavior_server-16] 	Waiting on external lifecycle transitions to activate
+[behavior_server-16] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[smoother_server-13] [INFO] [1790518835.940503146] [smoother_server]: 
+[smoother_server-13] 	smoother_server lifecycle node launched. 
+[smoother_server-13] 	Waiting on external lifecycle transitions to activate
+[smoother_server-13] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-14] [INFO] [1790518835.944886769] [planner_server]: 
+[planner_server-14] 	planner_server lifecycle node launched. 
+[planner_server-14] 	Waiting on external lifecycle transitions to activate
+[planner_server-14] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[smoother_server-13] [INFO] [1790518835.948277326] [smoother_server]: Creating smoother server
+[planner_server-14] [INFO] [1790518835.951172601] [planner_server]: Creating
+[controller_server-12] [INFO] [1790518835.963369511] [controller_server]: Creating controller server
+[opennav_docking-21] [INFO] [1790518835.965321779] [docking_server]: 
+[opennav_docking-21] 	docking_server lifecycle node launched. 
+[opennav_docking-21] 	Waiting on external lifecycle transitions to activate
+[opennav_docking-21] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[opennav_docking-21] [INFO] [1790518835.965464698] [docking_server]: Creating docking_server
+[collision_monitor-20] [INFO] [1790518835.966707494] [collision_monitor]: 
+[collision_monitor-20] 	collision_monitor lifecycle node launched. 
+[collision_monitor-20] 	Waiting on external lifecycle transitions to activate
+[collision_monitor-20] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-14] [INFO] [1790518835.988307583] [global_costmap.global_costmap]: 
+[planner_server-14] 	global_costmap lifecycle node launched. 
+[planner_server-14] 	Waiting on external lifecycle transitions to activate
+[planner_server-14] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[route_server-15] [INFO] [1790518835.996260409] [route_server]: 
+[route_server-15] 	route_server lifecycle node launched. 
+[route_server-15] 	Waiting on external lifecycle transitions to activate
+[route_server-15] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[map_server-10] [INFO] [1790518835.997862786] [map_server]: 
+[map_server-10] 	map_server lifecycle node launched. 
+[map_server-10] 	Waiting on external lifecycle transitions to activate
+[map_server-10] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[map_server-10] [INFO] [1790518835.998032210] [map_server]: Creating
+[planner_server-14] [INFO] [1790518835.997885150] [global_costmap.global_costmap]: Creating Costmap
+[controller_server-12] [INFO] [1790518836.036733184] [local_costmap.local_costmap]: 
+[controller_server-12] 	local_costmap lifecycle node launched. 
+[controller_server-12] 	Waiting on external lifecycle transitions to activate
+[controller_server-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-12] [INFO] [1790518836.039907757] [local_costmap.local_costmap]: Creating Costmap
+[lifecycle_manager-22] [INFO] [1790518836.201851634] [lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-22] [INFO] [1790518836.201929086] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+[controller_server-12] [INFO] [1790518836.202659157] [controller_server]: Configuring controller interface
+[controller_server-12] [INFO] [1790518836.202710269] [controller_server]: getting progress checker plugins..
+[controller_server-12] [INFO] [1790518836.202961141] [controller_server]: getting goal checker plugins..
+[controller_server-12] [INFO] [1790518836.203091540] [controller_server]: Controller frequency set to 10.0000Hz
+[controller_server-12] [INFO] [1790518836.203163855] [local_costmap.local_costmap]: Configuring
+[rviz2-24] [INFO] [1790518836.540503439] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-24] [INFO] [1790518836.540589081] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
+[controller_server-12] [INFO] [1790518836.551115461] [local_costmap.local_costmap]: Using plugin "voxel_layer"
+[controller_server-12] [INFO] [1790518836.559506736] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[rviz2-24] [INFO] [1790518836.575218654] [rviz2]: Stereo is NOT SUPPORTED
+[controller_server-12] [INFO] [1790518836.576766777] [local_costmap.local_costmap]: Initialized plugin "voxel_layer"
+[controller_server-12] [INFO] [1790518836.576825771] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-12] [INFO] [1790518836.577421700] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[controller_server-12] [INFO] [1790518836.577454295] [local_costmap.local_costmap]: Using plugin "static_layer"
+[controller_server-12] [INFO] [1790518836.578300541] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+[controller_server-12] [INFO] [1790518836.579986750] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+[controller_server-12] [INFO] [1790518836.603828701] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[controller_server-12] [INFO] [1790518836.604309744] [controller_server]: Controller Server has progress_checker  progress checkers available.
+[controller_server-12] [INFO] [1790518836.605676181] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-12] [INFO] [1790518836.606175852] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[controller_server-12] [INFO] [1790518836.611216118] [controller_server]: Created controller : FollowPath of type dwb_core::DWBLocalPlanner
+[controller_server-12] [INFO] [1790518836.612192167] [controller_server]: Setting transform_tolerance to 0.200000
+[controller_server-12] [INFO] [1790518836.626013167] [controller_server]: Using critic "RotateToGoal" (dwb_critics::RotateToGoalCritic)
+[controller_server-12] [INFO] [1790518836.626586831] [controller_server]: Critic plugin initialized
+[controller_server-12] [INFO] [1790518836.626745474] [controller_server]: Using critic "Oscillation" (dwb_critics::OscillationCritic)
+[controller_server-12] [INFO] [1790518836.627211409] [controller_server]: Critic plugin initialized
+[controller_server-12] [INFO] [1790518836.627332476] [controller_server]: Using critic "BaseObstacle" (dwb_critics::BaseObstacleCritic)
+[controller_server-12] [INFO] [1790518836.627625730] [controller_server]: Critic plugin initialized
+[controller_server-12] [INFO] [1790518836.627891216] [controller_server]: Using critic "GoalAlign" (dwb_critics::GoalAlignCritic)
+[controller_server-12] [INFO] [1790518836.628249172] [controller_server]: Critic plugin initialized
+[controller_server-12] [INFO] [1790518836.628380017] [controller_server]: Using critic "PathAlign" (dwb_critics::PathAlignCritic)
+[controller_server-12] [INFO] [1790518836.628692497] [controller_server]: Critic plugin initialized
+[controller_server-12] [INFO] [1790518836.628811143] [controller_server]: Using critic "PathDist" (dwb_critics::PathDistCritic)
+[controller_server-12] [INFO] [1790518836.629008760] [controller_server]: Critic plugin initialized
+[controller_server-12] [INFO] [1790518836.629132003] [controller_server]: Using critic "GoalDist" (dwb_critics::GoalDistCritic)
+[controller_server-12] [INFO] [1790518836.629354690] [controller_server]: Critic plugin initialized
+[controller_server-12] [INFO] [1790518836.629373885] [controller_server]: Controller Server has FollowPath  controllers available.
+[lifecycle_manager-22] [INFO] [1790518836.640099514] [lifecycle_manager_navigation]: [34m[1mConfiguring smoother_server[0m[0m
+[smoother_server-13] [INFO] [1790518836.640404942] [smoother_server]: Configuring smoother server
+[smoother_server-13] [INFO] [1790518836.656638902] [smoother_server]: Created smoother : simple_smoother of type nav2_smoother::SimpleSmoother
+[smoother_server-13] [INFO] [1790518836.657032137] [smoother_server]: Smoother Server has simple_smoother  smoothers available.
+[lifecycle_manager-22] [INFO] [1790518836.664590202] [lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+[planner_server-14] [INFO] [1790518836.701525577] [planner_server]: Configuring
+[planner_server-14] [INFO] [1790518836.701603676] [global_costmap.global_costmap]: Configuring
+[planner_server-14] [INFO] [1790518836.715548156] [global_costmap.global_costmap]: Using plugin "static_layer"
+[planner_server-14] [INFO] [1790518836.721993575] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[planner_server-14] [INFO] [1790518836.724526589] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[planner_server-14] [INFO] [1790518836.724557972] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+[planner_server-14] [INFO] [1790518836.725332025] [global_costmap.global_costmap]: Subscribed to Topics: scan
+[planner_server-14] [INFO] [1790518836.731253064] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+[planner_server-14] [INFO] [1790518836.731298389] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[planner_server-14] [INFO] [1790518836.732148670] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[planner_server-14] [INFO] [1790518836.759246979] [planner_server]: Created global planner plugin GridBased of type nav2_navfn_planner::NavfnPlanner
+[planner_server-14] [INFO] [1790518836.759291088] [planner_server]: Configuring plugin GridBased of type NavfnPlanner
+[planner_server-14] [INFO] [1790518836.759892101] [planner_server]: Planner Server has GridBased  planners available.
+[lifecycle_manager-22] [INFO] [1790518836.772214858] [lifecycle_manager_navigation]: [34m[1mConfiguring route_server[0m[0m
+[route_server-15] [INFO] [1790518836.772714039] [route_server]: Configuring
+[route_server-15] [INFO] [1790518836.825536299] [route_server]: Created GraphFileLoader GeoJsonGraphFileLoader of type nav2_route::GeoJsonGraphFileLoader
+[route_server-15] [INFO] [1790518836.825612371] [route_server]: Configuring geojson graph file loader
+[route_server-15] [INFO] [1790518836.825634936] [route_server]: No graph file provided to load yet.
+[route_server-15] [INFO] [1790518836.831372287] [route_server]: Created edge cost function plugin DistanceScorer of type nav2_route::DistanceScorer
+[route_server-15] [INFO] [1790518836.831435439] [route_server]: Configuring distance scorer.
+[route_server-15] [INFO] [1790518836.831850782] [route_server]: Created edge cost function plugin CostmapScorer of type nav2_route::CostmapScorer
+[route_server-15] [INFO] [1790518836.831864945] [route_server]: Configuring costmap scorer.
+[route_server-15] [INFO] [1790518836.837051712] [route_server]: Created route operation AdjustSpeedLimit of type nav2_route::AdjustSpeedLimit
+[route_server-15] [INFO] [1790518836.837092668] [route_server]: Configuring Adjust speed limit operation.
+[route_server-15] [INFO] [1790518836.838686636] [route_server]: Created route operation ReroutingService of type nav2_route::ReroutingService
+[route_server-15] [INFO] [1790518836.838723228] [route_server]: Configuring Rerouting service operation.
+[route_server-15] [INFO] [1790518836.840912781] [route_server]: Created route operation CollisionMonitor of type nav2_route::CollisionMonitor
+[route_server-15] [INFO] [1790518836.841073070] [route_server]: Using costmap topic: local_costmap/costmap_raw instead of server costmap topic: global_costmap/costmap_raw for CollisionMonitor.
+[lifecycle_manager-22] [INFO] [1790518836.846375158] [lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+[behavior_server-16] [INFO] [1790518836.846850303] [behavior_server]: Configuring
+[behavior_server-16] [INFO] [1790518836.855669433] [behavior_server]: Creating behavior plugin spin of type nav2_behaviors::Spin
+[behavior_server-16] [INFO] [1790518836.857947241] [behavior_server]: Creating behavior plugin backup of type nav2_behaviors::BackUp
+[behavior_server-16] [INFO] [1790518836.860215739] [behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors::DriveOnHeading
+[behavior_server-16] [INFO] [1790518836.862122703] [behavior_server]: Creating behavior plugin assisted_teleop of type nav2_behaviors::AssistedTeleop
+[behavior_server-16] [INFO] [1790518836.864995819] [behavior_server]: Creating behavior plugin wait of type nav2_behaviors::Wait
+[behavior_server-16] [INFO] [1790518836.877406188] [behavior_server]: Configuring spin
+[behavior_server-16] [INFO] [1790518836.886276881] [behavior_server]: Configuring backup
+[behavior_server-16] [INFO] [1790518836.894858387] [behavior_server]: Configuring drive_on_heading
+[behavior_server-16] [INFO] [1790518836.901456305] [behavior_server]: Configuring assisted_teleop
+[behavior_server-16] [INFO] [1790518836.912003018] [behavior_server]: Configuring wait
+[lifecycle_manager-11] [INFO] [1790518836.919862345] [lifecycle_manager_map]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-11] [INFO] [1790518836.919944636] [lifecycle_manager_map]: [34m[1mConfiguring map_server[0m[0m
+[map_server-10] [INFO] [1790518836.922498634] [map_server]: Configuring
+[map_server-10] [INFO] [1790518836.922642648] [map_io]: Loading yaml file: /home/kai/ros2_ws/src/cmoc/external/webots_ros2_simulation/maps/apartment_room_aligned/map.yaml
+[map_server-10] [INFO] [1790518836.923053690] [map_io]: resolution: 0.05
+[map_server-10] [INFO] [1790518836.923067686] [map_io]: origin[0]: -11.597
+[map_server-10] [INFO] [1790518836.923075859] [map_io]: origin[1]: -13.023
+[map_server-10] [INFO] [1790518836.923082604] [map_io]: origin[2]: 0
+[map_server-10] [INFO] [1790518836.923089619] [map_io]: free_thresh: 0.196
+[map_server-10] [INFO] [1790518836.923095950] [map_io]: occupied_thresh: 0.65
+[map_server-10] [INFO] [1790518836.923103970] [map_io]: mode: trinary
+[map_server-10] [INFO] [1790518836.923111304] [map_io]: negate: 0
+[map_server-10] [INFO] [1790518836.923539242] [map_io]: Loading image_file: /home/kai/ros2_ws/src/cmoc/external/webots_ros2_simulation/maps/apartment_room_aligned/map.pgm
+[map_server-10] [INFO] [1790518836.926252652] [map_io]: Read map /home/kai/ros2_ws/src/cmoc/external/webots_ros2_simulation/maps/apartment_room_aligned/map.pgm: 235 X 261 map @ 0.05 m/cell
+[lifecycle_manager-22] [INFO] [1790518836.929181669] [lifecycle_manager_navigation]: [34m[1mConfiguring velocity_smoother[0m[0m
+[velocity_smoother-19] [INFO] [1790518836.929733923] [velocity_smoother]: Configuring velocity smoother
+[lifecycle_manager-22] [INFO] [1790518836.937926712] [lifecycle_manager_navigation]: [34m[1mConfiguring collision_monitor[0m[0m
+[collision_monitor-20] [INFO] [1790518836.938248367] [collision_monitor]: Configuring
+[lifecycle_manager-11] [INFO] [1790518836.942830140] [lifecycle_manager_map]: [34m[1mActivating map_server[0m[0m
+[map_server-10] [INFO] [1790518836.943000959] [map_server]: Activating
+[map_server-10] [INFO] [1790518836.943249999] [map_server]: Creating bond (map_server) to lifecycle manager.
+[controller_server-12] [INFO] [1790518836.943715650] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 235 X 261 at 0.050000 m/pix
+[collision_monitor-20] [INFO] [1790518836.947762966] [collision_monitor]: [scan]: Creating Scan
+[collision_monitor-20] [INFO] [1790518836.951776942] [collision_monitor]: [FootprintApproach]: Creating Polygon
+[collision_monitor-20] [INFO] [1790518836.952016021] [collision_monitor]: [FootprintApproach]: Polygon points are not defined. Using dynamic subscription instead.
+[collision_monitor-20] [INFO] [1790518836.953397095] [collision_monitor]: [FootprintApproach]: Making footprint subscriber on /local_costmap/published_footprint topic
+[lifecycle_manager-22] [INFO] [1790518836.970607428] [lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m
+[bt_navigator-17] [INFO] [1790518836.971042444] [bt_navigator]: Configuring
+[bt_navigator-17] [INFO] [1790518836.980576889] [bt_navigator]: Creating navigator id navigate_to_pose of type nav2_bt_navigator::NavigateToPoseNavigator
+[bt_navigator-17] [WARN] [1790518836.988628719] [bt_navigator]: Error_code parameters were not set. Using default values of: follow_path_error_code compute_path_error_code
+[bt_navigator-17] Make sure these match your BT and there are not other sources of error codes youreported to your application
+[lifecycle_manager-11] [INFO] [1790518837.052392201] [lifecycle_manager_map]: Server map_server connected with bond.
+[lifecycle_manager-11] [INFO] [1790518837.052497394] [lifecycle_manager_map]: [34m[1mManaged nodes are active[0m[0m
+[lifecycle_manager-11] [INFO] [1790518837.052522698] [lifecycle_manager_map]: [34m[1mCreating bond timer...[0m[0m
+[planner_server-14] [INFO] [1790518837.056546803] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 235 X 261 at 0.050000 m/pix
+[bt_navigator-17] [INFO] [1790518837.089992320] [bt_navigator]: Creating navigator id navigate_through_poses of type nav2_bt_navigator::NavigateThroughPosesNavigator
+[lifecycle_manager-22] [INFO] [1790518837.119371683] [lifecycle_manager_navigation]: [34m[1mConfiguring waypoint_follower[0m[0m
+[waypoint_follower-18] [INFO] [1790518837.119777241] [waypoint_follower]: Configuring
+[waypoint_follower-18] [INFO] [1790518837.153942873] [waypoint_follower]: Created waypoint_task_executor : wait_at_waypoint of type nav2_waypoint_follower::WaitAtWaypoint
+[lifecycle_manager-22] [INFO] [1790518837.155299923] [lifecycle_manager_navigation]: [34m[1mConfiguring docking_server[0m[0m
+[opennav_docking-21] [INFO] [1790518837.155719083] [docking_server]: Configuring docking_server
+[opennav_docking-21] [INFO] [1790518837.155779517] [docking_server]: Controller frequency set to 50.0000Hz
+[opennav_docking-21] [INFO] [1790518837.192355031] [docking_server]: Created charging dock plugin simple_charging_dock of type opennav_docking::SimpleChargingDock
+[opennav_docking-21] [WARN] [1790518837.197917652] [docking_server]: Dock database filepath nor dock parameters set. Docking actions can only be executed specifying the dock pose via the action request. Or update the dock database via the reload_database service.
+[opennav_docking-21] [INFO] [1790518837.197971089] [docking_server]: Docking Server has 1 dock types and 0 dock instances available.
+[lifecycle_manager-22] [INFO] [1790518837.200068566] [lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+[controller_server-12] [INFO] [1790518837.200420069] [controller_server]: Activating
+[controller_server-12] [INFO] [1790518837.200502263] [local_costmap.local_costmap]: Activating
+[controller_server-12] [INFO] [1790518837.200511082] [local_costmap.local_costmap]: Checking transform
+[controller_server-12] [INFO] [1790518837.200642408] [local_costmap.local_costmap]: start
+[rviz2-24] [INFO] [1790518837.302960708] [rviz2]: Trying to create a map of size 235 x 261 using 1 swatches
+[rviz2-24] [ERROR] [1790518837.334387464] [rviz2]: rviz/glsl120/indexed_8bit_image.vert
+[rviz2-24] rviz/glsl120/indexed_8bit_image.frag
+[rviz2-24]  GLSL link result : 
+[rviz2-24] active samplers with a different type refer to the same texture image unit
+[controller_server-12] [INFO] [1790518837.401915266] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[rviz2-24] [INFO] [1790518837.430462152] [rviz2]: Trying to create a map of size 60 x 60 using 1 swatches
+[lifecycle_manager-22] [INFO] [1790518837.513931042] [lifecycle_manager_navigation]: Server controller_server connected with bond.
+[lifecycle_manager-22] [INFO] [1790518837.513997875] [lifecycle_manager_navigation]: [34m[1mActivating smoother_server[0m[0m
+[smoother_server-13] [INFO] [1790518837.514752238] [smoother_server]: Activating
+[smoother_server-13] [INFO] [1790518837.514806152] [smoother_server]: Creating bond (smoother_server) to lifecycle manager.
+[lifecycle_manager-22] [INFO] [1790518837.622586827] [lifecycle_manager_navigation]: Server smoother_server connected with bond.
+[lifecycle_manager-22] [INFO] [1790518837.622665025] [lifecycle_manager_navigation]: [34m[1mActivating planner_server[0m[0m
+[planner_server-14] [INFO] [1790518837.623219840] [planner_server]: Activating
+[planner_server-14] [INFO] [1790518837.623265940] [global_costmap.global_costmap]: Activating
+[planner_server-14] [INFO] [1790518837.623276567] [global_costmap.global_costmap]: Checking transform
+[planner_server-14] [INFO] [1790518837.623494126] [global_costmap.global_costmap]: start
+Nav2 ready: /navigate_to_pose available.
+Navigating to KITCHEN
+Goal: (-1.80, -1.85)
+[bt_navigator-17] [INFO] [1790518838.380475698] [bt_navigator]: Action server is inactive. Rejecting the goal.
+Navigation failed: goal rejected
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[behavior_server-16] [INFO] [1790518838.381305251] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[behavior_server-16] [INFO] [1790518838.381446548] [behavior_server]: Running Nav2 LifecycleNode rcl preshutdown (behavior_server)
+[behavior_server-16] [INFO] [1790518838.381537477] [behavior_server]: Cleaning up
+[ERROR] [ros2_supervisor.py-3]: process has died [pid 508849, exit code -2, cmd '/opt/ros/jazzy/lib/webots_ros2_driver/ros2_supervisor.py --ros-args -r __ns:=/Ros2Supervisor -r /Ros2Supervisor/clock:=/clock'].
+[smoother_server-13] [INFO] [1790518838.381309657] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[smoother_server-13] [INFO] [1790518838.381475272] [smoother_server]: Running Nav2 LifecycleNode rcl preshutdown (smoother_server)
+[opennav_docking-21] [INFO] [1790518838.381314138] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[opennav_docking-21] [INFO] [1790518838.381486129] [docking_server]: Running Nav2 LifecycleNode rcl preshutdown (docking_server)
+[robot_state_publisher-4] [INFO] [1790518838.381346712] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[static_transform_publisher-5] [INFO] [1790518838.381377070] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[controller_server-12] [INFO] [1790518838.381439841] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[controller_server-12] [INFO] [1790518838.381572509] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[controller_server-12] [INFO] [1790518838.381660127] [controller_server]: Deactivating
+[controller_server-12] [INFO] [1790518838.381708137] [local_costmap.local_costmap]: Deactivating
+[smoother_server-13] [INFO] [1790518838.381568409] [smoother_server]: Deactivating
+[smoother_server-13] [INFO] [1790518838.381595253] [smoother_server]: Destroying bond (smoother_server) to lifecycle manager.
+[smoother_server-13] [INFO] [1790518838.392228197] [smoother_server]: Cleaning up
+[opennav_docking-21] [INFO] [1790518838.381597360] [docking_server]: Cleaning up docking_server
+[collision_monitor-20] [INFO] [1790518838.381505507] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[collision_monitor-20] [INFO] [1790518838.381624759] [collision_monitor]: Running Nav2 LifecycleNode rcl preshutdown (collision_monitor)
+[collision_monitor-20] [INFO] [1790518838.382272723] [collision_monitor]: Cleaning up
+[collision_monitor-20] [INFO] [1790518838.382331291] [collision_monitor]: [FootprintApproach]: Destroying Polygon
+[collision_monitor-20] [INFO] [1790518838.382354852] [collision_monitor]: [scan]: Destroying Scan
+[collision_monitor-20] [INFO] [1790518838.386334566] [collision_monitor]: Destroying bond (collision_monitor) to lifecycle manager.
+[planner_server-14] [INFO] [1790518838.381538250] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planner_server-14] [INFO] [1790518838.381874369] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[planner_server-14] [INFO] [1790518838.381918492] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[planner_server-14] [ERROR] [1790518838.382612452] [global_costmap.global_costmap]: Failed to finish transition 3. Current state is now: active (Could not publish transition: publisher's context is invalid, at ./src/rcl/publisher.c:423, at ./src/rcl_lifecycle.c:368)
+[planner_server-14] [ERROR] [1790518838.382632699] [planner_server]: Failed to finish transition 3. Current state is now: inactive (Could not publish transition: publisher's context is invalid, at ./src/rcl/publisher.c:423, at ./src/rcl_lifecycle.c:368)
+[planner_server-14] [INFO] [1790518838.386923719] [planner_server]: Destroying plugin GridBased of type NavfnPlanner
+[velocity_smoother-19] [INFO] [1790518838.381643959] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[velocity_smoother-19] [INFO] [1790518838.381767120] [velocity_smoother]: Running Nav2 LifecycleNode rcl preshutdown (velocity_smoother)
+[velocity_smoother-19] [INFO] [1790518838.381826230] [velocity_smoother]: Cleaning up
+[velocity_smoother-19] [INFO] [1790518838.381853109] [velocity_smoother]: Destroying bond (velocity_smoother) to lifecycle manager.
+[velocity_smoother-19] [INFO] [1790518838.386863539] [velocity_smoother]: Destroying
+[route_server-15] [INFO] [1790518838.381678684] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[route_server-15] [INFO] [1790518838.381799868] [route_server]: Running Nav2 LifecycleNode rcl preshutdown (route_server)
+[route_server-15] [INFO] [1790518838.381871894] [route_server]: Cleaning up
+[lifecycle_manager-22] [INFO] [1790518838.381689508] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-22] [INFO] [1790518838.381827025] [lifecycle_manager_navigation]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_navigation)
+[bt_navigator-17] [INFO] [1790518838.381726062] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[bt_navigator-17] [INFO] [1790518838.381797974] [bt_navigator]: Running Nav2 LifecycleNode rcl preshutdown (bt_navigator)
+[bt_navigator-17] [INFO] [1790518838.381844352] [bt_navigator]: Cleaning up
+[map_server-10] [INFO] [1790518838.381753461] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[map_server-10] [INFO] [1790518838.381873916] [map_server]: Running Nav2 LifecycleNode rcl preshutdown (map_server)
+[map_server-10] [INFO] [1790518838.381939981] [map_server]: Deactivating
+[map_server-10] [INFO] [1790518838.381958512] [map_server]: Destroying bond (map_server) to lifecycle manager.
+[map_server-10] [INFO] [1790518838.392294458] [map_server]: Cleaning up
+[map_server-10] [INFO] [1790518838.392362614] [map_server]: Destroying bond (map_server) to lifecycle manager.
+[waypoint_follower-18] [INFO] [1790518838.381784542] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[waypoint_follower-18] [INFO] [1790518838.381873476] [waypoint_follower]: Running Nav2 LifecycleNode rcl preshutdown (waypoint_follower)
+[waypoint_follower-18] [INFO] [1790518838.381944181] [waypoint_follower]: Cleaning up
+[waypoint_follower-18] [INFO] [1790518838.392854610] [waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[webots_controller_TIAGo-6] [INFO] [1790518838.381891552] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[rviz2-24] [INFO] [1790518838.381896594] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[rviz2-24] 
+[rviz2-24] >>> [rcutils|error_handling.c:108] rcutils_set_error_state()
+[rviz2-24] This error state is being overwritten:
+[rviz2-24] 
+[rviz2-24]   'rcl node's context is invalid, at ./src/rcl/node.c:404'
+[rviz2-24] 
+[rviz2-24] with this new error message:
+[rviz2-24] 
+[rviz2-24]   'the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130'
+[rviz2-24] 
+[rviz2-24] rcutils_reset_error() should be called after error handling to avoid this.
+[rviz2-24] <<<
+[rviz2-24] terminate called after throwing an instance of 'rclcpp::exceptions::RCLError'
+[rviz2-24]   what():  failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130
+[lifecycle_manager-11] [INFO] [1790518838.381994267] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lifecycle_manager-11] [INFO] [1790518838.382090927] [lifecycle_manager_map]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_map)
+[lifecycle_manager-11] [INFO] [1790518838.382128655] [lifecycle_manager_map]: [34m[1mTerminating bond timer...[0m[0m
+[static_transform_publisher-1] [INFO] [1790518838.382362701] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[behavior_server-16] [INFO] [1790518838.383941833] [behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[collision_monitor-20] [INFO] [1790518838.397844173] [collision_monitor]: Destroying
+[controller_server-12] [INFO] [1790518838.401135666] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[planner_server-14] Warning: class_loader.ClassLoader: SEVERE WARNING!!! Attempting to unload library while objects created by this loader exist in the heap! You should delete your objects before attempting to unload the library or destroying the ClassLoader. The library will NOT be unloaded.
+[planner_server-14]          at line 127 in ./src/class_loader.cpp
+[planner_server-14] terminate called without an active exception
+[lifecycle_manager-11] [INFO] [1790518838.403005248] [lifecycle_manager_map]: Destroying lifecycle_manager_map
+[navigate_to_position_server-23] Traceback (most recent call last):
+[navigate_to_position_server-23]   File "/home/kai/ros2_ws/install/navigate_to_position/lib/navigate_to_position/navigate_to_position_server", line 106, in main
+[navigate_to_position_server-23]     rclpy.spin(node, executor=executor)
+[navigate_to_position_server-23]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[navigate_to_position_server-23]     executor.spin_once()
+[navigate_to_position_server-23]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 1015, in spin_once
+[navigate_to_position_server-23]     self._spin_once_impl(timeout_sec)
+[navigate_to_position_server-23]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 991, in _spin_once_impl
+[navigate_to_position_server-23]     handler, entity, node = self.wait_for_ready_callbacks(
+[navigate_to_position_server-23]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[navigate_to_position_server-23]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 877, in wait_for_ready_callbacks
+[navigate_to_position_server-23]     return next(self._cb_iter)
+[navigate_to_position_server-23]            ^^^^^^^^^^^^^^^^^^^
+[navigate_to_position_server-23]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 704, in _wait_for_ready_callbacks
+[navigate_to_position_server-23]     with ExitStack() as context_stack:
+[navigate_to_position_server-23]   File "/usr/lib/python3.12/contextlib.py", line 610, in __exit__
+[opennav_docking-21] [INFO] [1790518838.407936395] [docking_server]: Destroying bond (docking_server) to lifecycle manager.
+[route_server-15] [INFO] [1790518838.408908984] [route_server]: Destroying bond (route_server) to lifecycle manager.
+[map_server-10] [INFO] [1790518838.409392872] [map_server]: Destroying
+[controller_server-12] [INFO] [1790518838.411667563] [controller_server]: Cleaning up
+[controller_server-12] [INFO] [1790518838.411837391] [local_costmap.local_costmap]: Cleaning up
+[waypoint_follower-18] [INFO] [1790518838.412153266] [waypoint_follower]: Destroying
+[navigate_to_position_server-23]     raise exc_details[1]
+[navigate_to_position_server-23]   File "/usr/lib/python3.12/contextlib.py", line 595, in __exit__
+[navigate_to_position_server-23]     if cb(*exc_details):
+[navigate_to_position_server-23]        ^^^^^^^^^^^^^^^^
+[navigate_to_position_server-23]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/event_handler.py", line 131, in __exit__
+[navigate_to_position_server-23]     def __exit__(self, t, v, tb):
+[navigate_to_position_server-23] 
+[navigate_to_position_server-23] KeyboardInterrupt
+[navigate_to_position_server-23] 
+[navigate_to_position_server-23] During handling of the above exception, another exception occurred:
+[navigate_to_position_server-23] 
+[navigate_to_position_server-23] Traceback (most recent call last):
+[navigate_to_position_server-23]   File "/home/kai/ros2_ws/install/navigate_to_position/lib/navigate_to_position/navigate_to_position_server", line 114, in <module>
+[navigate_to_position_server-23]     main()
+[navigate_to_position_server-23]   File "/home/kai/ros2_ws/install/navigate_to_position/lib/navigate_to_position/navigate_to_position_server", line 110, in main
+[navigate_to_position_server-23]     rclpy.shutdown()
+[navigate_to_position_server-23]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 134, in shutdown
+[navigate_to_position_server-23]     _shutdown(context=context)
+[navigate_to_position_server-23]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/utilities.py", line 82, in shutdown
+[navigate_to_position_server-23]     context.shutdown()
+[navigate_to_position_server-23]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/context.py", line 129, in shutdown
+[navigate_to_position_server-23]     self.__context.shutdown()
+[navigate_to_position_server-23] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333
+[smoother_server-13] [INFO] [1790518838.416944490] [smoother_server]: Destroying bond (smoother_server) to lifecycle manager.
+[opennav_docking-21] [INFO] [1790518838.426428501] [docking_server]: Destroying
+[smoother_server-13] [INFO] [1790518838.427158956] [smoother_server]: Destroying
+[webots_controller_TIAGo-6] AttributeError: 'TiagoArmTuck' object has no attribute 'stop'
+[route_server-15] [INFO] [1790518838.432099774] [route_server]: Destroying
+[behavior_server-16] [INFO] [1790518838.443513765] [behavior_server]: Destroying
+[webots_controller_TIAGo-6] [INFO] [1790518838.447593207] [TIAGo]: Controller successfully disconnected from robot in Webots simulation.
+[webots_controller_TIAGo-6] [INFO] [1790518838.447669416] [controller_manager]: Shutdown request received....
+[webots_controller_TIAGo-6] [INFO] [1790518838.447720316] [controller_manager]: Shutting down all controllers in the controller manager.
+[webots_controller_TIAGo-6] [INFO] [1790518838.447756593] [controller_manager]: Deactivating controller 'joint_state_broadcaster'
+[webots_controller_TIAGo-6] [INFO] [1790518838.447857922] [controller_manager]: Shutting down controller 'joint_state_broadcaster'
+[webots_controller_TIAGo-6] [INFO] [1790518838.447938848] [controller_manager]: Deactivating controller 'diffdrive_controller'
+[webots_controller_TIAGo-6] [INFO] [1790518838.448000496] [controller_manager]: Shutting down controller 'diffdrive_controller'
+[webots_controller_TIAGo-6] [INFO] [1790518838.448047372] [resource_manager]: 'deactivate' hardware 'WebotsControl' 
+[webots_controller_TIAGo-6] [INFO] [1790518838.448064779] [resource_manager]: Successful 'deactivate' of hardware 'WebotsControl'
+[webots_controller_TIAGo-6] [INFO] [1790518838.448072599] [resource_manager]: 'shutdown' hardware 'WebotsControl' 
+[webots_controller_TIAGo-6] [INFO] [1790518838.448080173] [resource_manager]: Successful 'shutdown' of hardware 'WebotsControl'
+[webots_controller_TIAGo-6] [INFO] [1790518838.448132086] [controller_manager]: Shutting down the controller manager.
+[webots_controller_TIAGo-6] [ERROR] [1790518838.448467283] [controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[webots_controller_TIAGo-6] [ERROR] [1790518838.448467861] [controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[bt_navigator-17] [INFO] [1790518838.450675956] [bt_navigator]: Completed Cleaning up
+[bt_navigator-17] [INFO] [1790518838.450748205] [bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[navigate_to_position_server-23] The following exception was never retrieved: cannot use Destroyable because destruction was requested
+[bt_navigator-17] [INFO] [1790518838.462126114] [bt_navigator]: Destroying
+[controller_server-12] [INFO] [1790518838.462481844] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[controller_server-12] [INFO] [1790518838.469453417] [local_costmap.local_costmap]: Destroying
+[webots_controller_TIAGo-6] [INFO] [1790518838.472171056] [controller_manager.pal_statistics]: Async messages lost 0
+[webots_controller_TIAGo-6] [INFO] [1790518838.472189280] [controller_manager.pal_statistics]: publish_async_failures_ 0
+[webots_controller_TIAGo-6] [INFO] [1790518838.473333101] [controller_manager.pal_statistics]: Async messages lost 0
+[webots_controller_TIAGo-6] [INFO] [1790518838.473339975] [controller_manager.pal_statistics]: publish_async_failures_ 0
+[webots_controller_TIAGo-6] Warning: class_loader.ClassLoader: SEVERE WARNING!!! Attempting to unload library while objects created by this loader exist in the heap! You should delete your objects before attempting to unload the library or destroying the ClassLoader. The library will NOT be unloaded.
+[webots_controller_TIAGo-6]          at line 127 in ./src/class_loader.cpp
+[webots_controller_TIAGo-6] Warning: class_loader.ClassLoader: SEVERE WARNING!!! Attempting to unload library while objects created by this loader exist in the heap! You should delete your objects before attempting to unload the library or destroying the ClassLoader. The library will NOT be unloaded.
+[webots_controller_TIAGo-6]          at line 127 in ./src/class_loader.cpp
+[controller_server-12] [INFO] [1790518838.474974291] [controller_server]: Destroying
+[INFO] [static_transform_publisher-5]: process has finished cleanly [pid 508852]
+[INFO] [static_transform_publisher-1]: process has finished cleanly [pid 508847]
+[INFO] [robot_state_publisher-4]: process has finished cleanly [pid 508850]
+[INFO] [velocity_smoother-19]: process has finished cleanly [pid 509568]
+[INFO] [lifecycle_manager-11]: process has finished cleanly [pid 509560]
+[INFO] [collision_monitor-20]: process has finished cleanly [pid 509569]
+[INFO] [map_server-10]: process has finished cleanly [pid 509559]
+[INFO] [waypoint_follower-18]: process has finished cleanly [pid 509567]
+[INFO] [opennav_docking-21]: process has finished cleanly [pid 509570]
+[INFO] [route_server-15]: process has finished cleanly [pid 509564]
+[INFO] [smoother_server-13]: process has finished cleanly [pid 509562]
+[INFO] [behavior_server-16]: process has finished cleanly [pid 509565]
+[INFO] [bt_navigator-17]: process has finished cleanly [pid 509566]
+[INFO] [controller_server-12]: process has finished cleanly [pid 509561]
+[ERROR] [navigate_to_position_server-23]: process has died [pid 509572, exit code 1, cmd '/home/kai/ros2_ws/install/navigate_to_position/lib/navigate_to_position/navigate_to_position_server --ros-args --params-file /tmp/launch_params_qef9mtvi'].
+[INFO] [webots_controller_TIAGo-6]: process has finished cleanly [pid 508854]
+[INFO] [webots-2]: process has finished cleanly [pid 508848]
+[ERROR] [rviz2-24]: process has died [pid 509573, exit code -6, cmd '/opt/ros/jazzy/lib/rviz2/rviz2 -d /home/kai/ros2_ws/src/cmoc/external/webots_ros2_simulation/config/navigation.rviz --ros-args --params-file /tmp/launch_params_9a2883tb'].
+[lifecycle_manager-22] [ERROR] [1790518840.384109331] [lifecycle_manager_navigation]: Failed to change state for node: planner_server. Exception: planner_server/get_state service client: async_send_request failed.
+[lifecycle_manager-22] [ERROR] [1790518840.384274081] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.
+[lifecycle_manager-22] [INFO] [1790518840.439310126] [lifecycle_manager_navigation]: Destroying lifecycle_manager_navigation
+[INFO] [lifecycle_manager-22]: process has finished cleanly [pid 509571]
+[ERROR] [planner_server-14]: process has died [pid 509563, exit code -6, cmd '/opt/ros/jazzy/lib/nav2_planner/planner_server --ros-args --log-level info --ros-args -r __node:=planner_server -p use_sim_time:=True --params-file /tmp/launch_params_j21xhvet -r /tf:=tf -r /tf_static:=tf_static'].
+Traceback (most recent call last):
+  File "/home/kai/ros2_ws/src/cmoc/demo.py", line 114, in <module>
+    main()
+  File "/home/kai/ros2_ws/src/cmoc/demo.py", line 90, in main
+    run_demo(navigator)
+  File "/home/kai/ros2_ws/src/cmoc/demo.py", line 31, in run_demo
+    raise RuntimeError(f'Movement test failed for {room}')
+RuntimeError: Movement test failed for KITCHEN

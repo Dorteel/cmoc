@@ -469,3 +469,101 @@ python3 -m unittest discover -s tests -p 'test_knowledge_interface.py' -v
 The pinned data has null `bring-11.3` frame roles; FrameNet descriptions are
 available through `get_additional_frame_elements()`. The episodic scene-graph
 interface remains in `scene_graph_interface.py`.
+
+### Simulator dependency and room navigation
+
+```bash
+git clone --recurse-submodules https://github.com/Dorteel/cmoc.git
+# Existing clone:
+git submodule update --init --recursive
+```
+
+Use ROS 2 Jazzy with Webots (`/usr/local/webots/webots` as expected by the upstream
+launch), `webots_ros2`, Nav2, and RViz installed. From the ROS workspace root:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+colcon build --symlink-install --base-paths src/cmoc/external/webots_ros2_simulation/simulation_actions src/cmoc/external/webots_ros2_simulation/navigate_to_position --packages-select simulation_actions navigate_to_position
+source install/setup.bash
+cd src/cmoc
+python demo.py
+# Optional movement test before the existing memory/search output:
+python demo.py --test-navigation
+```
+
+The scoped build selects only the submodule packages, avoiding duplicates from
+the original sibling checkout. Python dependencies include PyYAML and Pillow
+(listed in `requirements.txt`); use a Python environment that can import sourced
+ROS packages. The existing generative-memory fallback requires local Ollama
+with `qwen3:1.7b` when stored knowledge has no answer.
+
+`SimulatorLauncher` reuses the simulator's `launch/navigation.launch.py`.
+That launch now accepts optional `map`, `params_file`, `map_to_odom` (x,y,yaw),
+and `doors_config` arguments; its original defaults remain unchanged. CMOC uses:
+
+- `external/webots_ros2_simulation/maps/apartment_room_aligned/map.yaml` and `map.pgm`;
+- `external/webots_ros2_simulation/nav2_params_jazzy.yaml`;
+- `alignment.yaml` in the same map directory for the scene→map transform.
+
+The existing Supervisor publishes world-frame odometry. CMOC supplies the
+alignment as the static map→odom transform, disabling the old initial-pose
+anchor. The existing map-server lifecycle manager and Nav2 bringup are reused;
+AMCL is not launched because this stack uses ground-truth localization.
+No obsolete absolute paths from alignment metadata are used.
+
+Door preparation reuses the simulator's existing mapping door mode with
+`config/navigation_doors.json`: all seven Door PROTOs (`door`, `door(1)` through
+`door(6)`, including the entrance) open once and must settle before Nav2 starts.
+The existing helper checks hinge handedness and limits and reports errors;
+normal `/open` behavior is unchanged. Its log still mentions SLAM because it is
+shared with mapping, but this demo launches localization/navigation, not SLAM.
+
+SETUP waits for `/wheel/odom`, then polls `/bt_navigator/get_state`,
+`/planner_server/get_state`, and `/controller_server/get_state` until all three
+report ACTIVE before initializing memories or sending movement goals. Lifecycle
+polling pauses 0.5 seconds between rounds, with a shared 120-second deadline;
+timeout reports the last states. Action-server discovery alone is insufficient. `--test-navigation` then visits KITCHEN
+and LIVING_ROOM_1 with seed 42. Normal runs print the existing frame/search
+output without sending movement goals. ATTEMPT and LOOK_FOR remain knowledge
+queries only. Run one apartment per ROS domain.
+
+`navigation.RoomGoals` takes room IDs/centers from alignment metadata and
+world-aligned floor bounds from the simulator's repository-local
+`scene_graph.json`, using CMOC's existing geometry helper. It samples inside
+those bounds, transforms to map coordinates, and rejects unknown/occupied or
+out-of-map cells. PGM checks respect resolution, rotated origin, thresholds,
+and negate. A conservative clearance square uses the existing global costmap's
+inflation radius (0.55 m); this does not guarantee reachability on Nav2's live
+costmap. Sampling is bounded and errors clearly if no valid point is found.
+`RoomNavigator.go_to_room(room_id, seed=42)` sends one NavigateToPose goal and
+returns success/failure without autonomous retries.
+
+The simulator stays open after output. Ctrl+C cancels an active navigation goal
+and stops the owned launch process group, with TERM/KILL fallback.
+`demo.py` owns the process-wide ROS context: it initializes once before setup
+and shuts down after navigator and simulator cleanup. `RoomNavigator.close()`
+only releases its action client/node; it does not shut ROS down.
+`python demo.py --no-simulator` runs memory queries only.
+`--no-simulator --test-navigation` uses an already prepared aligned Nav2 setup;
+it does not open doors or reconfigure an external simulator.
+
+Manual integration test (graphical session; no other apartment running):
+
+1. Build and source using the commands above.
+2. Run `python demo.py --test-navigation`.
+3. Verify all seven doors open and the door helper reports them settled.
+4. In another sourced terminal, run `ros2 action list` and confirm
+   `/navigate_to_pose`; confirm both readiness messages in the demo terminal.
+5. Watch TIAGo navigate to KITCHEN, then LIVING_ROOM_1. Each goal and its result
+   is printed; rejection, abort, or timeout fails the movement test.
+6. Confirm frame/search output continues, then press Ctrl+C. Verify Webots and
+   this run's ROS launch/controller/Nav2 processes terminate (inspect
+   `ps -eo pid,pgid,args` if needed).
+
+Automated tests never launch Webots or Nav2:
+
+```bash
+python3 -m unittest discover -s tests -p 'test_navigation.py' -v
+python3 -m unittest discover -s tests -p 'test_simulator_launcher.py' -v
+python3 -m unittest discover -s tests -p 'test_demo_setup.py' -v
+```

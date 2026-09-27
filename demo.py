@@ -4,43 +4,111 @@ from knowledge_interface import KnowledgeInterface as RoboKGNet
 from semantic_memory import SemanticMemory
 from search_strategy import resolve_search
 
-instruction = "Bring me the coffee mug"
+from pathlib import Path
+import argparse
+import time
 
-frame = NaiveFrameFiller(instruction).fill()
+import rclpy
+from rclpy.signals import SignalHandlerOptions
 
-episodic = EpisodicMemory("scene_graph.json")
-robokg = RoboKGNet()
-semantic_memory = SemanticMemory(model="qwen3:1.7b")
+from simulator_launcher import SimulatorLauncher
+from navigation import RoomNavigator
 
-# 1. First try episodic memory.
-frame["Source"] = episodic.query_theme_location(frame["Theme"])
 
-if frame["Source"]:
-    search_locations = [frame["Source"]]
+def run_demo(navigator=None):
+    instruction = "Bring me the coffee mug"
 
-else:
-    # 2. Try RoboKGNet semantic knowledge.
-    theme = frame["Theme"]
-    concepts = robokg.resolve_concept(theme)
+    frame = NaiveFrameFiller(instruction).fill()
 
-    # Try WordNet-style lexical spelling too: "coffee mug" -> "coffee_mug".
-    if not concepts:
-        concepts = robokg.resolve_concept(theme.replace(" ", "_"))
+    episodic = EpisodicMemory(Path(__file__).resolve().parent / "scene_graph.json")
+    robokg = RoboKGNet()
+    semantic_memory = SemanticMemory(model="qwen3:1.7b")
 
-    if len(concepts) == 1:
-        concept_id = concepts[0]["id"]
-        search_locations = robokg.get_locations(concept_id)
+    # MOVEMENT TEST: deliberately separate from LOOK_FOR.
+    if navigator is not None:
+        for room in ('KITCHEN', 'LIVING_ROOM_1'):
+            if not navigator.go_to_room(room, seed=42):
+                raise RuntimeError(f'Movement test failed for {room}')
+
+    # ATTEMPT: first try episodic memory.
+    frame["Source"] = episodic.query_theme_location(frame["Theme"])
+
+    if frame["Source"]:
+        search_locations = [frame["Source"]]
+
     else:
-        search_locations = []
+        # LOOK_FOR: select candidate locations only; no robot execution.
+        # 2. Try RoboKGNet semantic knowledge.
+        theme = frame["Theme"]
+        concepts = robokg.resolve_concept(theme)
 
-    # 3. Fall back to generative semantic memory if RoboKGNet
-    #    cannot resolve the concept OR knows no locations.
-    if not search_locations:
-        search = resolve_search(frame, episodic, semantic_memory)
-        search_locations = search["locations"]
+        # Try WordNet-style lexical spelling too: "coffee mug" -> "coffee_mug".
+        if not concepts:
+            concepts = robokg.resolve_concept(theme.replace(" ", "_"))
 
-print("Frame:", frame)
-print("Search order:")
+        if len(concepts) == 1:
+            concept_id = concepts[0]["id"]
+            search_locations = robokg.get_locations(concept_id)
+        else:
+            search_locations = []
 
-for candidate in search_locations:
-    print(candidate)
+        # 3. Fall back to generative semantic memory if RoboKGNet
+        #    cannot resolve the concept OR knows no locations.
+        if not search_locations:
+            search = resolve_search(frame, episodic, semantic_memory)
+            search_locations = search["locations"]
+
+    print("Frame:", frame)
+    print("Search order:")
+
+    for candidate in search_locations:
+        print(candidate)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="CMOC demo with the TIAGo apartment")
+    parser.add_argument('--no-simulator', action='store_true',
+                        help='Run memory demo only; leave any existing simulator alone')
+    parser.add_argument('--test-navigation', action='store_true',
+                        help='Visit KITCHEN and LIVING_ROOM_1 before the memory demo')
+    args = parser.parse_args()
+    # Keep Ctrl+C as KeyboardInterrupt so cancellation runs before ROS shutdown.
+    rclpy.init(args=[], signal_handler_options=SignalHandlerOptions.NO)
+    simulator = None
+    navigator = None
+    try:
+        simulator = SimulatorLauncher()
+        # SETUP: TIAGo must be ready before initializing CMOC memories.
+        if not args.no_simulator:
+            simulator.start()
+            simulator.wait_until_ready()
+            print('TIAGo ready: received /wheel/odom.', flush=True)
+        if not args.no_simulator or args.test_navigation:
+            navigator = RoomNavigator()
+            navigator.wait_until_ready()
+        if args.test_navigation:
+            run_demo(navigator)
+        else:
+            run_demo()
+        if not args.no_simulator:
+            print('Demo complete. Simulator stays open; press Ctrl+C to stop.', flush=True)
+            while simulator.is_running():
+                time.sleep(0.2)
+            raise RuntimeError('Simulator launch exited; see launch output above')
+    except KeyboardInterrupt:
+        print('Stopping demo...')
+    finally:
+        try:
+            if navigator is not None:
+                navigator.close()
+        finally:
+            try:
+                if simulator is not None:
+                    simulator.stop()
+            finally:
+                if rclpy.ok():
+                    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
