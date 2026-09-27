@@ -1,3 +1,6 @@
 [submodule "external/robokgnet"]
 	path = external/robokgnet
 	url = https://github.com/Dorteel/robokgnet.git
+[submodule "external/webots_ros2_simulation"]
+	path = external/webots_ros2_simulation
+	url = https://github.com/Dorteel/webots_ros2_simulation.git
