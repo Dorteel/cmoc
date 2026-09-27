@@ -1,0 +1,3 @@
+[submodule "external/robokgnet"]
+	path = external/robokgnet
+	url = https://github.com/Dorteel/robokgnet.git
