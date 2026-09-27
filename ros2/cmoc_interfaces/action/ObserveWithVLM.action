@@ -1,0 +1,7 @@
+string prompt
+string json_schema
+---
+bool success
+string response
+---
+string state

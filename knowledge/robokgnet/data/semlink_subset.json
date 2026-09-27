@@ -1,0 +1,81 @@
+{
+  "source": "https://raw.githubusercontent.com/cu-clear/semlink/master/instances/vn-fn2.json",
+  "retrieved": "2026-09-26T12:01:25.469254+00:00",
+  "parsed_table_sha256": "028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f",
+  "alignments": [
+    {
+      "verbnet": "bring-11.3",
+      "member": "take",
+      "framenet": "Bringing"
+    },
+    {
+      "verbnet": "bring-11.3-1",
+      "member": "bring",
+      "framenet": "Bringing"
+    },
+    {
+      "verbnet": "search-35.2",
+      "member": "check",
+      "framenet": "Scrutiny"
+    },
+    {
+      "verbnet": "search-35.2",
+      "member": "dive",
+      "framenet": "Path_shape"
+    },
+    {
+      "verbnet": "search-35.2",
+      "member": "probe",
+      "framenet": "Criminal_investigation"
+    },
+    {
+      "verbnet": "search-35.2",
+      "member": "probe",
+      "framenet": "Scrutiny"
+    },
+    {
+      "verbnet": "search-35.2",
+      "member": "scour",
+      "framenet": "Scrutiny"
+    },
+    {
+      "verbnet": "search-35.2",
+      "member": "search",
+      "framenet": "Scrutiny"
+    },
+    {
+      "verbnet": "search-35.2",
+      "member": "shop",
+      "framenet": "Shopping"
+    },
+    {
+      "verbnet": "search-35.2",
+      "member": "sift",
+      "framenet": "Scouring"
+    },
+    {
+      "verbnet": "search-35.2",
+      "member": "watch",
+      "framenet": "Seeking"
+    }
+  ],
+  "unmapped_members": [
+    "search-35.2/advertise",
+    "search-35.2/comb",
+    "search-35.2/drag",
+    "search-35.2/dredge",
+    "search-35.2/excavate",
+    "search-35.2/patrol",
+    "search-35.2/plumb",
+    "search-35.2/prospect",
+    "search-35.2/prowl",
+    "search-35.2/quarry",
+    "search-35.2/rake",
+    "search-35.2/rifle",
+    "search-35.2/scavenge",
+    "search-35.2/scout",
+    "search-35.2/trawl",
+    "search-35.2/troll"
+  ],
+  "note": "Exact class/member mappings only; source contains no role-level alignment."
+}

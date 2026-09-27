@@ -32,7 +32,7 @@ def resolve_search(frame, knowledge_interface, semantic_memory):
 
 
 if __name__ == "__main__":
-    from knowledge_interface import KnowledgeInterface
+    from scene_graph_interface import KnowledgeInterface
     from semantic_memory import SemanticMemory
 
     frame = {

@@ -1,0 +1,10 @@
+{
+  "source": "https://example.org/cmoc/robokgnet/source/DemoFixtures",
+  "note": "Hand-authored demo scores, not measured confidence or ConceptNet data. No saved CMOC rank_locations output was found.",
+  "assertions": [
+    {"subject": "coffee_mug", "relation": "LocatedAt", "object": "kitchen", "weight": 0.95},
+    {"subject": "coffee_mug", "relation": "LocatedAt", "object": "living_room", "weight": 0.60},
+    {"subject": "muffin", "relation": "LocatedAt", "object": "kitchen", "weight": 0.90},
+    {"subject": "knife", "relation": "UsedFor", "object": "cutting", "weight": 0.90}
+  ]
+}

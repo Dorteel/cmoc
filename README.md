@@ -261,14 +261,14 @@ PROTO definitions are rejected.
 
 ## Episodic spatial knowledge
 
-`KnowledgeInterface(scene_graph_path)` loads the quantitative scene graph once
+`scene_graph_interface.KnowledgeInterface(scene_graph_path)` loads the quantitative scene graph once
 and grounds `in` and `on` relations once, combining them with explicit relations
 in memory without changing the JSON file. `query_theme_location(theme)` follows
 only `in` relations and returns the first matching `Location` ID (or `None`),
 ready to use as the frame's `Source`. Theme matching and `query_locations()`
 remain available through the same interface.
 
-Run `python knowledge_interface.py scene_graph.json` to inspect the known rooms
+Run `python scene_graph_interface.py scene_graph.json` to inspect the known rooms
 for plates, wine glasses, and an unknown object.
 
 ## VerbNet semantic patterns
@@ -281,3 +281,191 @@ not logical implications. Event variables are normalized within each predicate;
 raw semantics remain available through `analyze_class()` for cross-predicate
 links. Run the embedded sanity test with
 `python -m pytest tools/verbnet_semantic_patterns.py`.
+
+## Observe one camera frame with a VLM
+
+Simulation publishes sensor data; CMOC interprets it using VLMs. Only the nested
+`ros2/cmoc_perception` (Python node) and `ros2/cmoc_interfaces` (action definition)
+are ROS packages; the repository itself remains a standalone Python project.
+`colcon` discovers both recursively from `~/ros2_ws`. Neither package depends on
+`simulation_actions` or Webots. Set `camera_topic` to use another camera, including
+a real robot camera.
+
+
+`cmoc_perception` provides `/observe_with_vlm` with action type
+`cmoc_interfaces/action/ObserveWithVLM`. It continuously caches the latest RGB
+image and sends exactly one snapshot plus the goal `prompt` and caller-provided
+`json_schema` (a JSON string) to the selected backend. No observation schema is
+hard-coded in the server. The result contains `success` and a JSON-serialized
+`response`; feedback reports `running_vlm`. Success means inference, JSON parsing,
+and validation passed, even when a task-specific field such as `found` is false.
+Missing images, unavailable endpoints, invalid schemas, and invalid responses abort
+the goal with `success: false` and an explanation. Frames continue updating during
+inference. Concurrent goals are rejected while one inference is active; canceling
+an in-flight HTTP request is not supported. The cached frame can be old if the camera stops publishing.
+
+The action type is now `cmoc_interfaces/action/ObserveWithVLM`. Rebuild and restart
+existing servers and clients using this type; an empty `json_schema` is rejected. The server checks
+schemas with `python3-jsonschema` before reading a frame, then strictly parses and
+validates the VLM output. It does not strip Markdown fences, repair JSON, coerce
+values, or retry invalid output. Schemas without `$schema` use Draft 2020-12.
+
+When upgrading an already-built workspace, remove the old generated simulation
+package first (`rm -rf ~/ros2_ws/build/simulation_actions ~/ros2_ws/install/simulation_actions`)
+so its obsolete VLM executable and generated interface are not left installed.
+
+Build and launch the camera simulation (terminal 1):
+
+```bash
+source /opt/ros/jazzy/setup.bash
+cd ~/ros2_ws
+colcon build --symlink-install --packages-select cmoc_interfaces cmoc_perception simulation_actions
+source install/setup.bash
+cd src/webots_ros2_simulation
+ros2 launch ./launch/tiago_apartment_ros2.launch.py
+```
+
+Start Ollama (`ollama serve` if it is not already running), install a vision model,
+and start the action server (terminal 2):
+
+```bash
+ollama pull qwen3-vl:2b
+source /opt/ros/jazzy/setup.bash
+source ~/ros2_ws/install/setup.bash
+ros2 run cmoc_perception observe_with_vlm_server --ros-args -p backend:=ollama
+```
+
+Test from terminal 3:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source ~/ros2_ws/install/setup.bash
+ros2 action list
+ros2 action send_goal /observe_with_vlm cmoc_interfaces/action/ObserveWithVLM \
+  "{prompt: 'Do you see a coffee mug?', json_schema: '{\"type\":\"object\",\"properties\":{\"found\":{\"type\":\"boolean\"},\"description\":{\"type\":\"string\"}},\"required\":[\"found\",\"description\"],\"additionalProperties\":false}'}" \
+  --feedback
+```
+
+To use Nebula, stop the action server in terminal 2, set the key in that shell,
+and restart it (the key is never a ROS parameter):
+
+```bash
+read -rsp 'Nebula API key: ' NEBULA_API_KEY; echo
+export NEBULA_API_KEY
+ros2 run cmoc_perception observe_with_vlm_server --ros-args -p backend:=nebula
+```
+
+Use the same goal commands for either backend. Ollama receives the caller schema
+as `format` with temperature 0. The default Nebula endpoint/model was verified to
+support native `response_format: {type: json_schema, json_schema: ...}`; it receives
+the caller schema with `strict: true`, alongside the snapshot and prompt over HTTPS.
+Both responses are always parsed and validated locally against the caller schema.
+There is no prompt-only fallback or silent downgrade; a different Nebula model
+that rejects native structured output returns a clean action failure. If the server was started with the required environment key,
+you can also switch between goals with
+`ros2 param set /observe_with_vlm_server backend nebula` (or `ollama`).
+
+| Parameter | Default |
+| --- | --- |
+| `backend` | `ollama` |
+| `camera_topic` | `/tiago/camera/color/image_raw` |
+| `ollama_url` | `http://localhost:11434` |
+| `ollama_model` | `qwen3-vl:2b` |
+| `nebula_url` | `https://nebula.cs.vu.nl/api/chat/completions` |
+| `nebula_model` | `SURF.Qwen3.5 122B A10B NVFP4` |
+| `nebula_api_key_env` | `NEBULA_API_KEY` |
+| `request_timeout_sec` | `120.0` |
+
+Pass overrides using `--ros-args -p name:=value`. Set `camera_topic` at startup;
+changing it requires restarting the node. HTTP calls do not stream or retry.
+The HTTP timeout bounds network waits; allow more time for slow local inference.
+
+To reproduce failure checks, stop the server and run one of these alternatives,
+then send a goal with the commands above. The last three need a camera frame:
+
+```bash
+# No camera frame:
+ros2 run cmoc_perception observe_with_vlm_server --ros-args -p camera_topic:=/unused_camera
+# Ollama unavailable:
+ros2 run cmoc_perception observe_with_vlm_server --ros-args -p ollama_url:=http://127.0.0.1:1
+# Nebula missing key:
+env -u NEBULA_API_KEY ros2 run cmoc_perception observe_with_vlm_server --ros-args -p backend:=nebula
+# Nebula unavailable (with the key exported):
+ros2 run cmoc_perception observe_with_vlm_server --ros-args -p backend:=nebula -p nebula_url:=http://127.0.0.1:1
+```
+
+Test malformed schema handling (no inference is performed):
+
+```bash
+ros2 action send_goal /observe_with_vlm cmoc_interfaces/action/ObserveWithVLM \
+  "{prompt: 'Do you see a coffee mug?', json_schema: '{'}" --feedback
+```
+
+Expect `success: false` with `Invalid requested JSON schema: ...`. Integration
+tests also inject malformed VLM JSON and schema violations for deterministic checks,
+and exercise different schemas to verify the server stays generic.
+Run them after sourcing the built workspace:
+
+```bash
+cd ~/ros2_ws/src/cmoc
+ROS_DOMAIN_ID=81 python3 -m unittest discover -s ros2/cmoc_perception/test -v
+```
+
+Run the same integration suite through colcon (uses local HTTP fixtures, no Webots
+or backend credentials required):
+
+```bash
+cd ~/ros2_ws
+ROS_DOMAIN_ID=81 colcon test --packages-select cmoc_interfaces cmoc_perception simulation_actions
+colcon test-result --verbose
+```
+
+Confirm the old server is absent (both commands should produce no output):
+
+```bash
+ros2 pkg executables simulation_actions
+rg -n 'observe_with_vlm|ObserveWithVLM' ~/ros2_ws/src/webots_ros2_simulation/simulation_actions
+```
+
+
+## RoboKGNet knowledge resource
+
+[knowledge/robokgnet](knowledge/robokgnet/README.md) integrates selected WordNet
+hierarchies, structured VerbNet semantics, FrameNet descriptions, explicit
+SemLink alignments, weighted commonsense fixtures, and references to the existing
+Bringing PDDL. It reuses the semantic bridge, VerbNet frame reader, and Unified
+Planning parser. External planning RDF can be merged without changing its IRIs;
+no existing planning RDF ontology was found in this checkout.
+
+```bash
+.venv/bin/python -m knowledge.robokgnet.demo
+.venv/bin/python -m unittest discover -s knowledge/robokgnet/tests -v
+```
+
+The offline demo writes `knowledge/robokgnet/robokgnet.ttl`. See the linked README
+for corpus setup, provenance, API examples, and resource/alignment limitations.
+
+## RoboKGNet semantic memory
+
+```bash
+git clone --recurse-submodules https://github.com/Dorteel/cmoc.git
+# For an existing clone:
+git submodule update --init --recursive
+```
+
+`knowledge_interface.KnowledgeInterface` delegates concept/action queries and
+location updates to `external.robokgnet.knowledge_interface.KnowledgeInterface`.
+The qualified namespace-package import needs no RoboKGNet changes or path edits.
+RoboKGNet alone reads/writes its canonical JSON; optional `concepts_path` and
+`actions_path` arguments select other data paths. `save()` writes the configured
+concepts file, so use a temporary copy for experiments.
+
+Run the real-data integration tests from the CMOC root:
+
+```bash
+python3 -m unittest discover -s tests -p 'test_knowledge_interface.py' -v
+```
+
+The pinned data has null `bring-11.3` frame roles; FrameNet descriptions are
+available through `get_additional_frame_elements()`. The episodic scene-graph
+interface remains in `scene_graph_interface.py`.

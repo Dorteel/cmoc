@@ -1,0 +1,4245 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fn: <https://example.org/cmoc/robokgnet/framenet/> .
+@prefix kg: <https://example.org/cmoc/robokgnet/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix source: <https://example.org/cmoc/robokgnet/source/> .
+@prefix vn: <https://example.org/cmoc/robokgnet/verbnet/> .
+@prefix wn: <https://example.org/cmoc/robokgnet/wordnet/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/problem.pddl#problem> a prov:Entity ;
+    rdfs:label "bring_standard" ;
+    dcterms:hasPart <https://example.org/cmoc/procedural_memory/planning/bringing/test/problem.pddl#goal>,
+        <https://example.org/cmoc/procedural_memory/planning/bringing/test/problem.pddl#initial> ;
+    dcterms:isPartOf <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#domain> ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/problem.pddl> ;
+    kg:planningKind "PlanningProblem" .
+
+kg:alignment%2Fbring-11.3%2Ftake%2FBringing a kg:Alignment ;
+    rdf:object fn:Bringing ;
+    rdf:subject vn:bring-11.3 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:bring-11.3%2Fmember%2Ftake .
+
+kg:alignment%2Fbring-11.3-1%2Fbring%2FBringing a kg:Alignment ;
+    rdf:object fn:Bringing ;
+    rdf:subject vn:bring-11.3-1 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:bring-11.3-1%2Fmember%2Fbring .
+
+kg:alignment%2Fsearch-35.2%2Fcheck%2FScrutiny a kg:Alignment ;
+    rdf:object fn:Scrutiny ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:search-35.2%2Fmember%2Fcheck .
+
+kg:alignment%2Fsearch-35.2%2Fdive%2FPath_shape a kg:Alignment ;
+    rdf:object fn:Path_shape ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:search-35.2%2Fmember%2Fdive .
+
+kg:alignment%2Fsearch-35.2%2Fprobe%2FCriminal_investigation a kg:Alignment ;
+    rdf:object fn:Criminal_investigation ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:search-35.2%2Fmember%2Fprobe .
+
+kg:alignment%2Fsearch-35.2%2Fprobe%2FScrutiny a kg:Alignment ;
+    rdf:object fn:Scrutiny ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:search-35.2%2Fmember%2Fprobe .
+
+kg:alignment%2Fsearch-35.2%2Fscour%2FScrutiny a kg:Alignment ;
+    rdf:object fn:Scrutiny ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:search-35.2%2Fmember%2Fscour .
+
+kg:alignment%2Fsearch-35.2%2Fsearch%2FScrutiny a kg:Alignment ;
+    rdf:object fn:Scrutiny ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:search-35.2%2Fmember%2Fsearch .
+
+kg:alignment%2Fsearch-35.2%2Fshop%2FShopping a kg:Alignment ;
+    rdf:object fn:Shopping ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:search-35.2%2Fmember%2Fshop .
+
+kg:alignment%2Fsearch-35.2%2Fsift%2FScouring a kg:Alignment ;
+    rdf:object fn:Scouring ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:search-35.2%2Fmember%2Fsift .
+
+kg:alignment%2Fsearch-35.2%2Fwatch%2FSeeking a kg:Alignment ;
+    rdf:object fn:Seeking ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f ;
+    kg:member vn:search-35.2%2Fmember%2Fwatch .
+
+kg:argument a owl:ObjectProperty ;
+    rdfs:label "argument" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:argumentType a owl:DatatypeProperty ;
+    rdfs:label "argumentType" ;
+    prov:wasDerivedFrom source:CMOC .
+
+<https://example.org/cmoc/robokgnet/assertion/1fd3bf6b2a97d6a3c60211f95e08ab3e1218a6c1e9187bc55b649d3fa5ce0012> a kg:CommonsenseAssertion ;
+    rdf:object wn:kitchen.n.01 ;
+    rdf:predicate kg:LocatedAt ;
+    rdf:subject wn:muffin.n.01 ;
+    prov:wasDerivedFrom source:DemoFixtures ;
+    kg:weight 9e-01 .
+
+<https://example.org/cmoc/robokgnet/assertion/57dbcedfe5c0beebb6fec4e76720286f43419e37ebf49f3472dbf4ca2f77e5d1> a kg:CommonsenseAssertion ;
+    rdf:object wn:living_room.n.01 ;
+    rdf:predicate kg:LocatedAt ;
+    rdf:subject wn:coffee_mug.n.01 ;
+    prov:wasDerivedFrom source:DemoFixtures ;
+    kg:weight 6e-01 .
+
+<https://example.org/cmoc/robokgnet/assertion/f24dd01c12fac409d1d3a38568303e0eb0b620b7191033ff3e3c911b1df7c612> a kg:CommonsenseAssertion ;
+    rdf:object wn:kitchen.n.01 ;
+    rdf:predicate kg:LocatedAt ;
+    rdf:subject wn:coffee_mug.n.01 ;
+    prov:wasDerivedFrom source:DemoFixtures ;
+    kg:weight 9.5e-01 .
+
+<https://example.org/cmoc/robokgnet/assertion/f46a54530ad905890cf9d065855ba475f91153102d535d1e4df8817df0e98f7f> a kg:CommonsenseAssertion ;
+    rdf:object kg:concept%2Fcutting ;
+    rdf:predicate kg:UsedFor ;
+    rdf:subject kg:concept%2Fknife ;
+    prov:wasDerivedFrom source:DemoFixtures ;
+    kg:weight 9e-01 .
+
+kg:coreType a owl:DatatypeProperty ;
+    rdfs:label "coreType" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:definition a owl:DatatypeProperty ;
+    rdfs:label "definition" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:denotesConcept a owl:ObjectProperty ;
+    rdfs:label "denotesConcept" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:event a owl:ObjectProperty ;
+    rdfs:label "event" ;
+    prov:wasDerivedFrom source:CMOC .
+
+fn:Searching_scenario a kg:Frame ;
+    rdfs:label "Searching_scenario" ;
+    dcterms:identifier 1685 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:definition "A Cognizer seeks a Phenomenon within the Ground."@en ;
+    kg:hasFrameElement fn:Searching_scenario%2FFE%2FCognizer,
+        fn:Searching_scenario%2FFE%2FDegree,
+        fn:Searching_scenario%2FFE%2FGround,
+        fn:Searching_scenario%2FFE%2FInstrument,
+        fn:Searching_scenario%2FFE%2FManner,
+        fn:Searching_scenario%2FFE%2FMeans,
+        fn:Searching_scenario%2FFE%2FPhenomenon,
+        fn:Searching_scenario%2FFE%2FPurpose .
+
+kg:hasFrame a owl:ObjectProperty ;
+    rdfs:label "hasFrame" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:hasFrameElement a owl:ObjectProperty ;
+    rdfs:label "hasFrameElement" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:hasPredicate a owl:ObjectProperty ;
+    rdfs:label "hasPredicate" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:hasRole a owl:ObjectProperty ;
+    rdfs:label "hasRole" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:lexicalUnit a owl:ObjectProperty ;
+    rdfs:label "lexicalUnit" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:member a owl:ObjectProperty ;
+    rdfs:label "member" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:negated a owl:DatatypeProperty ;
+    rdfs:label "negated" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:phase a owl:DatatypeProperty ;
+    rdfs:label "phase" ;
+    prov:wasDerivedFrom source:CMOC .
+
+<https://example.org/cmoc/robokgnet/planning-link/12b310f3569ab1160ce6819b1a540f259d25bc6f8eca5b0a913add512cd775a6> a rdf:Statement ;
+    rdf:object <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#domain> ;
+    rdf:predicate kg:planningEntity ;
+    rdf:subject fn:Bringing ;
+    prov:wasDerivedFrom source:DemoFixtures .
+
+<https://example.org/cmoc/robokgnet/planning-link/66ece56e17859ffa181badbdd721c44d980a6480af31f9c3bc00844c134311a2> a rdf:Statement ;
+    rdf:object <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#look_for> ;
+    rdf:predicate kg:planningEntity ;
+    rdf:subject fn:Scrutiny ;
+    prov:wasDerivedFrom source:DemoFixtures .
+
+<https://example.org/cmoc/robokgnet/planning-link/ac094c0bb1eb6461aa7073b254d99ff574be793e4bc85ddf406c05319d123c4e> a rdf:Statement ;
+    rdf:object <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#look_for> ;
+    rdf:predicate kg:planningEntity ;
+    rdf:subject vn:search-35.2 ;
+    prov:wasDerivedFrom source:DemoFixtures .
+
+<https://example.org/cmoc/robokgnet/planning-link/d271e21345a7925d21c3822e24de62dfbf02d37b747ca1a07a9676f94c29cce7> a rdf:Statement ;
+    rdf:object <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#domain> ;
+    rdf:predicate kg:planningEntity ;
+    rdf:subject vn:bring-11.3 ;
+    prov:wasDerivedFrom source:DemoFixtures .
+
+kg:planningKind a owl:DatatypeProperty ;
+    rdfs:label "planningKind" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:position a owl:DatatypeProperty ;
+    rdfs:label "position" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:predicateName a owl:DatatypeProperty ;
+    rdfs:label "predicateName" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:rawValue a owl:DatatypeProperty ;
+    rdfs:label "rawValue" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:refersTo a owl:ObjectProperty ;
+    rdfs:label "refersTo" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:schema a owl:Ontology ;
+    rdfs:label "RoboKGNet integration vocabulary" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:weight a owl:DatatypeProperty ;
+    rdfs:label "weight" ;
+    prov:wasDerivedFrom source:CMOC .
+
+wn:automaton.n.02 a owl:Class ;
+    rdfs:label "automaton.n.02" ;
+    dcterms:description "a mechanism that can move automatically"@en ;
+    dcterms:identifier "automaton.n.02" ;
+    rdfs:subClassOf wn:mechanism.n.05 ;
+    skos:altLabel "automaton"@en,
+        "golem"@en,
+        "robot"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:person.n.01 a owl:Class ;
+    rdfs:label "person.n.01" ;
+    dcterms:description "a human being"@en ;
+    dcterms:identifier "person.n.01" ;
+    rdfs:subClassOf wn:causal_agent.n.01,
+        wn:organism.n.01 ;
+    skos:altLabel "individual"@en,
+        "mortal"@en,
+        "person"@en,
+        "somebody"@en,
+        "someone"@en,
+        "soul"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#move> a prov:Entity ;
+    rdfs:label "move" ;
+    dcterms:description """action move(robot - object r, location from, location to) {
+    preconditions = [
+      robot_at(r, from)
+    ]
+    effects = [
+      robot_at(r, from) := false
+      robot_at(r, to) := true
+    ]
+  }""" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningAction" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#pick> a prov:Entity ;
+    rdfs:label "pick" ;
+    dcterms:description """action pick(robot - object r, object o, location l) {
+    preconditions = [
+      (known(o) and robot_at(r, l) and at(o, l) and hand_empty(r))
+    ]
+    effects = [
+      holding(r, o) := true
+      at(o, l) := false
+      hand_empty(r) := false
+    ]
+  }""" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningAction" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#place> a prov:Entity ;
+    rdfs:label "place" ;
+    dcterms:description """action place(robot - object r, object o, location l) {
+    preconditions = [
+      (robot_at(r, l) and holding(r, o))
+    ]
+    effects = [
+      at(o, l) := true
+      hand_empty(r) := true
+      holding(r, o) := false
+    ]
+  }""" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningAction" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Fat> a prov:Entity ;
+    rdfs:label "at" ;
+    dcterms:description "bool at[o=object, l=location]" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningPredicate" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Fhand_empty> a prov:Entity ;
+    rdfs:label "hand_empty" ;
+    dcterms:description "bool hand_empty[r=robot - object]" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningPredicate" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Fholding> a prov:Entity ;
+    rdfs:label "holding" ;
+    dcterms:description "bool holding[r=robot - object, o=object]" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningPredicate" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Fknown> a prov:Entity ;
+    rdfs:label "known" ;
+    dcterms:description "bool known[o=object]" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningPredicate" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Frobot_at> a prov:Entity ;
+    rdfs:label "robot_at" ;
+    dcterms:description "bool robot_at[r=robot - object, l=location]" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningPredicate" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/problem.pddl#goal> a prov:Entity ;
+    rdfs:label "Conjunctive goals" ;
+    dcterms:description "at(theme, destination)" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/problem.pddl> ;
+    kg:planningKind "GoalState" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/problem.pddl#initial> a prov:Entity ;
+    rdfs:label "Parsed initial state (including UP defaults)" ;
+    dcterms:description "at(agent, destination) = false",
+        "at(agent, robot_start_location) = false",
+        "at(agent, source) = false",
+        "at(theme, destination) = false",
+        "at(theme, robot_start_location) = false",
+        "at(theme, source) = true",
+        "hand_empty(agent) = true",
+        "holding(agent, agent) = false",
+        "holding(agent, theme) = false",
+        "known(agent) = false",
+        "known(theme) = false",
+        "robot_at(agent, destination) = false",
+        "robot_at(agent, robot_start_location) = true",
+        "robot_at(agent, source) = false" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/problem.pddl> ;
+    kg:planningKind "InitialState" .
+
+kg:UsedFor a rdf:Property ;
+    rdfs:label "UsedFor" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:concept%2Fcutting a skos:Concept ;
+    rdfs:label "cutting" ;
+    prov:wasDerivedFrom source:DemoFixtures .
+
+kg:concept%2Fknife a skos:Concept ;
+    rdfs:label "knife" ;
+    prov:wasDerivedFrom source:DemoFixtures .
+
+fn:Bringing%2FFE%2FAgent a kg:FrameElement ;
+    rdfs:label "Agent" ;
+    dcterms:identifier 2117 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The Agent is a sentient being who physically controls the movement of the Theme via the carrier, accompanying the Theme. 'Karl carried the books across the campus to the library.'"@en .
+
+fn:Bringing%2FFE%2FArea a kg:FrameElement ;
+    rdfs:label "Area" ;
+    dcterms:identifier 2123 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "Area is used for descriprion of a general area in which the carrying action takes place when the motion is understood to be irregular or not to consist of a single, linear path."@en .
+
+fn:Bringing%2FFE%2FBeneficiary a kg:FrameElement ;
+    rdfs:label "Beneficiary" ;
+    dcterms:identifier 10246 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "This FE describes the particpant for whom the bringing is beneficial. "@en .
+
+fn:Bringing%2FFE%2FCarrier a kg:FrameElement ;
+    rdfs:label "Carrier" ;
+    dcterms:identifier 4863 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The Carrier provides support for the Theme.  Movement of the Carrier results in movement of the Theme. 'The boat ferried the troops across the river.'"@en .
+
+fn:Bringing%2FFE%2FCo-participant a kg:FrameElement ;
+    rdfs:label "Co-participant" ;
+    dcterms:identifier 10930 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Co_participant is an entity that participates in a coordinated way in the same event as the primary protagonist, regardless of whether the protagonist, and hence the Co-participant, is more agent- or more undergoer-like."@en .
+
+fn:Bringing%2FFE%2FConstant_location a kg:FrameElement ;
+    rdfs:label "Constant_location" ;
+    dcterms:identifier 2122 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Constant_location expresses the location of the Theme relative to the Carrier.  This relationship holds for the entire length of the carrying event.  'Karl took the books to the library in his car.' 'Karl carried the books to the library in his arms.'"@en .
+
+fn:Bringing%2FFE%2FDegree a kg:FrameElement ;
+    rdfs:label "Degree" ;
+    dcterms:identifier 10929 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "This frame element selects some gradable attribute and modifies the expected value for it."@en .
+
+fn:Bringing%2FFE%2FDepictive a kg:FrameElement ;
+    rdfs:label "Depictive" ;
+    dcterms:identifier 2125 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Depictive identifies a phrase describing the Carrier, Agent or Theme."@en .
+
+fn:Bringing%2FFE%2FDistance a kg:FrameElement ;
+    rdfs:label "Distance" ;
+    dcterms:identifier 2126 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the Distance the Theme is carried."@en .
+
+fn:Bringing%2FFE%2FDuration a kg:FrameElement ;
+    rdfs:label "Duration" ;
+    dcterms:identifier 10931 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Duration denotes the length of time from the beginning of a continuous situation (the one denoted by the target) to its end. In many cases, the continuous situation is a dynamic action which is ongoing, while in others it is simply an undifferentiated state."@en .
+
+fn:Bringing%2FFE%2FExplanation a kg:FrameElement ;
+    rdfs:label "Explanation" ;
+    dcterms:identifier 10186 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Explanation denotes a proposition from which the main clause (headed by the target) logically follows. This often means that the Explanation causes the target's proposition, but not in all cases. "@en .
+
+fn:Bringing%2FFE%2FFrequency a kg:FrameElement ;
+    rdfs:label "Frequency" ;
+    dcterms:identifier 10899 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "This frame element is used to indicate the location of a participant in cases where the multiple participants of an event are not co-located in the typical fashion. "@en .
+
+fn:Bringing%2FFE%2FGoal a kg:FrameElement ;
+    rdfs:label "Goal" ;
+    dcterms:identifier 2118 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "Goal identifies the endpoint of the path.    'Karl carried the books to the library.'"@en .
+
+fn:Bringing%2FFE%2FManner a kg:FrameElement ;
+    rdfs:label "Manner" ;
+    dcterms:identifier 2127 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the Manner  in which the Carrier or Agent carries the Theme ."@en .
+
+fn:Bringing%2FFE%2FMeans a kg:FrameElement ;
+    rdfs:label "Means" ;
+    dcterms:identifier 4866 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The actions the Agent takes to move the Theme. 'The books were taken to the library by helicopter deliveries.' 'I haul books by putting them on top of my head.'"@en .
+
+fn:Bringing%2FFE%2FParticular_iteration a kg:FrameElement ;
+    rdfs:label "Particular_iteration" ;
+    dcterms:identifier 10884 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Expressions marked with this extra-thematic FE modify a non-iterative use of the target, and indicate that it is conceived as embedded within an iterated series of similar events or states."@en .
+
+fn:Bringing%2FFE%2FPath a kg:FrameElement ;
+    rdfs:label "Path" ;
+    dcterms:identifier 2120 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "Path along which carrying occurs. 'Karl carried the books across the campus.' "@en .
+
+fn:Bringing%2FFE%2FPeriod_of_iterations a kg:FrameElement ;
+    rdfs:label "Period_of_iterations" ;
+    dcterms:identifier 13038 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "This FE is minimally distinct from Duration and Duration_of final_state in that the clause described is conveyed to be iterative."@en .
+
+fn:Bringing%2FFE%2FPlace a kg:FrameElement ;
+    rdfs:label "Place" ;
+    dcterms:identifier 5453 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Place is the general area that serves as a setting for the specific motion of the Agent and Theme (with Source, Path, or Goal).   'Even in such a small port, these boats would transport many tons of trade-goods in to shore annually.'"@en .
+
+fn:Bringing%2FFE%2FPurpose a kg:FrameElement ;
+    rdfs:label "Purpose" ;
+    dcterms:identifier 4850 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Purpose for which the Carrier or Agent carries the Theme . 'We had to carry the heavy weights all the way to the top of the hillto show our strength.'"@en .
+
+fn:Bringing%2FFE%2FSource a kg:FrameElement ;
+    rdfs:label "Source" ;
+    dcterms:identifier 2119 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "Source indicates the beginning of the path along which the Theme travels.    'Karl hauled the books from the library  to the office.' "@en .
+
+fn:Bringing%2FFE%2FSpeed a kg:FrameElement ;
+    rdfs:label "Speed" ;
+    dcterms:identifier 4625 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Speed is the rate at which the carrying or transporting occurs."@en .
+
+fn:Bringing%2FFE%2FTheme a kg:FrameElement ;
+    rdfs:label "Theme" ;
+    dcterms:identifier 2121 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The objects being carried. 'Karl toted the books to the car.' "@en .
+
+fn:Bringing%2FFE%2FTime a kg:FrameElement ;
+    rdfs:label "Time" ;
+    dcterms:identifier 5454 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The time in which the carrying event takes place."@en .
+
+fn:Criminal_investigation a kg:Frame ;
+    rdfs:label "Criminal_investigation" ;
+    dcterms:identifier 500 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:definition "This frame describes the process that involves the inquiry and determination by an authority, the Investigator, of the circumstances surrounding an Incident perpetrated by a Suspect.  'The police are investigating the bank's reported loss of several thousand dollars from their downtown branch's top security vault. DNI ' 'Authorities are investigating several murders. DNI'"@en ;
+    kg:hasFrameElement fn:Criminal_investigation%2FFE%2FDuration,
+        fn:Criminal_investigation%2FFE%2FIncident,
+        fn:Criminal_investigation%2FFE%2FInvestigator,
+        fn:Criminal_investigation%2FFE%2FSuspect,
+        fn:Criminal_investigation%2FFE%2FTime ;
+    kg:lexicalUnit fn:LU%2F18702,
+        fn:LU%2F7958,
+        fn:LU%2F7959,
+        fn:LU%2F7963,
+        fn:LU%2F7965,
+        fn:LU%2F7966,
+        fn:LU%2F8046,
+        fn:LU%2F8402,
+        fn:LU%2F8403 .
+
+fn:Criminal_investigation%2FFE%2FDuration a kg:FrameElement ;
+    rdfs:label "Duration" ;
+    dcterms:identifier 4096 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "The length of the investigation. 'The police carried out a two-year investigation into terrorist kidnappings.'"@en .
+
+fn:Criminal_investigation%2FFE%2FIncident a kg:FrameElement ;
+    rdfs:label "Incident" ;
+    dcterms:identifier 4045 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The Investigator attempts to determine the exact circumstances surrounding the Incident, which is typically a criminal act (murder, robbery) or the result of such an act (death, loss of money)."@en .
+
+fn:Criminal_investigation%2FFE%2FInvestigator a kg:FrameElement ;
+    rdfs:label "Investigator" ;
+    dcterms:identifier 4041 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The Investigator is the person or agency that investigates the Suspect of a crime (Incident)."@en .
+
+fn:Criminal_investigation%2FFE%2FSuspect a kg:FrameElement ;
+    rdfs:label "Suspect" ;
+    dcterms:identifier 4693 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "This FE denotes the Suspect that is investigated by the Investigator. 'The police are investigating Dr. Phil.'"@en .
+
+fn:Criminal_investigation%2FFE%2FTime a kg:FrameElement ;
+    rdfs:label "Time" ;
+    dcterms:identifier 4075 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "When the Investigator investigates the Incident. 'Our guys are currently investigating her disappearance.'"@en .
+
+fn:LU%2F1054 a kg:LexicalUnit ;
+    rdfs:label "angle.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1055 a kg:LexicalUnit ;
+    rdfs:label "bear.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1056 a kg:LexicalUnit ;
+    rdfs:label "crisscross.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1057 a kg:LexicalUnit ;
+    rdfs:label "cross.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1058 a kg:LexicalUnit ;
+    rdfs:label "descend.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1059 a kg:LexicalUnit ;
+    rdfs:label "dip.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1060 a kg:LexicalUnit ;
+    rdfs:label "drop.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1061 a kg:LexicalUnit ;
+    rdfs:label "edge.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1062 a kg:LexicalUnit ;
+    rdfs:label "emerge.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1063 a kg:LexicalUnit ;
+    rdfs:label "exit.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1064 a kg:LexicalUnit ;
+    rdfs:label "leave.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1065 a kg:LexicalUnit ;
+    rdfs:label "meander.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1068 a kg:LexicalUnit ;
+    rdfs:label "reach.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1069 a kg:LexicalUnit ;
+    rdfs:label "rise.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1070 a kg:LexicalUnit ;
+    rdfs:label "skirt.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1071 a kg:LexicalUnit ;
+    rdfs:label "slant.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1072 a kg:LexicalUnit ;
+    rdfs:label "snake.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1073 a kg:LexicalUnit ;
+    rdfs:label "swerve.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1074 a kg:LexicalUnit ;
+    rdfs:label "swing.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1075 a kg:LexicalUnit ;
+    rdfs:label "traverse.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1076 a kg:LexicalUnit ;
+    rdfs:label "veer.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1077 a kg:LexicalUnit ;
+    rdfs:label "weave.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1078 a kg:LexicalUnit ;
+    rdfs:label "wind.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F1079 a kg:LexicalUnit ;
+    rdfs:label "zigzag.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F10920 a kg:LexicalUnit ;
+    rdfs:label "pass.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F10960 a kg:LexicalUnit ;
+    rdfs:label "once-over.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11060 a kg:LexicalUnit ;
+    rdfs:label "comb.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11061 a kg:LexicalUnit ;
+    rdfs:label "frisk.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11275 a kg:LexicalUnit ;
+    rdfs:label "ransack.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11276 a kg:LexicalUnit ;
+    rdfs:label "scour.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11278 a kg:LexicalUnit ;
+    rdfs:label "scour.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11279 a kg:LexicalUnit ;
+    rdfs:label "comb.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11280 a kg:LexicalUnit ;
+    rdfs:label "ransack.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11281 a kg:LexicalUnit ;
+    rdfs:label "sift.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11282 a kg:LexicalUnit ;
+    rdfs:label "sweep.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11283 a kg:LexicalUnit ;
+    rdfs:label "sweep.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11284 a kg:LexicalUnit ;
+    rdfs:label "rummage.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11592 a kg:LexicalUnit ;
+    rdfs:label "monitor.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F11971 a kg:LexicalUnit ;
+    rdfs:label "ford.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F12026 a kg:LexicalUnit ;
+    rdfs:label "bear.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F12027 a kg:LexicalUnit ;
+    rdfs:label "fetch.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F12028 a kg:LexicalUnit ;
+    rdfs:label "get.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F12680 a kg:LexicalUnit ;
+    rdfs:label "analytic.a" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F13087 a kg:LexicalUnit ;
+    rdfs:label "twist.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F13100 a kg:LexicalUnit ;
+    rdfs:label "go [through].v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F13641 a kg:LexicalUnit ;
+    rdfs:label "portable.a" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F13743 a kg:LexicalUnit ;
+    rdfs:label "monitoring.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F13871 a kg:LexicalUnit ;
+    rdfs:label "unmonitored.a" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F13883 a kg:LexicalUnit ;
+    rdfs:label "surveillance.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F13901 a kg:LexicalUnit ;
+    rdfs:label "mobile.a" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F13921 a kg:LexicalUnit ;
+    rdfs:label "shopping.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F13925 a kg:LexicalUnit ;
+    rdfs:label "shop.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F14006 a kg:LexicalUnit ;
+    rdfs:label "surveillance [entity].n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F14508 a kg:LexicalUnit ;
+    rdfs:label "transport.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F15026 a kg:LexicalUnit ;
+    rdfs:label "explore.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F15649 a kg:LexicalUnit ;
+    rdfs:label "bus.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F15650 a kg:LexicalUnit ;
+    rdfs:label "shuttle.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F15668 a kg:LexicalUnit ;
+    rdfs:label "rifle.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F15669 a kg:LexicalUnit ;
+    rdfs:label "rifle.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F15848 a kg:LexicalUnit ;
+    rdfs:label "pry.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F17046 a kg:LexicalUnit ;
+    rdfs:label "manhunt.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F17279 a kg:LexicalUnit ;
+    rdfs:label "examination.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F17301 a kg:LexicalUnit ;
+    rdfs:label "reconnaissance.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F17367 a kg:LexicalUnit ;
+    rdfs:label "airlift.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F17682 a kg:LexicalUnit ;
+    rdfs:label "dig.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F17740 a kg:LexicalUnit ;
+    rdfs:label "run.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F18702 a kg:LexicalUnit ;
+    rdfs:label "case.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4281 a kg:LexicalUnit ;
+    rdfs:label "analyst.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4283 a kg:LexicalUnit ;
+    rdfs:label "probe.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4284 a kg:LexicalUnit ;
+    rdfs:label "reconnoitre.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4291 a kg:LexicalUnit ;
+    rdfs:label "inspector.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4334 a kg:LexicalUnit ;
+    rdfs:label "assay.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4335 a kg:LexicalUnit ;
+    rdfs:label "skim.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4337 a kg:LexicalUnit ;
+    rdfs:label "sift.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4338 a kg:LexicalUnit ;
+    rdfs:label "rummage.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4339 a kg:LexicalUnit ;
+    rdfs:label "surveyor.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4341 a kg:LexicalUnit ;
+    rdfs:label "scout.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F439 a kg:LexicalUnit ;
+    rdfs:label "analyse.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F440 a kg:LexicalUnit ;
+    rdfs:label "analysis.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F445 a kg:LexicalUnit ;
+    rdfs:label "investigate.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4456 a kg:LexicalUnit ;
+    rdfs:label "lug.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4457 a kg:LexicalUnit ;
+    rdfs:label "haul.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4458 a kg:LexicalUnit ;
+    rdfs:label "wheel.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4459 a kg:LexicalUnit ;
+    rdfs:label "cart.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F446 a kg:LexicalUnit ;
+    rdfs:label "investigation.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F447 a kg:LexicalUnit ;
+    rdfs:label "look.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4470 a kg:LexicalUnit ;
+    rdfs:label "carry.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4471 a kg:LexicalUnit ;
+    rdfs:label "hump.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F448 a kg:LexicalUnit ;
+    rdfs:label "perusal.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F449 a kg:LexicalUnit ;
+    rdfs:label "peruse.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F450 a kg:LexicalUnit ;
+    rdfs:label "scan.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F451 a kg:LexicalUnit ;
+    rdfs:label "scrutinize.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F452 a kg:LexicalUnit ;
+    rdfs:label "scrutiny.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F453 a kg:LexicalUnit ;
+    rdfs:label "search.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F454 a kg:LexicalUnit ;
+    rdfs:label "search.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F455 a kg:LexicalUnit ;
+    rdfs:label "study.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F456 a kg:LexicalUnit ;
+    rdfs:label "study.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F457 a kg:LexicalUnit ;
+    rdfs:label "survey.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F458 a kg:LexicalUnit ;
+    rdfs:label "survey.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4898 a kg:LexicalUnit ;
+    rdfs:label "sniff.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4899 a kg:LexicalUnit ;
+    rdfs:label "listen.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4900 a kg:LexicalUnit ;
+    rdfs:label "watch.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4902 a kg:LexicalUnit ;
+    rdfs:label "grope.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4903 a kg:LexicalUnit ;
+    rdfs:label "fumble.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4904 a kg:LexicalUnit ;
+    rdfs:label "feel.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4905 a kg:LexicalUnit ;
+    rdfs:label "forage.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4906 a kg:LexicalUnit ;
+    rdfs:label "hunt.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4907 a kg:LexicalUnit ;
+    rdfs:label "nose.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4912 a kg:LexicalUnit ;
+    rdfs:label "pan.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4913 a kg:LexicalUnit ;
+    rdfs:label "pat down.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4915 a kg:LexicalUnit ;
+    rdfs:label "seek.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F4917 a kg:LexicalUnit ;
+    rdfs:label "palpate.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5034 a kg:LexicalUnit ;
+    rdfs:label "undulate.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5036 a kg:LexicalUnit ;
+    rdfs:label "winding.a" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5037 a kg:LexicalUnit ;
+    rdfs:label "twisting.a" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5038 a kg:LexicalUnit ;
+    rdfs:label "windy.a" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5040 a kg:LexicalUnit ;
+    rdfs:label "twisty.a" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5050 a kg:LexicalUnit ;
+    rdfs:label "ascend.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5051 a kg:LexicalUnit ;
+    rdfs:label "ascent.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5052 a kg:LexicalUnit ;
+    rdfs:label "bend.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5053 a kg:LexicalUnit ;
+    rdfs:label "descent.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5054 a kg:LexicalUnit ;
+    rdfs:label "dive.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5055 a kg:LexicalUnit ;
+    rdfs:label "emergence.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F5727 a kg:LexicalUnit ;
+    rdfs:label "crest.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F6920 a kg:LexicalUnit ;
+    rdfs:label "eyeball.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F7958 a kg:LexicalUnit ;
+    rdfs:label "inquiry.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F7959 a kg:LexicalUnit ;
+    rdfs:label "probe.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F7963 a kg:LexicalUnit ;
+    rdfs:label "investigate.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F7965 a kg:LexicalUnit ;
+    rdfs:label "inquire.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F7966 a kg:LexicalUnit ;
+    rdfs:label "probe.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8046 a kg:LexicalUnit ;
+    rdfs:label "investigation.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8215 a kg:LexicalUnit ;
+    rdfs:label "check.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8320 a kg:LexicalUnit ;
+    rdfs:label "sweep.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8321 a kg:LexicalUnit ;
+    rdfs:label "sweep.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8397 a kg:LexicalUnit ;
+    rdfs:label "round.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8402 a kg:LexicalUnit ;
+    rdfs:label "lead.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8403 a kg:LexicalUnit ;
+    rdfs:label "clue.n" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8520 a kg:LexicalUnit ;
+    rdfs:label "double-check.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8730 a kg:LexicalUnit ;
+    rdfs:label "fly.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8731 a kg:LexicalUnit ;
+    rdfs:label "transport.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8732 a kg:LexicalUnit ;
+    rdfs:label "take.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8733 a kg:LexicalUnit ;
+    rdfs:label "drive.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8734 a kg:LexicalUnit ;
+    rdfs:label "schlep.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8735 a kg:LexicalUnit ;
+    rdfs:label "truck.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8738 a kg:LexicalUnit ;
+    rdfs:label "tote.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8739 a kg:LexicalUnit ;
+    rdfs:label "trundle.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8755 a kg:LexicalUnit ;
+    rdfs:label "ferry.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8865 a kg:LexicalUnit ;
+    rdfs:label "jet.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8867 a kg:LexicalUnit ;
+    rdfs:label "paddle.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8870 a kg:LexicalUnit ;
+    rdfs:label "motor.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F8881 a kg:LexicalUnit ;
+    rdfs:label "row.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F9175 a kg:LexicalUnit ;
+    rdfs:label "convey.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F9176 a kg:LexicalUnit ;
+    rdfs:label "bike.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F9285 a kg:LexicalUnit ;
+    rdfs:label "enter.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F9870 a kg:LexicalUnit ;
+    rdfs:label "spy out the land.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:LU%2F9920 a kg:LexicalUnit ;
+    rdfs:label "bring.v" ;
+    prov:wasDerivedFrom source:FrameNet .
+
+fn:Path_shape a kg:Frame ;
+    rdfs:label "Path_shape" ;
+    dcterms:identifier 61 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:definition "The words in this frame describe the \"fictive\" motion of a stationary Road.  Some of the targets cast the scene primarily in terms of the Path_shape:  'The long mountain road meandered through the woods.'  Some of the words in this frame imply a Source or Goal which is expressed by a direct object:  'The path entered the garden on the west side.'  Other members of the frame refer to a Direction: 'Then the path bears a little to the right.'  Yet others indicate a Path which requires mention of a landmark:  'The otherwise arrow-straight highway veers north and skirts the lake.'"@en ;
+    kg:hasFrameElement fn:Path_shape%2FFE%2FArea,
+        fn:Path_shape%2FFE%2FDegree,
+        fn:Path_shape%2FFE%2FDepictive,
+        fn:Path_shape%2FFE%2FDirection,
+        fn:Path_shape%2FFE%2FDistance,
+        fn:Path_shape%2FFE%2FGoal,
+        fn:Path_shape%2FFE%2FManner,
+        fn:Path_shape%2FFE%2FMeans,
+        fn:Path_shape%2FFE%2FPath,
+        fn:Path_shape%2FFE%2FPath_shape,
+        fn:Path_shape%2FFE%2FPlace,
+        fn:Path_shape%2FFE%2FPurpose,
+        fn:Path_shape%2FFE%2FResult,
+        fn:Path_shape%2FFE%2FRoad,
+        fn:Path_shape%2FFE%2FSource,
+        fn:Path_shape%2FFE%2FSpeed,
+        fn:Path_shape%2FFE%2FTime ;
+    kg:lexicalUnit fn:LU%2F1054,
+        fn:LU%2F1055,
+        fn:LU%2F1056,
+        fn:LU%2F1057,
+        fn:LU%2F1058,
+        fn:LU%2F1059,
+        fn:LU%2F1060,
+        fn:LU%2F1061,
+        fn:LU%2F1062,
+        fn:LU%2F1063,
+        fn:LU%2F1064,
+        fn:LU%2F1065,
+        fn:LU%2F1068,
+        fn:LU%2F1069,
+        fn:LU%2F1070,
+        fn:LU%2F1071,
+        fn:LU%2F1072,
+        fn:LU%2F1073,
+        fn:LU%2F1074,
+        fn:LU%2F1075,
+        fn:LU%2F1076,
+        fn:LU%2F1077,
+        fn:LU%2F1078,
+        fn:LU%2F1079,
+        fn:LU%2F10920,
+        fn:LU%2F11971,
+        fn:LU%2F13087,
+        fn:LU%2F17740,
+        fn:LU%2F5034,
+        fn:LU%2F5036,
+        fn:LU%2F5037,
+        fn:LU%2F5038,
+        fn:LU%2F5040,
+        fn:LU%2F5050,
+        fn:LU%2F5051,
+        fn:LU%2F5052,
+        fn:LU%2F5053,
+        fn:LU%2F5054,
+        fn:LU%2F5055,
+        fn:LU%2F5727,
+        fn:LU%2F8397,
+        fn:LU%2F9285 .
+
+fn:Path_shape%2FFE%2FArea a kg:FrameElement ;
+    rdfs:label "Area" ;
+    dcterms:identifier 272 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "This frame element is used for expressions which describe a general area in which motion takes place when the motion is understood to be irregular and not to consist of a single linear path.    'The paths crisscrossed the desert.'  Note that this FE should not be used for any locational modifier which would occur just as naturally with a non-motion predicate, like speech.  "@en .
+
+fn:Path_shape%2FFE%2FDegree a kg:FrameElement ;
+    rdfs:label "Degree" ;
+    dcterms:identifier 1910 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Extent to which the described configuration deviates from the norm for a Road.  'The road bent slightly before resuming its long, straight march to the sea .' "@en .
+
+fn:Path_shape%2FFE%2FDepictive a kg:FrameElement ;
+    rdfs:label "Depictive" ;
+    dcterms:identifier 1920 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Depictive phrase describing the character of the Road.  'The trail snaked down the mountainside, arduous and nearly impassable.'  "@en .
+
+fn:Path_shape%2FFE%2FDirection a kg:FrameElement ;
+    rdfs:label "Direction" ;
+    dcterms:identifier 7230 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The direction in which a \"fictive\" mover would travel along a Road.  'The pass dips down about 2000 feet, and then back up again.'"@en .
+
+fn:Path_shape%2FFE%2FDistance a kg:FrameElement ;
+    rdfs:label "Distance" ;
+    dcterms:identifier 271 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "Any expression which characterizes the extent of motion expresses the frame element Distance.   'The thin line of dirt and gravel wound another ten miles and on into the Ozarks before it petered out completely.'"@en .
+
+fn:Path_shape%2FFE%2FGoal a kg:FrameElement ;
+    rdfs:label "Goal" ;
+    dcterms:identifier 268 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "Any expression which tells where the fictive mover travelling along a Road would end up.   'Where does Interstate 80 enter the city ?'"@en .
+
+fn:Path_shape%2FFE%2FManner a kg:FrameElement ;
+    rdfs:label "Manner" ;
+    dcterms:identifier 270 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "Any expression which describes a property of motion which is not directly related to the trajectory of motion expresses the frame element Manner. Descriptions of the kind of motion a hypothetical mover would have (including steadiness, grace, and general comparisons) count as Manner expressions.    'Drifting clouds lent a mystical touch while the narrow road twisted crazily through ancient stone villages on the valley floor.'"@en .
+
+fn:Path_shape%2FFE%2FMeans a kg:FrameElement ;
+    rdfs:label "Means" ;
+    dcterms:identifier 1913 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "An state of affairs involving the Road that allows the Road to be in the specified configuration.  'As the Condell Road the route skirts the northside of Limerick by passing through Westfield's bird sanctuary on the north bank of the River Shannon.'"@en .
+
+fn:Path_shape%2FFE%2FPath a kg:FrameElement ;
+    rdfs:label "Path" ;
+    dcterms:identifier 267 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The trajectory that would be followed by one moving on the Road.  'Valencia angles across the number streets.'"@en .
+
+fn:Path_shape%2FFE%2FPath_shape a kg:FrameElement ;
+    rdfs:label "Path_shape" ;
+    dcterms:identifier 4970 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The configuration formed by the entire Path along the Road. 'The cavern descended in a spiral.'"@en .
+
+fn:Path_shape%2FFE%2FPlace a kg:FrameElement ;
+    rdfs:label "Place" ;
+    dcterms:identifier 4861 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Place is where the motion (which is specified by a Source, Path or Goal) is located.  'In the mountains, Highway 60 winds and swerves a lot, so we lost a couple of hours from my estimate.'"@en .
+
+fn:Path_shape%2FFE%2FPurpose a kg:FrameElement ;
+    rdfs:label "Purpose" ;
+    dcterms:identifier 7299 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "The state-of-affairs that the Road brings about by being in a particular configuration.  'The roadwound around in order to circumvent the house..'"@en .
+
+fn:Path_shape%2FFE%2FResult a kg:FrameElement ;
+    rdfs:label "Result" ;
+    dcterms:identifier 1916 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Result of an event"@en .
+
+fn:Path_shape%2FFE%2FRoad a kg:FrameElement ;
+    rdfs:label "Road" ;
+    dcterms:identifier 269 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "A physical path that a virtual moving entity can be imagined to travel along. The bike trail zigzagged through the woods. "@en .
+
+fn:Path_shape%2FFE%2FSource a kg:FrameElement ;
+    rdfs:label "Source" ;
+    dcterms:identifier 266 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "Any expression which implies a definite starting-point of the Road. In prepositional phrases, the prepositional object expresses the starting point of motion. In particles, the starting point of motion is understood from context.   'The Way descends from the City of the Peak through a dense forest.'"@en .
+
+fn:Path_shape%2FFE%2FSpeed a kg:FrameElement ;
+    rdfs:label "Speed" ;
+    dcterms:identifier 1917 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Speed is the rate at which an imaginary traveler on the Road would move.  'The road quickly drops after passing the final turn.'"@en .
+
+fn:Path_shape%2FFE%2FTime a kg:FrameElement ;
+    rdfs:label "Time" ;
+    dcterms:identifier 7240 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The time when the fictive motion takes place.  This may describe the time when the Road or a particular piece of the Road existed, or it may implicitly describe the time when an actual motion event occurred on the Road.  'Thousands of years ago, the Roman roads criss-crossed this landscape.' 'After it reached the edge of the forest, the road slanted upwards and grew rough.'"@en .
+
+fn:Scouring a kg:Frame ;
+    rdfs:label "Scouring" ;
+    dcterms:identifier 1263 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:definition "A Searcher looks all over a Ground in order to find a Sought_entity. The Sought_entity is not presupposed to exist. The search activity is not concerned with the state of the Ground, which is the case in the Inspecting frame, but only with the finding of the Sought_entity, which is desirable.   'The newcomers combed the area looking for minerals' 'Scientists scoured the ice samples  for signs of life. ' 'Mulder rummaged through his toilet kit for a plastic razor.'"@en ;
+    kg:hasFrameElement fn:Scouring%2FFE%2FDegree,
+        fn:Scouring%2FFE%2FDuration,
+        fn:Scouring%2FFE%2FGround,
+        fn:Scouring%2FFE%2FInstrument,
+        fn:Scouring%2FFE%2FManner,
+        fn:Scouring%2FFE%2FMeans,
+        fn:Scouring%2FFE%2FPurpose,
+        fn:Scouring%2FFE%2FSearcher,
+        fn:Scouring%2FFE%2FSought_entity,
+        fn:Scouring%2FFE%2FTime ;
+    kg:lexicalUnit fn:LU%2F11278,
+        fn:LU%2F11279,
+        fn:LU%2F11280,
+        fn:LU%2F11281,
+        fn:LU%2F11282,
+        fn:LU%2F11283,
+        fn:LU%2F11284,
+        fn:LU%2F15668 .
+
+fn:Scouring%2FFE%2FDegree a kg:FrameElement ;
+    rdfs:label "Degree" ;
+    dcterms:identifier 9630 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the Degree to which the Searcher scrutinizes the Ground."@en .
+
+fn:Scouring%2FFE%2FDuration a kg:FrameElement ;
+    rdfs:label "Duration" ;
+    dcterms:identifier 7295 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE specifies the length of the interval during which the scouring activtiy takes place.  'He combed the area for hours that night looking for the dogs and has been searching ever since.' "@en .
+
+fn:Scouring%2FFE%2FGround a kg:FrameElement ;
+    rdfs:label "Ground" ;
+    dcterms:identifier 7292 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The location that the Searcher covers in looking for the Sought_entity.  'I had never really seen much on the bigfoot subject or I would have scoured the area for signs and looked for droppings'"@en .
+
+fn:Scouring%2FFE%2FInstrument a kg:FrameElement ;
+    rdfs:label "Instrument" ;
+    dcterms:identifier 9631 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "An entity manipulated by the Searcher to examine the Ground.  'They scoured the entire beach with a metal detector, but found nothing.'"@en .
+
+fn:Scouring%2FFE%2FManner a kg:FrameElement ;
+    rdfs:label "Manner" ;
+    dcterms:identifier 7294 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the Manner in which the Searcher scrutinizes the Ground.  'We carefully scoured the road for what damaged all of those tires and we finally found it- a piece of nasty, barbed wire, laying across the road.'"@en .
+
+fn:Scouring%2FFE%2FMeans a kg:FrameElement ;
+    rdfs:label "Means" ;
+    dcterms:identifier 9632 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The action of the Searcher that allows them to search the Ground."@en .
+
+fn:Scouring%2FFE%2FPurpose a kg:FrameElement ;
+    rdfs:label "Purpose" ;
+    dcterms:identifier 9633 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The state-of-affairs that the Searcher hopes to bring about by searching a Ground.  'We scoured the entire book to find this supposed evidence.'"@en .
+
+fn:Scouring%2FFE%2FSearcher a kg:FrameElement ;
+    rdfs:label "Searcher" ;
+    dcterms:identifier 7291 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The person who is looking all over the Ground for the Sought_entity.  'They first gained entry into the house of Raja Rao, who resides on the ground floor and ransacked the house for valuables.'"@en .
+
+fn:Scouring%2FFE%2FSought_entity a kg:FrameElement ;
+    rdfs:label "Sought_entity" ;
+    dcterms:identifier 7293 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The entity that the Searcher wants to find.  'Coast Guard and Navy ships and aircraft combed the area for the six aircraft'"@en .
+
+fn:Scouring%2FFE%2FTime a kg:FrameElement ;
+    rdfs:label "Time" ;
+    dcterms:identifier 11989 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Time when the Searcher scoures the Ground. "@en .
+
+fn:Scrutiny%2FFE%2FCognizer a kg:FrameElement ;
+    rdfs:label "Cognizer" ;
+    dcterms:identifier 128 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The Cognizer pays attention to an entity in order to discover something about it. The FE is normally expressed as an External Argument:  'Leslie examined the glass for cracks.'"@en .
+
+fn:Scrutiny%2FFE%2FDegree a kg:FrameElement ;
+    rdfs:label "Degree" ;
+    dcterms:identifier 1500 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "This FE identifies the Degree to which the Cognizer scrutinizes the Ground."@en .
+
+fn:Scrutiny%2FFE%2FDirection a kg:FrameElement ;
+    rdfs:label "Direction" ;
+    dcterms:identifier 2335 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Direction is used for all path-like expressions, except those indicating the location of the perceiver, that describe how the perceiver's attention is directed during the act of perception.  'The detective looked across the street at the suspect.'"@en .
+
+fn:Scrutiny%2FFE%2FGround a kg:FrameElement ;
+    rdfs:label "Ground" ;
+    dcterms:identifier 129 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The Cognizer pays attention to the Ground, so named because it serves as the background or context for the Phenomenon. This FE can be expressed as an NP Object or as a PP Complement. 'Leslie examined the glass for cracks.' 'Kim searched the woods for mushrooms.'"@en .
+
+fn:Scrutiny%2FFE%2FInstrument a kg:FrameElement ;
+    rdfs:label "Instrument" ;
+    dcterms:identifier 9143 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "An entity directed by the Cognizer  that interacts with the Ground to accomplish the scrutiny.  'The temperature controller monitored the temperature with a calibrated silicon diode.'"@en .
+
+fn:Scrutiny%2FFE%2FManner a kg:FrameElement ;
+    rdfs:label "Manner" ;
+    dcterms:identifier 1497 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the Manner in which the Cognizer scrutinizes the Ground."@en .
+
+fn:Scrutiny%2FFE%2FMeans a kg:FrameElement ;
+    rdfs:label "Means" ;
+    dcterms:identifier 1498 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE is used for the Means by which the Cognizer to scrutinize the Ground. 'We analysed the sediment by putting it through the mass spec.'"@en .
+
+fn:Scrutiny%2FFE%2FMedium a kg:FrameElement ;
+    rdfs:label "Medium" ;
+    dcterms:identifier 7030 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The Medium is the piece of text or work in which the Cognizer pays attention to an entity in order to discover something about it. The FE is normally expressed as an External Argument:  'Chapter four examined the case for free speech.'"@en .
+
+fn:Scrutiny%2FFE%2FPhenomenon a kg:FrameElement ;
+    rdfs:label "Phenomenon" ;
+    dcterms:identifier 130 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Phenomenon identifies the property that belongs to an entity or that the entity contains. Typically, it is expressed as a for-PP. 'Leslie examined the glass for cracks.' 'Kim searched the woods for mushrooms.' "@en .
+
+fn:Scrutiny%2FFE%2FPurpose a kg:FrameElement ;
+    rdfs:label "Purpose" ;
+    dcterms:identifier 4511 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "Some of the words in this frame occur with a constituent that expresses the desired outcome of the Scrutiny.  Normally this constituent is a PP Complement headed by for or a to-marked VP Complement.  'You should inspect your mail to determine the outcome of the module transfer.'"@en .
+
+fn:Scrutiny%2FFE%2FTime a kg:FrameElement ;
+    rdfs:label "Time" ;
+    dcterms:identifier 11990 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Time when the Cognizer is scrutinizing the Ground. "@en .
+
+fn:Searching_scenario%2FFE%2FCognizer a kg:FrameElement ;
+    rdfs:label "Cognizer" ;
+    dcterms:identifier 9644 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The Cognizer pays attention to the Ground in order to find instances of a type of Phenomenon.  'Leslie examined the glass for cracks.'"@en .
+
+fn:Searching_scenario%2FFE%2FDegree a kg:FrameElement ;
+    rdfs:label "Degree" ;
+    dcterms:identifier 9649 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the Degree to which the Cognizer scrutinizes the Ground."@en .
+
+fn:Searching_scenario%2FFE%2FGround a kg:FrameElement ;
+    rdfs:label "Ground" ;
+    dcterms:identifier 9645 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The Cognizer pays attention to the Ground, so named because it serves as the background or context for the Phenomenon.   'Leslie examined the glass for cracks.' 'Kim searched the woods for mushrooms.'"@en .
+
+fn:Searching_scenario%2FFE%2FInstrument a kg:FrameElement ;
+    rdfs:label "Instrument" ;
+    dcterms:identifier 9651 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "An entity directed by the Cognizer  that interacts with the Ground to accomplish the scrutiny.  'The temperature controller monitored the temperature with a calibrated silicon diode.'"@en .
+
+fn:Searching_scenario%2FFE%2FManner a kg:FrameElement ;
+    rdfs:label "Manner" ;
+    dcterms:identifier 9647 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the Manner in which the Cognizer scrutinizes the Ground."@en .
+
+fn:Searching_scenario%2FFE%2FMeans a kg:FrameElement ;
+    rdfs:label "Means" ;
+    dcterms:identifier 9648 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The action of the Cognizer which allows them to scrutinize the Ground. "@en .
+
+fn:Searching_scenario%2FFE%2FPhenomenon a kg:FrameElement ;
+    rdfs:label "Phenomenon" ;
+    dcterms:identifier 9646 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The entity that the Cognizer is alert for in the Ground.  'Leslie examined the glass for cracks.' 'Kim searched the woods for mushrooms.' "@en .
+
+fn:Searching_scenario%2FFE%2FPurpose a kg:FrameElement ;
+    rdfs:label "Purpose" ;
+    dcterms:identifier 9650 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The event that the Cognizer hopes to bring about by looking for the Phenomenon.  'You should inspect your mail to determine the outcome of the module transfer.'"@en .
+
+fn:Seeking a kg:Frame ;
+    rdfs:label "Seeking" ;
+    dcterms:identifier 269 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:definition "A Cognizer_agent attempts to find some Sought_entity by examining some Ground.  The success or failure of this activity (the Outcome) may be indicated.  NB:  This frame should be compared to the Scrutiny frame, in which the primary focus is on the Ground.  'John looked for his pencil.'"@en ;
+    kg:hasFrameElement fn:Seeking%2FFE%2FCognizer_agent,
+        fn:Seeking%2FFE%2FDegree,
+        fn:Seeking%2FFE%2FGround,
+        fn:Seeking%2FFE%2FManner,
+        fn:Seeking%2FFE%2FMeans,
+        fn:Seeking%2FFE%2FOutcome,
+        fn:Seeking%2FFE%2FPlace,
+        fn:Seeking%2FFE%2FPurpose,
+        fn:Seeking%2FFE%2FSought_entity,
+        fn:Seeking%2FFE%2FTime ;
+    kg:lexicalUnit fn:LU%2F17046,
+        fn:LU%2F17682,
+        fn:LU%2F4898,
+        fn:LU%2F4899,
+        fn:LU%2F4900,
+        fn:LU%2F4902,
+        fn:LU%2F4903,
+        fn:LU%2F4904,
+        fn:LU%2F4905,
+        fn:LU%2F4906,
+        fn:LU%2F4907,
+        fn:LU%2F4912,
+        fn:LU%2F4913,
+        fn:LU%2F4915,
+        fn:LU%2F4917 .
+
+fn:Seeking%2FFE%2FCognizer_agent a kg:FrameElement ;
+    rdfs:label "Cognizer_agent" ;
+    dcterms:identifier 2327 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The person who attempts to find the Sought_entity. 'John  looked for his pencil.'"@en .
+
+fn:Seeking%2FFE%2FDegree a kg:FrameElement ;
+    rdfs:label "Degree" ;
+    dcterms:identifier 12108 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the amount of effort put into an attempt."@en .
+
+fn:Seeking%2FFE%2FGround a kg:FrameElement ;
+    rdfs:label "Ground" ;
+    dcterms:identifier 2328 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This is the entity to which the Cognizer_agent pays attention. It is referred to as Ground because it serves as the background or context for the Sought_entity. This FE can be expressed as an NP Object (first example) or as a PP Complement (second example).  'Leslie examined the glass for cracks.'  'Kim searched in the woods for mushrooms.'"@en .
+
+fn:Seeking%2FFE%2FManner a kg:FrameElement ;
+    rdfs:label "Manner" ;
+    dcterms:identifier 2330 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Manner of performing an action."@en .
+
+fn:Seeking%2FFE%2FMeans a kg:FrameElement ;
+    rdfs:label "Means" ;
+    dcterms:identifier 2332 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "An act of the Cognizer_agent that allows them to look for the Sought_entity. 'They foraged for clams by visiting the pools at low tide.'"@en .
+
+fn:Seeking%2FFE%2FOutcome a kg:FrameElement ;
+    rdfs:label "Outcome" ;
+    dcterms:identifier 2334 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The failure or success of an attempt."@en .
+
+fn:Seeking%2FFE%2FPlace a kg:FrameElement ;
+    rdfs:label "Place" ;
+    dcterms:identifier 5402 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "A spatial setting larger than the Ground in which the Seeking event occurs.  'In Paris police were hunting for suspects in two of the city's southerns suburbs today'"@en .
+
+fn:Seeking%2FFE%2FPurpose a kg:FrameElement ;
+    rdfs:label "Purpose" ;
+    dcterms:identifier 5404 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "An action that the Cognizer_agent intends to accomplish by performing the search.  'Police were hunting for evidence in my house to mislead their real suspect about the state of the investigation'"@en .
+
+fn:Seeking%2FFE%2FSought_entity a kg:FrameElement ;
+    rdfs:label "Sought_entity" ;
+    dcterms:identifier 2329 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "This is the entity that the Ground may contain. Typically, it is expressed as a for-PP.   'Leslie examined the glass for cracks.'  'Kim searched in the woods for mushrooms.'  Some words in this frame allow alternate expressions of the Ground and the Sought_entity.  'We searched the yard for my contact lens.'   'We searched for my contact lens in the yard.' "@en .
+
+fn:Seeking%2FFE%2FTime a kg:FrameElement ;
+    rdfs:label "Time" ;
+    dcterms:identifier 5403 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the Time when the Seeking occurs.  'The police were hunting for evidence in my house yesterday'"@en .
+
+fn:Shopping a kg:Frame ;
+    rdfs:label "Shopping" ;
+    dcterms:identifier 1882 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:definition "A Shopper looks for Goods in order to purchase them.  'She shopped for a new hat.'"@en ;
+    kg:hasFrameElement fn:Shopping%2FFE%2FCo-participant,
+        fn:Shopping%2FFE%2FDegree,
+        fn:Shopping%2FFE%2FDepictive,
+        fn:Shopping%2FFE%2FGoods,
+        fn:Shopping%2FFE%2FGround,
+        fn:Shopping%2FFE%2FManner,
+        fn:Shopping%2FFE%2FMeans,
+        fn:Shopping%2FFE%2FOutcome,
+        fn:Shopping%2FFE%2FPlace,
+        fn:Shopping%2FFE%2FPurpose,
+        fn:Shopping%2FFE%2FShopper,
+        fn:Shopping%2FFE%2FTime ;
+    kg:lexicalUnit fn:LU%2F13921,
+        fn:LU%2F13925 .
+
+fn:Shopping%2FFE%2FCo-participant a kg:FrameElement ;
+    rdfs:label "Co-participant" ;
+    dcterms:identifier 13851 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "The Co-participant is an entity that participates in a coordinated way in the shopping event with the Shopper."@en .
+
+fn:Shopping%2FFE%2FDegree a kg:FrameElement ;
+    rdfs:label "Degree" ;
+    dcterms:identifier 12109 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the amount of effort put into shopping."@en .
+
+fn:Shopping%2FFE%2FDepictive a kg:FrameElement ;
+    rdfs:label "Depictive" ;
+    dcterms:identifier 13850 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Extra-Thematic" ;
+    kg:definition "This FE describes a participant of shopping scenario as being in some state during the action."@en .
+
+fn:Shopping%2FFE%2FGoods a kg:FrameElement ;
+    rdfs:label "Goods" ;
+    dcterms:identifier 11140 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "This is the entity that the Ground may contain. Typically, it is expressed as afor-PP."@en .
+
+fn:Shopping%2FFE%2FGround a kg:FrameElement ;
+    rdfs:label "Ground" ;
+    dcterms:identifier 11139 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This is the entity to which the Cognizer pays attention. It is referred to as the Ground because it serves as the background or context for the Goods. This FE is usually expressed as a preposition phrase."@en .
+
+fn:Shopping%2FFE%2FManner a kg:FrameElement ;
+    rdfs:label "Manner" ;
+    dcterms:identifier 11141 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The Manner in which the shopping action is done."@en .
+
+fn:Shopping%2FFE%2FMeans a kg:FrameElement ;
+    rdfs:label "Means" ;
+    dcterms:identifier 11142 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "An act of the Shopper that allows them to look for (and perhaps purchase) the Goods.  'They shopped for hot items by camping out overnight at shopping malls.'"@en .
+
+fn:Shopping%2FFE%2FOutcome a kg:FrameElement ;
+    rdfs:label "Outcome" ;
+    dcterms:identifier 11144 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "The failure or success of an attempt."@en .
+
+fn:Shopping%2FFE%2FPlace a kg:FrameElement ;
+    rdfs:label "Place" ;
+    dcterms:identifier 11145 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "A spatial setting larger than the Ground in which the Shopping event occurs."@en .
+
+fn:Shopping%2FFE%2FPurpose a kg:FrameElement ;
+    rdfs:label "Purpose" ;
+    dcterms:identifier 11147 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "An action that the Shopper intends to accomplish by performing the search."@en .
+
+fn:Shopping%2FFE%2FShopper a kg:FrameElement ;
+    rdfs:label "Shopper" ;
+    dcterms:identifier 11138 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Core" ;
+    kg:definition "The person who attempts to find the Goods. 'John shopped for a pencil.'"@en .
+
+fn:Shopping%2FFE%2FTime a kg:FrameElement ;
+    rdfs:label "Time" ;
+    dcterms:identifier 11146 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:coreType "Peripheral" ;
+    kg:definition "This FE identifies the time when the shopping occurs.  'The children were shopping for gifts for their parents before Christmas.'"@en .
+
+vn:bring-11.3%2Fframe%2F0 a kg:VerbFrame ;
+    rdfs:label "Basic Transitive" ;
+    dcterms:description "Nora brought the book."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F0,
+        vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F1,
+        vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F2,
+        vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F3 .
+
+vn:bring-11.3%2Fframe%2F0%2Fevent%2FE0%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F0%2Fevent%2FE0 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F0%2Fevent%2FE1%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F0%2Fevent%2FE1 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F0%2Fevent%2FE0%2Fduring .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F1 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "equals" .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F0%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E1" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F0%2Fevent%2FE1 .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F2 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F0%2Fevent%2FE1%2Fduring .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F3 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F3%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F3%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "cause" .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F3%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 0 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F0%2Fpredicate%2F3%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F0%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F1 a kg:VerbFrame ;
+    rdfs:label "NP-PP" ;
+    dcterms:description "Nora brought the book to the meeting."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F0,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F1,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F2,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F3,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F4,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F5 .
+
+vn:bring-11.3%2Fframe%2F1%2Fevent%2FE0%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F1%2Fevent%2FE0 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F1%2Fevent%2FE0%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F1%2Fevent%2FE0 ;
+    kg:phase "end" .
+
+vn:bring-11.3%2Fframe%2F1%2Fevent%2FE1%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F1%2Fevent%2FE1 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F1%2Fevent%2FE1%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F1%2Fevent%2FE1 ;
+    kg:phase "end" .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F1%2Fevent%2FE0%2Fduring .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F1 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F1%2Fevent%2FE0%2Fend .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FDestination .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F2 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "equals" .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F1%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E1" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F1%2Fevent%2FE1 .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F3 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F1%2Fevent%2FE1%2Fduring .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F4 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F4%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F4%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F4%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F4%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F1%2Fevent%2FE1%2Fend .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F4%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F4%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FDestination .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F5 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F5%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F5%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "cause" .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F5%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 0 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F1%2Fpredicate%2F5%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F1%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F2 a kg:VerbFrame ;
+    rdfs:label "PP-NP" ;
+    dcterms:description "Nora brought to lunch the book."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F0,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F1,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F2,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F3,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F4,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F5 .
+
+vn:bring-11.3%2Fframe%2F2%2Fevent%2FE0%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F2%2Fevent%2FE0 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F2%2Fevent%2FE0%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F2%2Fevent%2FE0 ;
+    kg:phase "end" .
+
+vn:bring-11.3%2Fframe%2F2%2Fevent%2FE1%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F2%2Fevent%2FE1 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F2%2Fevent%2FE1%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F2%2Fevent%2FE1 ;
+    kg:phase "end" .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F2%2Fevent%2FE0%2Fduring .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F1 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F1%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F1%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F1%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F1%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F2%2Fevent%2FE0%2Fend .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F1%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F1%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FDestination .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F2 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F2%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F2%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "equals" .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F2%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F2%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F2%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E1" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F2%2Fevent%2FE1 .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F3 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F3%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F3%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F3%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F2%2Fevent%2FE1%2Fduring .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F3%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F4 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F4%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F4%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F4%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F4%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F2%2Fevent%2FE1%2Fend .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F4%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F4%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FDestination .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F5 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F5%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F5%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "cause" .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F5%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 0 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F2%2Fpredicate%2F5%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F2%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F3 a kg:VerbFrame ;
+    rdfs:label "NP-PP" ;
+    dcterms:description "Nora brought the book from home."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F0,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F1,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F2,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F3,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F4,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F5 .
+
+vn:bring-11.3%2Fframe%2F3%2Fevent%2FE0%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F3%2Fevent%2FE0 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F3%2Fevent%2FE0%2Fstart a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F3%2Fevent%2FE0 ;
+    kg:phase "start" .
+
+vn:bring-11.3%2Fframe%2F3%2Fevent%2FE1%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F3%2Fevent%2FE1 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F3%2Fevent%2FE1%2Fstart a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F3%2Fevent%2FE1 ;
+    kg:phase "start" .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F3%2Fevent%2FE0%2Fduring .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F1 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F1%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F1%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F1%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F1%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "start(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F3%2Fevent%2FE0%2Fstart .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F1%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F1%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Source" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FSource .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F2 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F2%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F2%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "equals" .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F2%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F3%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F2%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E1" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F3%2Fevent%2FE1 .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F3 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F3%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F3%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F3%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F3%2Fevent%2FE1%2Fduring .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F3%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F4 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F4%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F4%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F4%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F4%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "start(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F3%2Fevent%2FE1%2Fstart .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F4%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F4%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Source" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FSource .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F5 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F5%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F5%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "cause" .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F5%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 0 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F3%2Fpredicate%2F5%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F3%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F4 a kg:VerbFrame ;
+    rdfs:label "NP-PP-PP" ;
+    dcterms:description "Nora brought the book from home to the meeting."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F0,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F1,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F2,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F3,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F4,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F5,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F6,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F7 .
+
+vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0 ;
+    kg:phase "end" .
+
+vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0%2Fstart a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0 ;
+    kg:phase "start" .
+
+vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1 ;
+    kg:phase "end" .
+
+vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1%2Fstart a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1 ;
+    kg:phase "start" .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F0%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F0%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0%2Fduring .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F1 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F1%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F1%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F1%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F1%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "start(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0%2Fstart .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F1%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F1%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Source" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FSource .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F2 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F2%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F2%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F2%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F2%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0%2Fend .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F2%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F2%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FDestination .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F3 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F3%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F3%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "equals" .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F3%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F3%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E1" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1 .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F4 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F4%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F4%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F4%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1%2Fduring .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F4%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F5 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F5%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F5%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F5%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F5%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "start(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1%2Fstart .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F5%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F5%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Source" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FSource .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F6 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F6%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F6%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F6%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F6%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1%2Fend .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F6%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F6%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FDestination .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F7 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F7%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F7%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "cause" .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F7%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 0 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F4%2Fpredicate%2F7%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F5 a kg:VerbFrame ;
+    rdfs:label "NP-ADVP-PRED" ;
+    dcterms:description "The train brought us here."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F0,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F1,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F2,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F3,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F4,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F5 .
+
+vn:bring-11.3%2Fframe%2F5%2Fevent%2FE0%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F5%2Fevent%2FE0 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F5%2Fevent%2FE0%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F5%2Fevent%2FE0 ;
+    kg:phase "end" .
+
+vn:bring-11.3%2Fframe%2F5%2Fevent%2FE1%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F5%2Fevent%2FE1 ;
+    kg:phase "during" .
+
+vn:bring-11.3%2Fframe%2F5%2Fevent%2FE1%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3%2Fframe%2F5%2Fevent%2FE1 ;
+    kg:phase "end" .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F0%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F0%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F5%2Fevent%2FE0%2Fduring .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F1 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F1%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F1%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F1%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F5%2Fevent%2FE1%2Fduring .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F1%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F2 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F2%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F2%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F2%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F2%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E0)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F5%2Fevent%2FE0%2Fend .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F2%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F2%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FDestination .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F3 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F3%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F3%2Farg%2F1,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F3%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F3%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E1)" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F5%2Fevent%2FE1%2Fend .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F3%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F3%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FDestination .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F4 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F4%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F4%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "equals" .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F4%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F5%2Fevent%2FE0 .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F4%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E1" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F5%2Fevent%2FE1 .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F5 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F5%2Farg%2F0,
+        vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F5%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "cause" .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F5%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 0 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3%2Fframe%2F5%2Fpredicate%2F5%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E0" ;
+    kg:refersTo vn:bring-11.3%2Fframe%2F5%2Fevent%2FE0 .
+
+vn:bring-11.3-1 a kg:VerbClass ;
+    rdfs:label "bring-11.3-1" ;
+    dcterms:identifier "bring-11.3-1" ;
+    rdfs:subClassOf vn:bring-11.3 ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasFrame vn:bring-11.3-1%2Fframe%2F0,
+        vn:bring-11.3-1%2Fframe%2F1 ;
+    kg:hasRole vn:bring-11.3-1%2Frole%2FDestination ;
+    kg:member vn:bring-11.3-1%2Fmember%2Fbring .
+
+vn:bring-11.3-1%2Fframe%2F0 a kg:VerbFrame ;
+    rdfs:label "Dative" ;
+    dcterms:description "Nora brought Pamela the book."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F0,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F2,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F3 .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fevent%2FE%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3-1%2Fframe%2F0%2Fevent%2FE ;
+    kg:phase "end" .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F0,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E)" ;
+    kg:refersTo vn:bring-11.3-1%2Fframe%2F0%2Fevent%2FE%2Fduring .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F0,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F1,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F2,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F3 ;
+    kg:negated false ;
+    kg:predicateName "direction" .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E)" ;
+    kg:refersTo vn:bring-11.3-1%2Fframe%2F0%2Fevent%2FE%2Fduring .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Constant" ;
+    kg:position 1 ;
+    kg:rawValue "toward" .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F1%2Farg%2F3 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 3 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3-1%2Frole%2FDestination .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F2 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F0,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F1,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F2 ;
+    kg:negated false ;
+    kg:predicateName "location" .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E)" ;
+    kg:refersTo vn:bring-11.3-1%2Fframe%2F0%2Fevent%2FE%2Fend .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F2%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Destination" ;
+    kg:refersTo vn:bring-11.3-1%2Frole%2FDestination .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F3 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F3%2Farg%2F0,
+        vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F3%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "cause" .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F3%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 0 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fpredicate%2F3%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E" ;
+    kg:refersTo vn:bring-11.3-1%2Fframe%2F0%2Fevent%2FE .
+
+vn:bring-11.3-1%2Fframe%2F1 a kg:VerbFrame ;
+    rdfs:label "Together Reciprocal Alternation Transitive" ;
+    dcterms:description "Nora brought us together."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F0,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F1,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3 .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE ;
+    kg:phase "during" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE%2Fend a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE ;
+    kg:phase "end" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE%2Fstart a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE ;
+    kg:phase "start" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F0,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "motion" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E)" ;
+    kg:refersTo vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE%2Fduring .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FTheme .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F1 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F0,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F1 ;
+    kg:negated false ;
+    kg:predicateName "cause" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 0 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:bring-11.3%2Frole%2FAgent .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F1%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 1 ;
+    kg:rawValue "E" ;
+    kg:refersTo vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F0,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F1,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F2,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F3 ;
+    kg:negated true ;
+    kg:predicateName "together" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "start(E)" ;
+    kg:refersTo vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE%2Fstart .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Constant" ;
+    kg:position 1 ;
+    kg:rawValue "abstract/physical" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Theme_i" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F2%2Farg%2F3 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 3 ;
+    kg:rawValue "Theme_j" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F0,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F1,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F2,
+        vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F3 ;
+    kg:negated false ;
+    kg:predicateName "together" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "end(E)" ;
+    kg:refersTo vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE%2Fend .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Constant" ;
+    kg:position 1 ;
+    kg:rawValue "abstract/physical" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Theme_i" .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fpredicate%2F3%2Farg%2F3 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 3 ;
+    kg:rawValue "Theme_j" .
+
+vn:search-35.2%2Fframe%2F0 a kg:VerbFrame ;
+    rdfs:label "NP-PP" ;
+    dcterms:description "I searched the cave for treasure."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0 .
+
+vn:search-35.2%2Fframe%2F0%2Fevent%2FE a kg:Event ;
+    rdfs:label "E" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fframe%2F0%2Fevent%2FE%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:search-35.2%2Fframe%2F0%2Fevent%2FE ;
+    kg:phase "during" .
+
+vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F0,
+        vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F1,
+        vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F2,
+        vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F3 ;
+    kg:negated false ;
+    kg:predicateName "search" .
+
+vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E)" ;
+    kg:refersTo vn:search-35.2%2Fframe%2F0%2Fevent%2FE%2Fduring .
+
+vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:search-35.2%2Frole%2FAgent .
+
+vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Location" ;
+    kg:refersTo vn:search-35.2%2Frole%2FLocation .
+
+vn:search-35.2%2Fframe%2F0%2Fpredicate%2F0%2Farg%2F3 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 3 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:search-35.2%2Frole%2FTheme .
+
+vn:search-35.2%2Fframe%2F1 a kg:VerbFrame ;
+    rdfs:label "PP-PP" ;
+    dcterms:description "I searched for treasure in the cave."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0 .
+
+vn:search-35.2%2Fframe%2F1%2Fevent%2FE a kg:Event ;
+    rdfs:label "E" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fframe%2F1%2Fevent%2FE%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:search-35.2%2Fframe%2F1%2Fevent%2FE ;
+    kg:phase "during" .
+
+vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F0,
+        vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F1,
+        vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F2,
+        vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F3 ;
+    kg:negated false ;
+    kg:predicateName "search" .
+
+vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E)" ;
+    kg:refersTo vn:search-35.2%2Fframe%2F1%2Fevent%2FE%2Fduring .
+
+vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:search-35.2%2Frole%2FAgent .
+
+vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Location" ;
+    kg:refersTo vn:search-35.2%2Frole%2FLocation .
+
+vn:search-35.2%2Fframe%2F1%2Fpredicate%2F0%2Farg%2F3 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 3 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:search-35.2%2Frole%2FTheme .
+
+vn:search-35.2%2Fframe%2F2 a kg:VerbFrame ;
+    rdfs:label "PP-PP" ;
+    dcterms:description "I searched in the cave for treasure."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0 .
+
+vn:search-35.2%2Fframe%2F2%2Fevent%2FE a kg:Event ;
+    rdfs:label "E" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fframe%2F2%2Fevent%2FE%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:search-35.2%2Fframe%2F2%2Fevent%2FE ;
+    kg:phase "during" .
+
+vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F0,
+        vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F1,
+        vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F2,
+        vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F3 ;
+    kg:negated false ;
+    kg:predicateName "search" .
+
+vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E)" ;
+    kg:refersTo vn:search-35.2%2Fframe%2F2%2Fevent%2FE%2Fduring .
+
+vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:search-35.2%2Frole%2FAgent .
+
+vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Location" ;
+    kg:refersTo vn:search-35.2%2Frole%2FLocation .
+
+vn:search-35.2%2Fframe%2F2%2Fpredicate%2F0%2Farg%2F3 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 3 ;
+    kg:rawValue "Theme" ;
+    kg:refersTo vn:search-35.2%2Frole%2FTheme .
+
+vn:search-35.2%2Fframe%2F3 a kg:VerbFrame ;
+    rdfs:label "PP" ;
+    dcterms:description "I searched through America."@en ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasPredicate vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0 .
+
+vn:search-35.2%2Fframe%2F3%2Fevent%2FE a kg:Event ;
+    rdfs:label "E" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fframe%2F3%2Fevent%2FE%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:search-35.2%2Fframe%2F3%2Fevent%2FE ;
+    kg:phase "during" .
+
+vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0 a kg:SemanticPredicate ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argument vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F0,
+        vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F1,
+        vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F2,
+        vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F3 ;
+    kg:negated false ;
+    kg:predicateName "search" .
+
+vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F0 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "Event" ;
+    kg:position 0 ;
+    kg:rawValue "during(E)" ;
+    kg:refersTo vn:search-35.2%2Fframe%2F3%2Fevent%2FE%2Fduring .
+
+vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F1 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 1 ;
+    kg:rawValue "Agent" ;
+    kg:refersTo vn:search-35.2%2Frole%2FAgent .
+
+vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F2 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 2 ;
+    kg:rawValue "Location" ;
+    kg:refersTo vn:search-35.2%2Frole%2FLocation .
+
+vn:search-35.2%2Fframe%2F3%2Fpredicate%2F0%2Farg%2F3 a kg:Argument ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:argumentType "ThemRole" ;
+    kg:position 3 ;
+    kg:rawValue "?Theme" .
+
+vn:search-35.2%2Fmember%2Fadvertise a kg:LexicalUnit ;
+    rdfs:label "advertise" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fcomb a kg:LexicalUnit ;
+    rdfs:label "comb" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fdrag a kg:LexicalUnit ;
+    rdfs:label "drag" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fdredge a kg:LexicalUnit ;
+    rdfs:label "dredge" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fexcavate a kg:LexicalUnit ;
+    rdfs:label "excavate" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fpatrol a kg:LexicalUnit ;
+    rdfs:label "patrol" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fplumb a kg:LexicalUnit ;
+    rdfs:label "plumb" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fprospect a kg:LexicalUnit ;
+    rdfs:label "prospect" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fprowl a kg:LexicalUnit ;
+    rdfs:label "prowl" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fquarry a kg:LexicalUnit ;
+    rdfs:label "quarry" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Frake a kg:LexicalUnit ;
+    rdfs:label "rake" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Frifle a kg:LexicalUnit ;
+    rdfs:label "rifle" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fscavenge a kg:LexicalUnit ;
+    rdfs:label "scavenge" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fscout a kg:LexicalUnit ;
+    rdfs:label "scout" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Ftrawl a kg:LexicalUnit ;
+    rdfs:label "trawl" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Ftroll a kg:LexicalUnit ;
+    rdfs:label "troll" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+wn:area.n.05 a owl:Class ;
+    rdfs:label "area.n.05" ;
+    dcterms:description "a part of a structure having some specific characteristic or function"@en ;
+    dcterms:identifier "area.n.05" ;
+    rdfs:subClassOf wn:structure.n.01 ;
+    skos:altLabel "area"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:baked_goods.n.01 a owl:Class ;
+    rdfs:label "baked_goods.n.01" ;
+    dcterms:description "foods (like breads and cakes and pastries) that are cooked in an oven"@en ;
+    dcterms:identifier "baked_goods.n.01" ;
+    rdfs:subClassOf wn:food.n.02 ;
+    skos:altLabel "baked goods"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:bread.n.01 a owl:Class ;
+    rdfs:label "bread.n.01" ;
+    dcterms:description "food made from dough of flour or meal and usually raised with yeast or baking powder and then baked"@en ;
+    dcterms:identifier "bread.n.01" ;
+    rdfs:subClassOf wn:baked_goods.n.01,
+        wn:starches.n.01 ;
+    skos:altLabel "bread"@en,
+        "breadstuff"@en,
+        "staff of life"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:bring.v.04 a owl:Class ;
+    rdfs:label "bring.v.04" ;
+    dcterms:description "go or come after and bring or take back"@en ;
+    dcterms:identifier "bring.v.04" ;
+    rdfs:subClassOf wn:transmit.v.04 ;
+    skos:altLabel "bring"@en,
+        "convey"@en,
+        "fetch"@en,
+        "get"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:bring.v.06 a owl:Class ;
+    rdfs:label "bring.v.06" ;
+    dcterms:description "be accompanied by"@en ;
+    dcterms:identifier "bring.v.06" ;
+    skos:altLabel "bring"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:carry.v.02 a owl:Class ;
+    rdfs:label "carry.v.02" ;
+    dcterms:description "have with oneself; have on one's person"@en ;
+    dcterms:identifier "carry.v.02" ;
+    rdfs:subClassOf wn:have.v.02 ;
+    skos:altLabel "carry"@en,
+        "pack"@en,
+        "take"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:causal_agent.n.01 a owl:Class ;
+    rdfs:label "causal_agent.n.01" ;
+    dcterms:description "any entity that produces an effect or is responsible for events or results"@en ;
+    dcterms:identifier "causal_agent.n.01" ;
+    rdfs:subClassOf wn:physical_entity.n.01 ;
+    skos:altLabel "causal agency"@en,
+        "causal agent"@en,
+        "cause"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:container.n.01 a owl:Class ;
+    rdfs:label "container.n.01" ;
+    dcterms:description "any object that can be used to hold things (especially a large metal boxlike object of standardized dimensions that can be loaded from one form of transport to another)"@en ;
+    dcterms:identifier "container.n.01" ;
+    rdfs:subClassOf wn:instrumentality.n.03 ;
+    skos:altLabel "container"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:device.n.01 a owl:Class ;
+    rdfs:label "device.n.01" ;
+    dcterms:description "an instrumentality invented for a particular purpose"@en ;
+    dcterms:identifier "device.n.01" ;
+    rdfs:subClassOf wn:instrumentality.n.03 ;
+    skos:altLabel "device"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:drinking_vessel.n.01 a owl:Class ;
+    rdfs:label "drinking_vessel.n.01" ;
+    dcterms:description "a vessel intended for drinking"@en ;
+    dcterms:identifier "drinking_vessel.n.01" ;
+    rdfs:subClassOf wn:vessel.n.03 ;
+    skos:altLabel "drinking vessel"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:entity.n.01 a owl:Class ;
+    rdfs:label "entity.n.01" ;
+    dcterms:description "that which is perceived or known or inferred to have its own distinct existence (living or nonliving)"@en ;
+    dcterms:identifier "entity.n.01" ;
+    skos:altLabel "entity"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:food.n.01 a owl:Class ;
+    rdfs:label "food.n.01" ;
+    dcterms:description "any substance that can be metabolized by an animal to give energy and build tissue"@en ;
+    dcterms:identifier "food.n.01" ;
+    rdfs:subClassOf wn:substance.n.07 ;
+    skos:altLabel "food"@en,
+        "nutrient"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:food.n.02 a owl:Class ;
+    rdfs:label "food.n.02" ;
+    dcterms:description "any solid substance (as opposed to liquid) that is used as a source of nourishment"@en ;
+    dcterms:identifier "food.n.02" ;
+    rdfs:subClassOf wn:solid.n.01 ;
+    skos:altLabel "food"@en,
+        "solid food"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:foodstuff.n.02 a owl:Class ;
+    rdfs:label "foodstuff.n.02" ;
+    dcterms:description "a substance that can be used or prepared for use as food"@en ;
+    dcterms:identifier "foodstuff.n.02" ;
+    rdfs:subClassOf wn:food.n.01 ;
+    skos:altLabel "food product"@en,
+        "foodstuff"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:have.v.02 a owl:Class ;
+    rdfs:label "have.v.02" ;
+    dcterms:description "have as a feature"@en ;
+    dcterms:identifier "have.v.02" ;
+    skos:altLabel "feature"@en,
+        "have"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:lead.v.01 a owl:Class ;
+    rdfs:label "lead.v.01" ;
+    dcterms:description "take somebody somewhere"@en ;
+    dcterms:identifier "lead.v.01" ;
+    skos:altLabel "conduct"@en,
+        "direct"@en,
+        "guide"@en,
+        "lead"@en,
+        "take"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:living_room.n.01 a owl:Class ;
+    rdfs:label "living_room.n.01" ;
+    dcterms:description "a room in a private house or establishment where people can sit and talk and relax"@en ;
+    dcterms:identifier "living_room.n.01" ;
+    rdfs:subClassOf wn:room.n.01 ;
+    skos:altLabel "front room"@en,
+        "living room"@en,
+        "living-room"@en,
+        "parlor"@en,
+        "parlour"@en,
+        "sitting room"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:living_thing.n.01 a owl:Class ;
+    rdfs:label "living_thing.n.01" ;
+    dcterms:description "a living (or once living) entity"@en ;
+    dcterms:identifier "living_thing.n.01" ;
+    rdfs:subClassOf wn:whole.n.02 ;
+    skos:altLabel "animate thing"@en,
+        "living thing"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:mechanism.n.05 a owl:Class ;
+    rdfs:label "mechanism.n.05" ;
+    dcterms:description "device consisting of a piece of machinery; has moving parts that perform some function"@en ;
+    dcterms:identifier "mechanism.n.05" ;
+    rdfs:subClassOf wn:device.n.01 ;
+    skos:altLabel "mechanism"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:muffin.n.01 a owl:Class ;
+    rdfs:label "muffin.n.01" ;
+    dcterms:description "a sweet quick bread baked in a cup-shaped pan"@en ;
+    dcterms:identifier "muffin.n.01" ;
+    rdfs:subClassOf wn:quick_bread.n.01 ;
+    skos:altLabel "gem"@en,
+        "muffin"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:mug.n.04 a owl:Class ;
+    rdfs:label "mug.n.04" ;
+    dcterms:description "with handle and usually cylindrical"@en ;
+    dcterms:identifier "mug.n.04" ;
+    rdfs:subClassOf wn:drinking_vessel.n.01 ;
+    skos:altLabel "mug"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:object.n.01 a owl:Class ;
+    rdfs:label "object.n.01" ;
+    dcterms:description "a tangible and visible entity; an entity that can cast a shadow"@en ;
+    dcterms:identifier "object.n.01" ;
+    rdfs:subClassOf wn:physical_entity.n.01 ;
+    skos:altLabel "object"@en,
+        "physical object"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:organism.n.01 a owl:Class ;
+    rdfs:label "organism.n.01" ;
+    dcterms:description "a living thing that has (or can develop) the ability to act or function independently"@en ;
+    dcterms:identifier "organism.n.01" ;
+    rdfs:subClassOf wn:living_thing.n.01 ;
+    skos:altLabel "being"@en,
+        "organism"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:quick_bread.n.01 a owl:Class ;
+    rdfs:label "quick_bread.n.01" ;
+    dcterms:description "breads made with a leavening agent that permits immediate baking"@en ;
+    dcterms:identifier "quick_bread.n.01" ;
+    rdfs:subClassOf wn:bread.n.01 ;
+    skos:altLabel "quick bread"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:search.v.01 a owl:Class ;
+    rdfs:label "search.v.01" ;
+    dcterms:description "try to locate or discover, or try to establish the existence of"@en ;
+    dcterms:identifier "search.v.01" ;
+    skos:altLabel "look for"@en,
+        "search"@en,
+        "seek"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:search.v.02 a owl:Class ;
+    rdfs:label "search.v.02" ;
+    dcterms:description "search or seek"@en ;
+    dcterms:identifier "search.v.02" ;
+    rdfs:subClassOf wn:examine.v.02 ;
+    skos:altLabel "look"@en,
+        "search"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:search.v.04 a owl:Class ;
+    rdfs:label "search.v.04" ;
+    dcterms:description "subject to a search"@en ;
+    dcterms:identifier "search.v.04" ;
+    rdfs:subClassOf wn:examine.v.02 ;
+    skos:altLabel "search"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:solid.n.01 a owl:Class ;
+    rdfs:label "solid.n.01" ;
+    dcterms:description "matter that is solid at room temperature and pressure"@en ;
+    dcterms:identifier "solid.n.01" ;
+    rdfs:subClassOf wn:matter.n.03 ;
+    skos:altLabel "solid"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:starches.n.01 a owl:Class ;
+    rdfs:label "starches.n.01" ;
+    dcterms:description "foodstuff rich in natural starch (especially potatoes, rice, bread)"@en ;
+    dcterms:identifier "starches.n.01" ;
+    rdfs:subClassOf wn:foodstuff.n.02 ;
+    skos:altLabel "starches"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:structure.n.01 a owl:Class ;
+    rdfs:label "structure.n.01" ;
+    dcterms:description "a thing constructed; a complex entity constructed of many parts"@en ;
+    dcterms:identifier "structure.n.01" ;
+    rdfs:subClassOf wn:artifact.n.01 ;
+    skos:altLabel "construction"@en,
+        "structure"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:substance.n.07 a owl:Class ;
+    rdfs:label "substance.n.07" ;
+    dcterms:description "a particular kind or species of matter with uniform properties"@en ;
+    dcterms:identifier "substance.n.07" ;
+    rdfs:subClassOf wn:matter.n.03 ;
+    skos:altLabel "substance"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:transmit.v.04 a owl:Class ;
+    rdfs:label "transmit.v.04" ;
+    dcterms:description "send from one person or place to another"@en ;
+    dcterms:identifier "transmit.v.04" ;
+    rdfs:subClassOf wn:move.v.02 ;
+    skos:altLabel "channel"@en,
+        "channelise"@en,
+        "channelize"@en,
+        "transfer"@en,
+        "transmit"@en,
+        "transport"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:transport.v.02 a owl:Class ;
+    rdfs:label "transport.v.02" ;
+    dcterms:description "move while supporting, either in a vehicle or in one's hands or on one's body"@en ;
+    dcterms:identifier "transport.v.02" ;
+    rdfs:subClassOf wn:move.v.02 ;
+    skos:altLabel "carry"@en,
+        "transport"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:vessel.n.03 a owl:Class ;
+    rdfs:label "vessel.n.03" ;
+    dcterms:description "an object used as a container (especially for liquids)"@en ;
+    dcterms:identifier "vessel.n.03" ;
+    rdfs:subClassOf wn:container.n.01 ;
+    skos:altLabel "vessel"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+vn:bring-11.3%2Fframe%2F0%2Fevent%2FE1 a kg:Event ;
+    rdfs:label "E1" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Fmember%2Ftake a kg:LexicalUnit ;
+    rdfs:label "take" ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:denotesConcept wn:bring.v.01,
+        wn:carry.v.02,
+        wn:lead.v.01 .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fevent%2FE%2Fduring a kg:EventPhase ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:event vn:bring-11.3-1%2Fframe%2F0%2Fevent%2FE ;
+    kg:phase "during" .
+
+vn:bring-11.3-1%2Fmember%2Fbring a kg:LexicalUnit ;
+    rdfs:label "bring" ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:denotesConcept wn:bring.v.01,
+        wn:bring.v.04,
+        wn:bring.v.06 .
+
+vn:search-35.2%2Fmember%2Fcheck a kg:LexicalUnit ;
+    rdfs:label "check" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fdive a kg:LexicalUnit ;
+    rdfs:label "dive" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fscour a kg:LexicalUnit ;
+    rdfs:label "scour" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fsearch a kg:LexicalUnit ;
+    rdfs:label "search" ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:denotesConcept wn:search.v.01,
+        wn:search.v.02,
+        wn:search.v.04 .
+
+vn:search-35.2%2Fmember%2Fshop a kg:LexicalUnit ;
+    rdfs:label "shop" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fsift a kg:LexicalUnit ;
+    rdfs:label "sift" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fwatch a kg:LexicalUnit ;
+    rdfs:label "watch" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+wn:artifact.n.01 a owl:Class ;
+    rdfs:label "artifact.n.01" ;
+    dcterms:description "a man-made object taken as a whole"@en ;
+    dcterms:identifier "artifact.n.01" ;
+    rdfs:subClassOf wn:whole.n.02 ;
+    skos:altLabel "artefact"@en,
+        "artifact"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:bring.v.01 a owl:Class ;
+    rdfs:label "bring.v.01" ;
+    dcterms:description "take something or somebody with oneself somewhere"@en ;
+    dcterms:identifier "bring.v.01" ;
+    rdfs:subClassOf wn:transport.v.02 ;
+    skos:altLabel "bring"@en,
+        "convey"@en,
+        "take"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:coffee_mug.n.01 a owl:Class ;
+    rdfs:label "coffee_mug.n.01" ;
+    dcterms:description "a mug intended for serving coffee"@en ;
+    dcterms:identifier "coffee_mug.n.01" ;
+    rdfs:subClassOf wn:mug.n.04 ;
+    skos:altLabel "coffee mug"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:examine.v.02 a owl:Class ;
+    rdfs:label "examine.v.02" ;
+    dcterms:description "observe, check out, and look over carefully or inspect"@en ;
+    dcterms:identifier "examine.v.02" ;
+    skos:altLabel "examine"@en,
+        "see"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:instrumentality.n.03 a owl:Class ;
+    rdfs:label "instrumentality.n.03" ;
+    dcterms:description "an artifact (or system of artifacts) that is instrumental in accomplishing some end"@en ;
+    dcterms:identifier "instrumentality.n.03" ;
+    rdfs:subClassOf wn:artifact.n.01 ;
+    skos:altLabel "instrumentality"@en,
+        "instrumentation"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:kitchen.n.01 a owl:Class ;
+    rdfs:label "kitchen.n.01" ;
+    dcterms:description "a room equipped for preparing meals"@en ;
+    dcterms:identifier "kitchen.n.01" ;
+    rdfs:subClassOf wn:room.n.01 ;
+    skos:altLabel "kitchen"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:matter.n.03 a owl:Class ;
+    rdfs:label "matter.n.03" ;
+    dcterms:description "that which has mass and occupies space"@en ;
+    dcterms:identifier "matter.n.03" ;
+    rdfs:subClassOf wn:physical_entity.n.01 ;
+    skos:altLabel "matter"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:move.v.02 a owl:Class ;
+    rdfs:label "move.v.02" ;
+    dcterms:description "cause to move or shift into a new position or place, both in a concrete and in an abstract sense"@en ;
+    dcterms:identifier "move.v.02" ;
+    skos:altLabel "displace"@en,
+        "move"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:room.n.01 a owl:Class ;
+    rdfs:label "room.n.01" ;
+    dcterms:description "an area within a building enclosed by walls and floor and ceiling"@en ;
+    dcterms:identifier "room.n.01" ;
+    rdfs:subClassOf wn:area.n.05 ;
+    skos:altLabel "room"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+wn:whole.n.02 a owl:Class ;
+    rdfs:label "whole.n.02" ;
+    dcterms:description "an assemblage of parts that is regarded as a single entity"@en ;
+    dcterms:identifier "whole.n.02" ;
+    rdfs:subClassOf wn:object.n.01 ;
+    skos:altLabel "unit"@en,
+        "whole"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/problem.pddl> a prov:Entity ;
+    rdfs:label "problem.pddl" ;
+    dcterms:format "application/pddl" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:LocatedAt a rdf:Property ;
+    rdfs:label "LocatedAt" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:VerbClass a owl:Class ;
+    rdfs:label "VerbClass" ;
+    prov:wasDerivedFrom source:CMOC .
+
+fn:Bringing a kg:Frame ;
+    rdfs:label "Bringing" ;
+    dcterms:identifier 240 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:definition "This frame concerns the movement of a Theme and an Agent and/or Carrier.   The Agent, a person or other sentient entity, controls the shared Path by moving the Theme during the motion. In other words, the Agent has overall motion in directing the motion of the Theme.  The Carrier may be a separate entity, or it may be the Agent's body. The Constant_location may be a subregion of the Agent's body or (a subregion of) a vehicle that the Agent uses.  'Karl carried the books across campus to the library on his head.' 'Karl carried the books across campus to the library in his truck.' 'Karl carried the books across campus to the library by truck.' 'The truck carried the books across campus to the library in specially designed boxes.' The  FEs include Path, Goal, and Source.  Area is an area that contains the motion when the path is understood as irregular.   This frame emphasizes the path of movement as opposed to the FEs Source or Goal as in Filling or Placing. "@en ;
+    kg:hasFrameElement fn:Bringing%2FFE%2FAgent,
+        fn:Bringing%2FFE%2FArea,
+        fn:Bringing%2FFE%2FBeneficiary,
+        fn:Bringing%2FFE%2FCarrier,
+        fn:Bringing%2FFE%2FCo-participant,
+        fn:Bringing%2FFE%2FConstant_location,
+        fn:Bringing%2FFE%2FDegree,
+        fn:Bringing%2FFE%2FDepictive,
+        fn:Bringing%2FFE%2FDistance,
+        fn:Bringing%2FFE%2FDuration,
+        fn:Bringing%2FFE%2FExplanation,
+        fn:Bringing%2FFE%2FFrequency,
+        fn:Bringing%2FFE%2FGoal,
+        fn:Bringing%2FFE%2FManner,
+        fn:Bringing%2FFE%2FMeans,
+        fn:Bringing%2FFE%2FParticular_iteration,
+        fn:Bringing%2FFE%2FPath,
+        fn:Bringing%2FFE%2FPeriod_of_iterations,
+        fn:Bringing%2FFE%2FPlace,
+        fn:Bringing%2FFE%2FPurpose,
+        fn:Bringing%2FFE%2FSource,
+        fn:Bringing%2FFE%2FSpeed,
+        fn:Bringing%2FFE%2FTheme,
+        fn:Bringing%2FFE%2FTime ;
+    kg:lexicalUnit fn:LU%2F12026,
+        fn:LU%2F12027,
+        fn:LU%2F12028,
+        fn:LU%2F13641,
+        fn:LU%2F13901,
+        fn:LU%2F14508,
+        fn:LU%2F15649,
+        fn:LU%2F15650,
+        fn:LU%2F17367,
+        fn:LU%2F4456,
+        fn:LU%2F4457,
+        fn:LU%2F4458,
+        fn:LU%2F4459,
+        fn:LU%2F4470,
+        fn:LU%2F4471,
+        fn:LU%2F8730,
+        fn:LU%2F8731,
+        fn:LU%2F8732,
+        fn:LU%2F8733,
+        fn:LU%2F8734,
+        fn:LU%2F8735,
+        fn:LU%2F8738,
+        fn:LU%2F8739,
+        fn:LU%2F8755,
+        fn:LU%2F8865,
+        fn:LU%2F8867,
+        fn:LU%2F8870,
+        fn:LU%2F8881,
+        fn:LU%2F9175,
+        fn:LU%2F9176,
+        fn:LU%2F9920 ;
+    kg:planningEntity <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#domain> .
+
+vn:bring-11.3 a kg:VerbClass ;
+    rdfs:label "bring-11.3" ;
+    dcterms:identifier "bring-11.3" ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasFrame vn:bring-11.3%2Fframe%2F0,
+        vn:bring-11.3%2Fframe%2F1,
+        vn:bring-11.3%2Fframe%2F2,
+        vn:bring-11.3%2Fframe%2F3,
+        vn:bring-11.3%2Fframe%2F4,
+        vn:bring-11.3%2Fframe%2F5 ;
+    kg:hasRole vn:bring-11.3%2Frole%2FAgent,
+        vn:bring-11.3%2Frole%2FDestination,
+        vn:bring-11.3%2Frole%2FSource,
+        vn:bring-11.3%2Frole%2FTheme ;
+    kg:member vn:bring-11.3%2Fmember%2Ftake ;
+    kg:planningEntity <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#domain> .
+
+vn:bring-11.3%2Fframe%2F0%2Fevent%2FE0 a kg:Event ;
+    rdfs:label "E0" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Fframe%2F1%2Fevent%2FE1 a kg:Event ;
+    rdfs:label "E1" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Fframe%2F2%2Fevent%2FE1 a kg:Event ;
+    rdfs:label "E1" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Fframe%2F3%2Fevent%2FE1 a kg:Event ;
+    rdfs:label "E1" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Fframe%2F5%2Fevent%2FE1 a kg:Event ;
+    rdfs:label "E1" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3-1%2Fframe%2F0%2Fevent%2FE a kg:Event ;
+    rdfs:label "E" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3-1%2Frole%2FDestination a kg:ThematicRole ;
+    rdfs:label "Destination" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Fmember%2Fprobe a kg:LexicalUnit ;
+    rdfs:label "probe" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+wn:physical_entity.n.01 a owl:Class ;
+    rdfs:label "physical_entity.n.01" ;
+    dcterms:description "an entity that has physical existence"@en ;
+    dcterms:identifier "physical_entity.n.01" ;
+    rdfs:subClassOf wn:entity.n.01 ;
+    skos:altLabel "physical entity"@en ;
+    prov:wasDerivedFrom source:WordNet .
+
+kg:CommonsenseAssertion a owl:Class ;
+    rdfs:label "CommonsenseAssertion" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:planningEntity a owl:ObjectProperty ;
+    rdfs:label "planningEntity" ;
+    prov:wasDerivedFrom source:CMOC .
+
+vn:bring-11.3%2Fframe%2F1%2Fevent%2FE0 a kg:Event ;
+    rdfs:label "E0" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Fframe%2F2%2Fevent%2FE0 a kg:Event ;
+    rdfs:label "E0" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Fframe%2F3%2Fevent%2FE0 a kg:Event ;
+    rdfs:label "E0" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Fframe%2F4%2Fevent%2FE1 a kg:Event ;
+    rdfs:label "E1" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Fframe%2F5%2Fevent%2FE0 a kg:Event ;
+    rdfs:label "E0" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3-1%2Fframe%2F1%2Fevent%2FE a kg:Event ;
+    rdfs:label "E" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Frole%2FTheme a kg:ThematicRole ;
+    rdfs:label "Theme" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#domain> a prov:Entity ;
+    rdfs:label "domain.pddl" ;
+    dcterms:hasPart <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#look_for>,
+        <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#move>,
+        <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#pick>,
+        <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#place>,
+        <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Fat>,
+        <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Fhand_empty>,
+        <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Fholding>,
+        <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Fknown>,
+        <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#predicate%2Frobot_at> ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningDomain" .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#look_for> a prov:Entity ;
+    rdfs:label "look_for" ;
+    dcterms:description """action look_for(robot - object r, object o) {
+    preconditions = [
+      (not known(o))
+    ]
+    effects = [
+      known(o) := true
+    ]
+  }""" ;
+    prov:wasDerivedFrom <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> ;
+    kg:planningKind "PlanningAction" .
+
+fn:Scrutiny a kg:Frame ;
+    rdfs:label "Scrutiny" ;
+    dcterms:identifier 31 ;
+    prov:wasDerivedFrom source:FrameNet ;
+    kg:definition "This frame concerns a Cognizer (a person or other intelligent being) paying close attention to something, the Ground, in order to discover and note its salient characteristics.  The Cognizer may be interested in a particular characteristic or entity, the Phenomenon, that belongs to the Ground or is contained in the Ground (or to ensure that such a property of entity is not present).  Some words in this frame allow alternate expressions of the Groundand the Phenomenon: 'We searched the yard  for my contact lens.'"@en ;
+    kg:hasFrameElement fn:Scrutiny%2FFE%2FCognizer,
+        fn:Scrutiny%2FFE%2FDegree,
+        fn:Scrutiny%2FFE%2FDirection,
+        fn:Scrutiny%2FFE%2FGround,
+        fn:Scrutiny%2FFE%2FInstrument,
+        fn:Scrutiny%2FFE%2FManner,
+        fn:Scrutiny%2FFE%2FMeans,
+        fn:Scrutiny%2FFE%2FMedium,
+        fn:Scrutiny%2FFE%2FPhenomenon,
+        fn:Scrutiny%2FFE%2FPurpose,
+        fn:Scrutiny%2FFE%2FTime ;
+    kg:lexicalUnit fn:LU%2F10960,
+        fn:LU%2F11060,
+        fn:LU%2F11061,
+        fn:LU%2F11275,
+        fn:LU%2F11276,
+        fn:LU%2F11592,
+        fn:LU%2F12680,
+        fn:LU%2F13100,
+        fn:LU%2F13743,
+        fn:LU%2F13871,
+        fn:LU%2F13883,
+        fn:LU%2F14006,
+        fn:LU%2F15026,
+        fn:LU%2F15669,
+        fn:LU%2F15848,
+        fn:LU%2F17279,
+        fn:LU%2F17301,
+        fn:LU%2F4281,
+        fn:LU%2F4283,
+        fn:LU%2F4284,
+        fn:LU%2F4291,
+        fn:LU%2F4334,
+        fn:LU%2F4335,
+        fn:LU%2F4337,
+        fn:LU%2F4338,
+        fn:LU%2F4339,
+        fn:LU%2F4341,
+        fn:LU%2F439,
+        fn:LU%2F440,
+        fn:LU%2F445,
+        fn:LU%2F446,
+        fn:LU%2F447,
+        fn:LU%2F448,
+        fn:LU%2F449,
+        fn:LU%2F450,
+        fn:LU%2F451,
+        fn:LU%2F452,
+        fn:LU%2F453,
+        fn:LU%2F454,
+        fn:LU%2F455,
+        fn:LU%2F456,
+        fn:LU%2F457,
+        fn:LU%2F458,
+        fn:LU%2F6920,
+        fn:LU%2F8215,
+        fn:LU%2F8320,
+        fn:LU%2F8321,
+        fn:LU%2F8520,
+        fn:LU%2F9870 ;
+    kg:planningEntity <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#look_for> .
+
+vn:bring-11.3%2Fframe%2F4%2Fevent%2FE0 a kg:Event ;
+    rdfs:label "E0" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:bring-11.3%2Frole%2FSource a kg:ThematicRole ;
+    rdfs:label "Source" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Frole%2FAgent a kg:ThematicRole ;
+    rdfs:label "Agent" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+vn:search-35.2%2Frole%2FLocation a kg:ThematicRole ;
+    rdfs:label "Location" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+kg:Frame a owl:Class ;
+    rdfs:label "Frame" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:ThematicRole a owl:Class ;
+    rdfs:label "ThematicRole" ;
+    prov:wasDerivedFrom source:CMOC .
+
+vn:bring-11.3%2Frole%2FDestination a kg:ThematicRole ;
+    rdfs:label "Destination" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+<https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl> a prov:Entity ;
+    rdfs:label "domain.pddl" ;
+    dcterms:format "application/pddl" ;
+    prov:wasDerivedFrom source:CMOC .
+
+source:DemoFixtures a prov:Entity ;
+    rdfs:label "Hand-authored demo fixtures; not empirical confidence" .
+
+vn:search-35.2 a kg:VerbClass ;
+    rdfs:label "search-35.2" ;
+    dcterms:identifier "search-35.2" ;
+    prov:wasDerivedFrom source:VerbNet ;
+    kg:hasFrame vn:search-35.2%2Fframe%2F0,
+        vn:search-35.2%2Fframe%2F1,
+        vn:search-35.2%2Fframe%2F2,
+        vn:search-35.2%2Fframe%2F3 ;
+    kg:hasRole vn:search-35.2%2Frole%2FAgent,
+        vn:search-35.2%2Frole%2FLocation,
+        vn:search-35.2%2Frole%2FTheme ;
+    kg:member vn:search-35.2%2Fmember%2Fadvertise,
+        vn:search-35.2%2Fmember%2Fcheck,
+        vn:search-35.2%2Fmember%2Fcomb,
+        vn:search-35.2%2Fmember%2Fdive,
+        vn:search-35.2%2Fmember%2Fdrag,
+        vn:search-35.2%2Fmember%2Fdredge,
+        vn:search-35.2%2Fmember%2Fexcavate,
+        vn:search-35.2%2Fmember%2Fpatrol,
+        vn:search-35.2%2Fmember%2Fplumb,
+        vn:search-35.2%2Fmember%2Fprobe,
+        vn:search-35.2%2Fmember%2Fprospect,
+        vn:search-35.2%2Fmember%2Fprowl,
+        vn:search-35.2%2Fmember%2Fquarry,
+        vn:search-35.2%2Fmember%2Frake,
+        vn:search-35.2%2Fmember%2Frifle,
+        vn:search-35.2%2Fmember%2Fscavenge,
+        vn:search-35.2%2Fmember%2Fscour,
+        vn:search-35.2%2Fmember%2Fscout,
+        vn:search-35.2%2Fmember%2Fsearch,
+        vn:search-35.2%2Fmember%2Fshop,
+        vn:search-35.2%2Fmember%2Fsift,
+        vn:search-35.2%2Fmember%2Ftrawl,
+        vn:search-35.2%2Fmember%2Ftroll,
+        vn:search-35.2%2Fmember%2Fwatch ;
+    kg:planningEntity <https://example.org/cmoc/procedural_memory/planning/bringing/test/domain.pddl#look_for> .
+
+kg:Alignment a owl:Class ;
+    rdfs:label "Alignment" ;
+    prov:wasDerivedFrom source:CMOC .
+
+source:SemLink-028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f a prov:Entity ;
+    rdfs:label "SemLink2 subset" ;
+    dcterms:date "2026-09-26T12:01:25.469254+00:00" ;
+    dcterms:identifier "028d197ee8acb5366d1986e4c68a8dd7faab8960780d18efca03e0578a71ea4f" ;
+    prov:wasDerivedFrom <https://raw.githubusercontent.com/cu-clear/semlink/master/instances/vn-fn2.json> .
+
+kg:VerbFrame a owl:Class ;
+    rdfs:label "VerbFrame" ;
+    prov:wasDerivedFrom source:CMOC .
+
+vn:bring-11.3%2Frole%2FTheme a kg:ThematicRole ;
+    rdfs:label "Theme" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+kg:Event a owl:Class ;
+    rdfs:label "Event" ;
+    prov:wasDerivedFrom source:CMOC .
+
+vn:bring-11.3%2Frole%2FAgent a kg:ThematicRole ;
+    rdfs:label "Agent" ;
+    prov:wasDerivedFrom source:VerbNet .
+
+kg:EventPhase a owl:Class ;
+    rdfs:label "EventPhase" ;
+    prov:wasDerivedFrom source:CMOC .
+
+source:CMOC a prov:Entity ;
+    rdfs:label "CMOC integration" .
+
+source:WordNet a prov:Entity ;
+    rdfs:label "NLTK WordNet 3.0" .
+
+kg:SemanticPredicate a owl:Class ;
+    rdfs:label "SemanticPredicate" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:FrameElement a owl:Class ;
+    rdfs:label "FrameElement" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:Argument a owl:Class ;
+    rdfs:label "Argument" ;
+    prov:wasDerivedFrom source:CMOC .
+
+kg:LexicalUnit a owl:Class ;
+    rdfs:label "LexicalUnit" ;
+    prov:wasDerivedFrom source:CMOC .
+
+source:FrameNet a prov:Entity ;
+    rdfs:label "NLTK FrameNet 1.7" .
+
+source:VerbNet a prov:Entity ;
+    rdfs:label "NLTK VerbNet 2.1" .
+
