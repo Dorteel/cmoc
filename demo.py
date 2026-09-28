@@ -15,6 +15,7 @@ from rclpy.signals import SignalHandlerOptions
 from simulator_launcher import SimulatorLauncher
 from perception_launcher import PerceptionLauncher
 from navigation import RoomNavigator
+from teleport_navigation import TeleportNavigator
 from observation import observe_scene_with_vlm
 from graph_snapshots import EPISODIC_GRAPH, write_graph_snapshot, episode_snapshot, add_frame_graph, action_snapshot
 from procedural_memory.planning.bringing_plan import plan_bring
@@ -178,9 +179,12 @@ def main():
                         default='existing', help='Initial episodic memory for SPA')
     parser.add_argument('--execute', action='store_true', help='Send the generated plan to ROS; default is dry-run')
     parser.add_argument('--step', action='store_true', help='With --execute, confirm each step before sending it')
+    parser.add_argument('--teleport', action='store_true', help='With --execute, teleport to resolved navigation poses in Webots')
     args = parser.parse_args()
     if args.step and not args.execute:
         parser.error('--step requires --execute')
+    if args.teleport and not args.execute:
+        parser.error('--teleport requires --execute')
     # Keep Ctrl+C as KeyboardInterrupt so cancellation runs before ROS shutdown.
     rclpy.init(args=[], signal_handler_options=SignalHandlerOptions.NO)
     simulator = None
@@ -194,7 +198,7 @@ def main():
             simulator.wait_until_ready()
             print('TIAGo ready: received /wheel/odom.', flush=True)
         if not args.no_simulator or args.test_navigation or args.execute:
-            navigator = RoomNavigator()
+            navigator = TeleportNavigator() if args.teleport else RoomNavigator()
             navigator.wait_until_ready()
         if args.test_navigation:
             run_demo(navigator)

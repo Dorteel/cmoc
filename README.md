@@ -173,6 +173,7 @@ retry. Cancellation is best effort because the existing fallback servers may rej
 python demo.py                         # dry-run: no plan goals sent
 python demo.py --execute --step        # confirm each step
 python demo.py --execute               # sequential full execution
+python demo.py --execute --teleport    # same goals, Webots teleport instead of Nav2 movement
 python demo.py --scenario empty
 python demo.py --scenario human-moves
 python demo.py --test-navigation
@@ -308,3 +309,7 @@ with the rebuilt workspace sourced (local HTTP fixtures only):
 ```bash
 ROS_DOMAIN_ID=184 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest tests/test_vlm_http.py ros2/cmoc_perception/test/test_observe_with_vlm.py -q
 ```
+
+`--teleport` requires `--execute`. It reuses Nav2 goal resolution and path validation
+(Nav2 must remain available), then calls the existing Webots supervisor `move`
+command. Pick/place are unchanged; teleport failure stops execution.

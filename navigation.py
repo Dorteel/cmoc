@@ -32,6 +32,35 @@ def entity_approach_pose(robot, target):
     return x, y, math.atan2(ty - y, tx - x)
 
 
+def approach_candidates(robot, target):
+    """Preferred line-of-approach first, then bounded radial alternatives."""
+    preferred = entity_approach_pose(robot, target)
+    yield preferred
+    angle = math.atan2(robot[1] - target[1], robot[0] - target[0])
+    for offset in (0, math.pi / 4, -math.pi / 4, math.pi / 2, -math.pi / 2,
+                   3 * math.pi / 4, -3 * math.pi / 4, math.pi):
+        for radius in (0.5, 0.65, 0.8, 1.0):
+            x = target[0] + radius * math.cos(angle + offset)
+            y = target[1] + radius * math.sin(angle + offset)
+            if math.hypot(x - preferred[0], y - preferred[1]) < 1e-6:
+                continue
+            yield x, y, math.atan2(target[1] - y, target[0] - x)
+
+
+def costmap_pose_is_free(costmap, x, y):
+    """Query the existing Nav2 costmap message; unknown/inflated cells are rejected."""
+    info = costmap.metadata
+    if costmap.header.frame_id != 'map' or info.resolution <= 0:
+        raise RuntimeError('Expected a valid map-frame global costmap')
+    origin = info.origin
+    yaw = 2 * math.atan2(origin.orientation.z, origin.orientation.w)
+    dx, dy = x - origin.position.x, y - origin.position.y
+    col = math.floor((math.cos(yaw) * dx + math.sin(yaw) * dy) / info.resolution)
+    row = math.floor((-math.sin(yaw) * dx + math.cos(yaw) * dy) / info.resolution)
+    return (0 <= col < info.size_x and 0 <= row < info.size_y
+            and costmap.data[row * info.size_x + col] == 0)
+
+
 class OccupancyMap:
     def __init__(self, path):
         path = Path(path)
@@ -238,9 +267,73 @@ class RoomNavigator:
                 future.cancel()
             listener.unregister()
 
+    def _reachable_approach(self, target, target_position, robot_position):
+        from rclpy.action import ActionClient
+        from nav2_msgs.action import ComputePathToPose
+        from nav2_msgs.srv import GetCostmap
+        from action_msgs.msg import GoalStatus
+
+        costmap_client = self.node.create_client(GetCostmap, '/global_costmap/get_costmap')
+        planner = None
+        try:
+            if not costmap_client.wait_for_service(timeout_sec=5):
+                raise RuntimeError('Global costmap service unavailable for entity approach')
+            future = costmap_client.call_async(GetCostmap.Request())
+            try:
+                costmap = self._wait(future, 5).map
+            except TimeoutError:
+                costmap_client.remove_pending_request(future)
+                raise
+            planner = ActionClient(self.node, ComputePathToPose, '/compute_path_to_pose')
+            if not planner.wait_for_server(timeout_sec=5):
+                raise RuntimeError('Nav2 path validation server unavailable')
+            deadline = time.monotonic() + 30
+            for index, pose in enumerate(approach_candidates(robot_position, target_position)):
+                if time.monotonic() >= deadline:
+                    break
+                x, y, yaw = pose
+                if index == 0:
+                    print(f'Desired entity approach: ({x:.3f}, {y:.3f})', flush=True)
+                valid = costmap_pose_is_free(costmap, x, y)
+                if valid:
+                    goal = ComputePathToPose.Goal()
+                    goal.goal.header.frame_id = 'map'
+                    goal.goal.pose.position.x, goal.goal.pose.position.y = float(x), float(y)
+                    goal.goal.pose.orientation.z = math.sin(yaw / 2)
+                    goal.goal.pose.orientation.w = math.cos(yaw / 2)
+                    goal.planner_id = 'GridBased'
+                    goal.use_start = False  # Nav2 resolves the current robot pose.
+                    handle = self._wait(planner.send_goal_async(goal), min(5, max(.01, deadline - time.monotonic())))
+                    valid = handle.accepted
+                    if valid:
+                        try:
+                            response = self._wait(handle.get_result_async(), min(5, max(.01, deadline - time.monotonic())))
+                        except TimeoutError:
+                            self._wait(handle.cancel_goal_async(), 2)
+                            raise RuntimeError(f'Path validation timed out for {target}') from None
+                        path = response.result.path
+                        valid = (response.status == GoalStatus.STATUS_SUCCEEDED and response.result.error_code == 0
+                                 and path.header.frame_id == 'map' and bool(path.poses))
+                        if valid:
+                            end = path.poses[-1].pose.position
+                            # Reject tolerance-only success at a different endpoint.
+                            valid = math.hypot(end.x - x, end.y - y) <= max(.05, costmap.metadata.resolution)
+                if index == 0:
+                    print(f'Desired pose navigable: {valid}', flush=True)
+                if valid:
+                    if index:
+                        print(f'Using alternative approach: ({x:.3f}, {y:.3f})', flush=True)
+                    return pose
+            raise RuntimeError(f'No reachable approach pose found for {target}')
+        finally:
+            if planner is not None:
+                planner.destroy()
+            self.node.destroy_client(costmap_client)
+
     def approach_entity(self, target, scene_position):
         target_position = self.goals.alignment.scene_to_map(*scene_position)
-        x, y, yaw = entity_approach_pose(self.current_map_position(), target_position)
+        print(f'Target entity: {target}', flush=True)
+        x, y, yaw = self._reachable_approach(target, target_position, self.current_map_position())
         print(f'Entity approach (map frame):\n  target={target}\n'
               f'  target_position={target_position}\n'
               f'  approach_position=({x:.3f}, {y:.3f})\n  yaw={yaw:.3f}', flush=True)

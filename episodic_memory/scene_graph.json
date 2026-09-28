@@ -4031,7 +4031,7 @@
       "id": "mannequin_1",
       "type": "mannequin",
       "qualities": {
-        "color": "green shirt, blue pants",
+        "color": "green",
         "shape": "humanoid"
       }
     },
@@ -4059,7 +4059,7 @@
       "id": "box_1",
       "type": "box",
       "qualities": {
-        "color": "red",
+        "color": "red, yellow",
         "shape": "rectangular"
       }
     },
@@ -4074,7 +4074,7 @@
       "id": "person_1",
       "type": "person",
       "qualities": {
-        "color": "green",
+        "color": "green shirt, blue pants",
         "size": [
           0.37,
           0.75,
@@ -4087,7 +4087,7 @@
       "id": "window_1",
       "type": "window",
       "qualities": {
-        "color": "gray",
+        "color": "grey",
         "size": [
           0.36,
           0.47,
@@ -4100,7 +4100,7 @@
       "id": "mannequin",
       "type": "mannequin",
       "qualities": {
-        "color": "green",
+        "color": "green shirt, blue pants",
         "size": [
           0.1,
           0.1,
@@ -4256,7 +4256,7 @@
       "id": "book_1",
       "type": "book",
       "qualities": {
-        "color": "red, white, yellow"
+        "color": "red"
       }
     },
     {
@@ -4271,6 +4271,20 @@
       "type": "floor",
       "qualities": {
         "color": "gray"
+      }
+    },
+    {
+      "id": "box",
+      "type": "box",
+      "qualities": {
+        "color": "red, yellow, white"
+      }
+    },
+    {
+      "id": "room",
+      "type": "Location",
+      "qualities": {
+        "color": "white walls"
       }
     }
   ],
@@ -5531,26 +5545,6 @@
       "object": "wall"
     },
     {
-      "subject": "chair",
-      "predicate": "on",
-      "object": "floor"
-    },
-    {
-      "subject": "table",
-      "predicate": "on",
-      "object": "floor"
-    },
-    {
-      "subject": "mannequin",
-      "predicate": "next_to",
-      "object": "chair"
-    },
-    {
-      "subject": "chair",
-      "predicate": "next_to",
-      "object": "table"
-    },
-    {
       "subject": "book",
       "predicate": "on",
       "object": "table"
@@ -5564,11 +5558,6 @@
       "subject": "window",
       "predicate": "next_to",
       "object": "radiator"
-    },
-    {
-      "subject": "mannequin",
-      "predicate": "in",
-      "object": "room"
     },
     {
       "subject": "green_shirt",
@@ -5611,29 +5600,9 @@
       "object": "table_1"
     },
     {
-      "subject": "radiator_1",
-      "predicate": "under",
-      "object": "window_1"
-    },
-    {
       "subject": "cereal_box_1",
       "predicate": "in",
       "object": "location_1"
-    },
-    {
-      "subject": "pants_1",
-      "predicate": "on",
-      "object": "person_1"
-    },
-    {
-      "subject": "person_1",
-      "predicate": "next_to",
-      "object": "chair_1"
-    },
-    {
-      "subject": "person_1",
-      "predicate": "on",
-      "object": "floor_1"
     },
     {
       "subject": "person_1",
@@ -5646,18 +5615,8 @@
       "object": "table_1"
     },
     {
-      "subject": "box_1",
-      "predicate": "on",
-      "object": "table_1"
-    },
-    {
       "subject": "radiator_1",
       "predicate": "attached_to",
-      "object": "wall_1"
-    },
-    {
-      "subject": "window_1",
-      "predicate": "in",
       "object": "wall_1"
     },
     {
@@ -5671,9 +5630,19 @@
       "object": "chair_1"
     },
     {
-      "subject": "chair_1",
-      "predicate": "next_to",
-      "object": "table_1"
+      "subject": "mannequin_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "pants_1",
+      "predicate": "on",
+      "object": "mannequin_1"
+    },
+    {
+      "subject": "mannequin_1",
+      "predicate": "in_front_of",
+      "object": "radiator_1"
     },
     {
       "subject": "book_1",
@@ -5681,12 +5650,32 @@
       "object": "table_1"
     },
     {
-      "subject": "radiator_1",
-      "predicate": "in",
-      "object": "room_1"
+      "subject": "person_1",
+      "predicate": "next_to",
+      "object": "chair_1"
     },
     {
-      "subject": "mannequin_1",
+      "subject": "person_1",
+      "predicate": "next_to",
+      "object": "radiator_1"
+    },
+    {
+      "subject": "chair_1",
+      "predicate": "next_to",
+      "object": "table_1"
+    },
+    {
+      "subject": "box_1",
+      "predicate": "on",
+      "object": "table_1"
+    },
+    {
+      "subject": "radiator_1",
+      "predicate": "under",
+      "object": "window_1"
+    },
+    {
+      "subject": "person_1",
       "predicate": "in",
       "object": "room_1"
     },
@@ -5701,9 +5690,64 @@
       "object": "room_1"
     },
     {
-      "subject": "book_1",
+      "subject": "box_1",
       "predicate": "in",
       "object": "room_1"
+    },
+    {
+      "subject": "radiator_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "window_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "mannequin",
+      "predicate": "next_to",
+      "object": "radiator"
+    },
+    {
+      "subject": "mannequin",
+      "predicate": "next_to",
+      "object": "chair"
+    },
+    {
+      "subject": "chair",
+      "predicate": "next_to",
+      "object": "table"
+    },
+    {
+      "subject": "box",
+      "predicate": "on",
+      "object": "table"
+    },
+    {
+      "subject": "radiator",
+      "predicate": "in",
+      "object": "room"
+    },
+    {
+      "subject": "mannequin",
+      "predicate": "in",
+      "object": "room"
+    },
+    {
+      "subject": "table",
+      "predicate": "in",
+      "object": "room"
+    },
+    {
+      "subject": "chair",
+      "predicate": "in",
+      "object": "room"
+    },
+    {
+      "subject": "box",
+      "predicate": "in",
+      "object": "room"
     }
   ]
 }
