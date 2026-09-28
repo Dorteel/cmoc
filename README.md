@@ -10,12 +10,12 @@ a deterministic Bringing decision; it does **not** execute a delivery.
 ```text
 Sense
   → current TIAGo camera observation through /observe_with_vlm (Nebula)
-  → G1: instruction + raw perceived scene graph
+  → G1: Episode + Instruction + raw Observation (observedBy robot)
 Plan
   → merge observation into episodic memory
   → extract semantic task frame
   → Perceived Entity Linking (PEL) and concrete task grounding
-  → G2: normalized graph, concept links, frame, bindings, decision/issues
+  → G2: same Episode + PEL + task frame + Frame Element bindings
 Act
   → currently prints the decision; no navigation/manipulation chain
   → G3: placeholder until action execution/result observations exist
@@ -33,8 +33,10 @@ Act
   exact IDs, preserve unseen entities, replace superseded spatial knowledge, and
   recompute grounding. RGB perception does not invent metric world coordinates.
 - `perceived_entity_linking.py` performs **Perceived Entity Linking (PEL)** on
-  planning copies. The explicit demo alias `mannequin → user` also rewrites
-  relation endpoints. G1 and stored episodic IDs remain raw.
+  planning copies. The explicit demo IDs `person_1`, `pedestrian_1`, and `mannequin` resolve
+  to one `user`, with relation endpoints rewritten and an `aliases` list retained.
+  Other person/pedestrian IDs are not assumed to be the user. The existing
+  mannequin-type fallback is preserved. G1 and stored episodic IDs remain raw.
 
 PEL resolves normalized object types and the task Theme through RoboKGNet, with
 spaces-to-underscores fallback. Only a unique concept match is linked; ambiguous
@@ -167,9 +169,20 @@ of the working directory. Missing snapshots produce a friendly message;
 `--watch` opens the viewer and waits for their creation. G3 reports unavailable
 while its value is null.
 
-G2 shows scene relations, `linkedTo` edges from entities to concepts, a Bringing
-frame node, semantic Agent/Theme/Source/Destination edges, and `boundAgent`,
-`boundTheme`, etc. edges to concrete entities. This RDF translation exists only
+Snapshots are successive knowledge states of one SPA Episode. G1 keeps the raw
+`scene_graph` unchanged and adds a JSON `context_graph` (nodes/relations):
+`episode_1 → hasInstruction → instruction_1` (with text) and
+`episode_1 → hasObservation → observation_1 → observedBy → robot`.
+The Observation connects to each perceived entity through `observes`.
+Later cycles retain the Episode ID and number their Observations.
+
+G2 preserves that Episode/Observation and adds PEL concept links, canonical `user`
+with alias metadata, and `hasFrame → BringingFrame_1`. Its four
+`hasFrameElement` nodes (`Agent_FE`, `Theme_FE`, `Source_FE`, `Destination_FE`)
+carry `semanticValue` and, when resolved, `bindsTo` edges to concrete entities.
+Unresolved roles remain visible without `bindsTo`. The `frame` and `bindings`
+dictionaries remain separate. G3 is reserved for the same Episode plus resulting
+actions/observations; it remains null until Act is implemented. This RDF translation exists only
 inside the viewer; saved knowledge remains JSON. Last valid graphs stay visible
 while invalid/missing files are retried. The UI uses text content for labels.
 

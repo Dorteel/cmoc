@@ -16,7 +16,7 @@ from simulator_launcher import SimulatorLauncher
 from perception_launcher import PerceptionLauncher
 from navigation import RoomNavigator
 from observation import observe_scene_with_vlm
-from graph_snapshots import EPISODIC_GRAPH, write_graph_snapshot
+from graph_snapshots import EPISODIC_GRAPH, write_graph_snapshot, episode_snapshot, add_frame_graph
 from perceived_entity_linking import perceived_entity_linking, bind_task
 
 
@@ -71,7 +71,14 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         remembered = perceived_entity_linking(episodic.snapshot(), robokg)
         state["scene_graph"] = perceived["scene_graph"]
         state["entity_links"] = remembered["entity_links"]
+        state["aliases"] = remembered["aliases"]
+        # Context follows planning identities; the G1 context is a separate copy.
+        aliases = {alias: canonical for canonical, names in state['aliases'].items() for alias in names}
+        for relation in state['context_graph']['relations']:
+            for endpoint in ('subject', 'object'):
+                relation[endpoint] = aliases.get(relation[endpoint], relation[endpoint])
         state.update(bind_task(state["frame"], remembered, robokg))
+        add_frame_graph(state)
         return {
             **state,
             "sense_graph": sense_graph,
@@ -95,7 +102,7 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
     # Stop the preview after a bounded number of observations, without pretending
     # the task is complete or repeatedly calling a VLM before task execution exists.
     while not task_complete and observations < observation_count:
-        state = sense(result)
+        state = episode_snapshot(sense(result), observations + 1)
         write_graph_snapshot("g1", state)
         plan_ = plan(state)
         write_graph_snapshot("episodic", episodic.snapshot())

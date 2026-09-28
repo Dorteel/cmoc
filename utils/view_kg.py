@@ -44,20 +44,38 @@ def snapshot_to_graph(data):
         edge(node("entity", relation["subject"]), relation["predicate"], node("entity", relation["object"]))
     for identifier, concept in data.get("entity_links", {}).items():
         edge(node("entity", identifier), "linkedTo", node("concept", concept))
-    snapshot = node("snapshot", "Snapshot")
-    for key in ("instruction", "type", "issues"):
-        if key in data:
-            edge(snapshot, key, Literal(data[key] if isinstance(data[key], str) else json.dumps(data[key])))
-    if "frame" in data:
-        frame = node("frame", "Bringing")
-        edge(snapshot, "frame", frame)
-        for role, value in data["frame"].items():
-            edge(frame, role, Literal(value if value is not None else "unbound"))
-        for role, value in data.get("bindings", {}).items():
-            if value is not None:
-                edge(frame, "bound" + role, node("entity", value))
-        if data.get("theme_concept"):
-            edge(frame, "themeConcept", node("concept", data["theme_concept"]))
+    context = data.get('context_graph')
+    if context:
+        for item in context['nodes']:
+            entity = node('entity', item['id'])
+            graph.add((entity, RDF.type, node('type', item['type'])))
+            for key, value in item.items():
+                if key not in ('id', 'type') and value is not None:
+                    edge(entity, key, Literal(value))
+        for relation in context['relations']:
+            edge(node('entity', relation['subject']), relation['predicate'], node('entity', relation['object']))
+        for canonical, aliases in data.get('aliases', {}).items():
+            edge(node('entity', canonical), 'aliases', Literal(', '.join(aliases)))
+        if data.get('theme_concept'):
+            edge(node('entity', 'Theme_FE'), 'linkedTo', node('concept', data['theme_concept']))
+        for key in ('type', 'issues'):
+            if key in data:
+                edge(node('entity', 'episode_1'), key, Literal(json.dumps(data[key])))
+    else:
+        snapshot = node("snapshot", "Snapshot")
+        for key in ("instruction", "type", "issues"):
+            if key in data:
+                edge(snapshot, key, Literal(data[key] if isinstance(data[key], str) else json.dumps(data[key])))
+        if "frame" in data:
+            frame = node("frame", "Bringing")
+            edge(snapshot, "frame", frame)
+            for role, value in data["frame"].items():
+                edge(frame, role, Literal(value if value is not None else "unbound"))
+            for role, value in data.get("bindings", {}).items():
+                if value is not None:
+                    edge(frame, "bound" + role, node("entity", value))
+            if data.get("theme_concept"):
+                edge(frame, "themeConcept", node("concept", data["theme_concept"]))
     return graph
 
 

@@ -4058,6 +4058,56 @@
       "qualities": {
         "color": "white"
       }
+    },
+    {
+      "id": "object_1",
+      "type": "person",
+      "qualities": {
+        "color": "green",
+        "shape": "long-sleeved"
+      }
+    },
+    {
+      "id": "object_2",
+      "type": "pants",
+      "qualities": {
+        "color": "blue"
+      }
+    },
+    {
+      "id": "object_3",
+      "type": "radiator",
+      "qualities": {
+        "color": "white"
+      }
+    },
+    {
+      "id": "object_4",
+      "type": "chair",
+      "qualities": {
+        "color": "brown"
+      }
+    },
+    {
+      "id": "object_5",
+      "type": "table",
+      "qualities": {
+        "color": "brown"
+      }
+    },
+    {
+      "id": "object_6",
+      "type": "book",
+      "qualities": {
+        "color": "red"
+      }
+    },
+    {
+      "id": "object_7",
+      "type": "Location",
+      "qualities": {
+        "color": "white"
+      }
     }
   ],
   "relations": [
@@ -5340,6 +5390,36 @@
       "subject": "fruitbowlconnector_1",
       "predicate": "on",
       "object": "table(1)"
+    },
+    {
+      "subject": "object_1",
+      "predicate": "on",
+      "object": "object_2"
+    },
+    {
+      "subject": "object_1",
+      "predicate": "in",
+      "object": "object_7"
+    },
+    {
+      "subject": "object_4",
+      "predicate": "on",
+      "object": "object_7"
+    },
+    {
+      "subject": "object_5",
+      "predicate": "on",
+      "object": "object_7"
+    },
+    {
+      "subject": "object_6",
+      "predicate": "on",
+      "object": "object_5"
+    },
+    {
+      "subject": "object_3",
+      "predicate": "on",
+      "object": "object_7"
     }
   ]
 }

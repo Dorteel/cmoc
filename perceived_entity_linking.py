@@ -3,7 +3,8 @@
 from copy import deepcopy
 import math
 
-ENTITY_ALIASES = {'mannequin': 'user'}
+# Explicit demo identities, not a general person/pedestrian type rule.
+ENTITY_ALIASES = {'mannequin': 'user', 'person_1': 'user', 'pedestrian_1': 'user'}
 
 
 def resolve_concept(term, robokg):
@@ -16,33 +17,45 @@ def resolve_concept(term, robokg):
 
 
 def perceived_entity_linking(scene_graph, robokg):
-    """Return a planning-only graph copy, ID→concept links, and identity conflicts.
-
-    The sole demo identity alias is mannequin→user (matched by ID or type).
-    Relation endpoints follow the same renaming; raw perception is never edited.
-    """
+    """Perceived Entity Linking (PEL): copy, consolidate demo IDs, link concepts."""
     graph = deepcopy(scene_graph)
-    aliases = {}
-    links = {}
-    seen = set()
+    renames, provenance, objects, concepts = {}, {}, {}, {}
     issues = []
-    for obj in graph.get('objects', []):
+    # Prefer an existing canonical record, then stable ID order for alias metadata.
+    ordered = sorted(graph.get('objects', []),
+                     key=lambda obj: (obj['id'].strip().casefold() in ENTITY_ALIASES, obj['id']))
+    for obj in ordered:
         identifier = obj['id']
-        canonical = ENTITY_ALIASES.get(identifier.strip().casefold(),
-                    ENTITY_ALIASES.get(obj['type'].strip().casefold(), identifier))
-        aliases[identifier] = canonical
-        obj['id'] = canonical
-        if canonical in seen:
-            issues.append(f'Conflicting episodic identity: {canonical}')
-        seen.add(canonical)
+        canonical = ENTITY_ALIASES.get(identifier.strip().casefold(), identifier)
+        # Preserve the earlier mannequin-type rule, without generalizing to people.
+        if obj['type'].strip().casefold() == 'mannequin':
+            canonical = 'user'
+        renames[identifier] = canonical
+        if canonical != identifier:
+            provenance.setdefault(canonical, []).append(identifier)
         concept = resolve_concept(obj['type'], robokg)
         if concept is not None:
-            links[canonical] = concept
+            concepts.setdefault(canonical, set()).add(concept)
+        obj['id'] = canonical
+        if canonical not in objects:
+            objects[canonical] = obj
+        else:
+            for key, value in obj.get('qualities', {}).items():
+                objects[canonical].setdefault('qualities', {}).setdefault(key, value)
+    # Keep perceived ordering while emitting each canonical identity only once.
+    graph['objects'] = list({renames[obj['id']]: objects[renames[obj['id']]]
+                             for obj in scene_graph.get('objects', [])}.values())
+    relations = []
     for relation in graph.get('relations', []):
         for endpoint in ('subject', 'object'):
             identifier = relation[endpoint]
-            relation[endpoint] = aliases.get(identifier, ENTITY_ALIASES.get(identifier, identifier))
-    return {'scene_graph': graph, 'entity_links': links, 'issues': issues}
+            relation[endpoint] = renames.get(identifier, ENTITY_ALIASES.get(identifier, identifier))
+        if relation not in relations:
+            relations.append(relation)
+    graph['relations'] = relations
+    links = {identifier: next(iter(values)) for identifier, values in concepts.items() if len(values) == 1}
+    return {'scene_graph': graph, 'entity_links': links, 'issues': issues,
+            'aliases': {key: sorted(set(values)) for key, values in provenance.items()}}
 
 
 def _position(obj):

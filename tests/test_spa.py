@@ -53,7 +53,7 @@ class SpaTests(unittest.TestCase):
         self.assertEqual(state['planning_graph']['entity_links']['fork1'], 'fork.n.01')
         self.assertEqual(state['bindings']['Theme'], 'fork1')
         self.assertEqual({key: state[key] for key in expected}, expected)
-        self.assertEqual(state['sense_graph'], {'instruction': 'Bring me a fork',
+        self.assertEqual({key: state['sense_graph'][key] for key in ('instruction', 'scene_graph')}, {'instruction': 'Bring me a fork',
                                                 'scene_graph': graph})
         self.assertNotIn('frame', state['sense_graph'])
         self.assertIsNone(state['action_graph'])
@@ -83,7 +83,7 @@ class SpaTests(unittest.TestCase):
             with patch('demo.observe_scene_with_vlm', side_effect=observe):
                 state = self.run_spa(episodic)
         self.assertEqual([call[0] for call in calls.mock_calls], ['merge', 'parse'])
-        self.assertEqual(set(state['sense_graph']), {'instruction', 'scene_graph'})
+        self.assertEqual(set(state['sense_graph']), {'instruction', 'scene_graph', 'context_graph'})
         self.assertEqual(state['planning_graph']['frame']['Source'], 'KITCHEN')
 
     @patch('demo.observe_scene_with_vlm', return_value={'objects': [], 'relations': []})

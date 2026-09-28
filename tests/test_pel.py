@@ -103,11 +103,20 @@ class PELTests(unittest.TestCase):
         self.assertEqual(result['type'], 'bring')
         self.assertEqual(memory.snapshot()['objects'][1]['id'], 'mannequin')
 
-    def test_identity_collision_does_not_claim_complete_grounding(self):
+    def test_known_aliases_merge_with_existing_user(self):
         value = graph()
         value['objects'].append(obj('user', 'person'))
-        self.assertEqual(self.ground(value)['type'], 'incomplete')
+        self.assertEqual(self.ground(value)['type'], 'bring')
 
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def test_other_people_are_not_demo_user():
+    kg = Mock()
+    kg.resolve_concept.return_value = []
+    raw = {'objects': [obj('person_2', 'person'), obj('pedestrian_2', 'pedestrian')], 'relations': []}
+    result = perceived_entity_linking(raw, kg)
+    assert result['scene_graph'] == raw
+    assert result['aliases'] == {}
