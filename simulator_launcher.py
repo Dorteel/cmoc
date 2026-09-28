@@ -6,6 +6,8 @@ import signal
 import subprocess
 import time
 
+from external.webots_ros2_simulation.controllers.fallback_action_supervisor.command_server import check_port_available
+
 
 SIMULATOR = Path(__file__).resolve().parent / 'external' / 'webots_ros2_simulation'
 
@@ -20,6 +22,7 @@ class SimulatorLauncher:
         launch = SIMULATOR / 'launch' / 'navigation.launch.py'
         if not launch.is_file():
             raise FileNotFoundError('Simulator missing: run git submodule update --init --recursive')
+        check_port_available()
         from navigation import MAP_DIRECTORY, MapAlignment
         alignment = MapAlignment.load(MAP_DIRECTORY / 'alignment.yaml')
         command = ['ros2', 'launch', str(launch),

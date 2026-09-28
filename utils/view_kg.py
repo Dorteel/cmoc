@@ -1,4 +1,4 @@
-"""A local, live RDF viewer: python -m tools.view_kg path/to/graph.ttl."""
+"""Live RDF and SPA snapshot viewer: python utils/view_kg.py g2 --watch."""
 
 import argparse
 import hashlib
@@ -6,16 +6,70 @@ import json
 import threading
 import webbrowser
 from pathlib import Path
-from urllib.parse import unquote
+from urllib.parse import unquote, quote
 from wsgiref.simple_server import make_server
 
-from rdflib import BNode, Graph, Literal, RDF
+from rdflib import BNode, Graph, Literal, RDF, URIRef
 from rdflib.util import guess_format
+
+
+ARTIFACT_DIRECTORY = Path(__file__).resolve().parents[1] / "episodic_memory"
+SNAPSHOTS = {"g1": "g1_sense.json", "g2": "g2_plan.json", "g3": "g3_action.json"}
+
+
+def resolve_path(value):
+    return (ARTIFACT_DIRECTORY / SNAPSHOTS[value] if value in SNAPSHOTS
+            else Path(value).expanduser().resolve())
+
+
+def missing_message(path):
+    stage = next((key.upper() for key, name in SNAPSHOTS.items() if path.name == name), "Graph")
+    return f"{stage} snapshot not available yet. Run demo.py through the corresponding stage first."
+
+
+def snapshot_to_graph(data):
+    """Visualization-only RDF adapter; never change the stored JSON representation."""
+    graph = Graph()
+    def node(kind, value):
+        return URIRef("urn:cmoc:" + kind + ":" + quote(str(value), safe=""))
+    def edge(subject, label, target):
+        graph.add((subject, node("predicate", label), target))
+    scene = data.get("scene_graph", data)
+    for obj in scene.get("objects", []):
+        entity = node("entity", obj["id"])
+        graph.add((entity, RDF.type, node("type", obj.get("type", "Entity"))))
+        for key, value in obj.get("qualities", {}).items():
+            edge(entity, key, Literal(json.dumps(value, ensure_ascii=False)))
+    for relation in scene.get("relations", []):
+        edge(node("entity", relation["subject"]), relation["predicate"], node("entity", relation["object"]))
+    for identifier, concept in data.get("entity_links", {}).items():
+        edge(node("entity", identifier), "linkedTo", node("concept", concept))
+    snapshot = node("snapshot", "Snapshot")
+    for key in ("instruction", "type", "issues"):
+        if key in data:
+            edge(snapshot, key, Literal(data[key] if isinstance(data[key], str) else json.dumps(data[key])))
+    if "frame" in data:
+        frame = node("frame", "Bringing")
+        edge(snapshot, "frame", frame)
+        for role, value in data["frame"].items():
+            edge(frame, role, Literal(value if value is not None else "unbound"))
+        for role, value in data.get("bindings", {}).items():
+            if value is not None:
+                edge(frame, "bound" + role, node("entity", value))
+        if data.get("theme_concept"):
+            edge(frame, "themeConcept", node("concept", data["theme_concept"]))
+    return graph
 
 
 # Load a complete snapshot before replacing anything the browser can see.
 def load_graph(path, rdf_format=None):
     source = path.read_bytes()
+    if path.suffix.lower() == ".json" and rdf_format is None:
+        data = json.loads(source)
+        if data is None:
+            raise ValueError("G3 action snapshot not available yet; Act is not implemented.")
+        if isinstance(data, dict) and ("scene_graph" in data or "objects" in data):
+            return snapshot_to_graph(data)
     graph = Graph()
     graph.parse(data=source, format=rdf_format or guess_format(str(path)) or "turtle",
                 publicID=path.as_uri())
@@ -222,7 +276,8 @@ def watch_graph(path, rdf_format, state, lock, stopped):
             last_stamp = None
             # Retry failed reads even if the writer preserves the modification time.
             with lock:
-                state["error"] = f"Waiting for valid RDF; keeping last graph. {type(error).__name__}: {error}"
+                state["error"] = (missing_message(path) if isinstance(error, FileNotFoundError) else
+                                  f"Waiting for a valid graph; keeping last graph. {error}")
         stopped.wait(1)
 
 
@@ -265,10 +320,20 @@ def run_server(path, rdf_format=None):
 # The module entry point keeps invocation independent of ROS or project setup.
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("path", type=Path, help="RDF file to watch")
+    parser.add_argument("path", help="g1/g2/g3 shortcut, JSON snapshot, or RDF file")
+    parser.add_argument("--watch", action="store_true", help="Wait for missing snapshots; live reload is always enabled")
     parser.add_argument("--format", choices=("turtle", "xml", "json-ld"), help="Override format detection")
     arguments = parser.parse_args()
-    run_server(arguments.path.expanduser().resolve(), arguments.format)
+    path = resolve_path(arguments.path)
+    if not path.exists():
+        print(missing_message(path))
+        if not arguments.watch:
+            return
+    elif arguments.path == "g3" and json.loads(path.read_text()) is None:
+        print("G3 action snapshot not available yet; Act is not implemented.")
+        if not arguments.watch:
+            return
+    run_server(path, arguments.format)
 
 
 if __name__ == "__main__":

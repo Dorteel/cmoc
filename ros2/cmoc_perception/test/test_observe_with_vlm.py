@@ -238,6 +238,32 @@ class ObserveIntegrationTest(unittest.TestCase):
         self.assertFalse(result.success)
         self.assertIn('timed out', result.response)
 
+    def test_nebula_read_header_timeout_retries_once(self):
+        self.frame()
+        type(self).delay = .5
+        self.server.set_parameters([Parameter('backend', value='nebula'),
+                                   Parameter('request_timeout_sec', value=.1)])
+        with patch.dict(os.environ, {'OBSERVE_TEST_KEY': 'fixture-key'}):
+            result, _ = self.ask()
+        self.assertFalse(result.success)
+        self.assertEqual(len(self.requests), 2)
+
+    def test_observation_client_cleanup_after_perception_failure(self):
+        from observation import observe_scene_with_vlm
+
+        self.frame()
+        type(self).status = 400
+        for _ in range(2):
+            with self.assertRaisesRegex(RuntimeError, 'HTTP 400'):
+                observe_scene_with_vlm(timeout=5)
+        # Subsequent application spins must not execute callbacks for the
+        # destroyed observation clients on the global executor.
+        probe = Node('observation_cleanup_probe')
+        try:
+            rclpy.spin_once(probe, timeout_sec=0.01)
+        finally:
+            probe.destroy_node()
+
     def test_invalid_requested_schema_before_camera_or_http(self):
         for schema in ('{', '{"type": "not_a_type"}', '{"required": "found"}',
                        'null', '{"minimum": NaN}', '{"$schema": "unknown-dialect"}'):

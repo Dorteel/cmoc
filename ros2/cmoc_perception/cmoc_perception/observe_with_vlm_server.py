@@ -5,8 +5,7 @@ import base64
 import json
 import os
 from threading import Lock
-from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+from .vlm_http import NEBULA_URL, NEBULA_MODEL, ask_nebula, post_json, encode_nebula_image
 
 import cv2
 from jsonschema import Draft202012Validator, SchemaError, ValidationError
@@ -37,10 +36,12 @@ class ObserveWithVLMActionServer(Node):
             'camera_topic': '/tiago/camera/color/image_raw',
             'ollama_url': 'http://localhost:11434',
             'ollama_model': 'qwen3-vl:2b',
-            'nebula_url': 'https://nebula.cs.vu.nl/api/chat/completions',
-            'nebula_model': 'SURF.Qwen3.5 122B A10B NVFP4',
+            'nebula_url': NEBULA_URL,
+            'nebula_model': NEBULA_MODEL,
             'nebula_api_key_env': 'NEBULA_API_KEY',
             'request_timeout_sec': 120.0,
+            'nebula_image_max_dimension': 1024,
+            'nebula_jpeg_quality': 85,
         }.items():
             self.declare_parameter(name, default)
         self._latest_image = None
@@ -68,22 +69,10 @@ class ObserveWithVLMActionServer(Node):
             self._latest_image = image
 
     def _post(self, url, payload, api_key=None):
-        headers = {'Content-Type': 'application/json'}
-        if api_key:
-            headers['Authorization'] = f'Bearer {api_key}'
-        timeout = float(self.get_parameter('request_timeout_sec').value)
-        if timeout <= 0:
-            raise ValueError('request_timeout_sec must be positive.')
-        request = Request(url, data=json.dumps(payload).encode('utf-8'),
-                          headers=headers, method='POST')
-        try:
-            with urlopen(request, timeout=timeout) as response:
-                return json.load(response)
-        except HTTPError as error:
-            # Do not echo remote bodies or request headers: they may contain secrets.
-            raise RuntimeError(f'VLM endpoint returned HTTP {error.code}.') from None
-        except (URLError, TimeoutError, OSError):
-            raise RuntimeError('VLM endpoint unavailable or request timed out.') from None
+        return post_json(url, payload, api_key,
+                         timeout=float(self.get_parameter('request_timeout_sec').value),
+                         backend=self.get_parameter('backend').value,
+                         log_error=self.get_logger().error)
 
     def _ask_ollama(self, prompt, image_b64, schema):
         result = self._post(
@@ -96,24 +85,12 @@ class ObserveWithVLMActionServer(Node):
         return result['message']['content']
 
     def _ask_nebula(self, prompt, image_b64, schema):
-        api_key = os.environ.get(self.get_parameter('nebula_api_key_env').value)
-        if not api_key:
-            raise ValueError('Nebula API key is missing; set the environment variable '
-                             'named by nebula_api_key_env before starting the server.')
-        result = self._post(
-            self.get_parameter('nebula_url').value,
-            {'model': self.get_parameter('nebula_model').value,
-             # Native schema support verified on the configured Nebula model.
-             # Always validate locally too; backend guarantees are not assumed.
-             'response_format': {'type': 'json_schema', 'json_schema': {
-                 'name': 'observation', 'strict': True, 'schema': schema}},
-             'stream': False,
-             'messages': [{'role': 'user', 'content': [
-                 {'type': 'text', 'text': prompt},
-                 {'type': 'image_url', 'image_url': {
-                     'url': 'data:image/jpeg;base64,' + image_b64}},
-             ]}]}, api_key=api_key)
-        return result['choices'][0]['message']['content']
+        return ask_nebula(
+            prompt, image_b64, schema,
+            api_key=os.environ.get(self.get_parameter('nebula_api_key_env').value),
+            url=self.get_parameter('nebula_url').value,
+            model=self.get_parameter('nebula_model').value, post=self._post,
+            log_info=self.get_logger().info)
 
     def execute(self, goal_handle):
         result = ObserveWithVLM.Result()
@@ -147,10 +124,17 @@ class ObserveWithVLMActionServer(Node):
             goal_handle.publish_feedback(ObserveWithVLM.Feedback(state='running_vlm'))
             # ROS color image -> BGR pixels -> JPEG bytes -> base64.
             pixels = self._bridge.imgmsg_to_cv2(image, desired_encoding='bgr8')
-            ok, jpeg = cv2.imencode('.jpg', pixels)
-            if not ok:
-                raise ValueError('Could not encode camera frame as JPEG.')
-            image_b64 = base64.b64encode(jpeg.tobytes()).decode('ascii')
+            if backend == 'nebula':
+                image_b64 = encode_nebula_image(
+                    pixels,
+                    max_dimension=self.get_parameter('nebula_image_max_dimension').value,
+                    jpeg_quality=self.get_parameter('nebula_jpeg_quality').value,
+                    source_encoding=image.encoding, log_info=logger.info)
+            else:
+                ok, jpeg = cv2.imencode('.jpg', pixels)
+                if not ok:
+                    raise ValueError('Could not encode camera frame as JPEG.')
+                image_b64 = base64.b64encode(jpeg.tobytes()).decode('ascii')
             ask = self._ask_ollama if backend == 'ollama' else self._ask_nebula
             logger.info('Sending frame to VLM')
             response = ask(goal_handle.request.prompt, image_b64, schema)

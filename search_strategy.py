@@ -42,7 +42,8 @@ if __name__ == "__main__":
         "Destination": "user",
     }
 
-    kb = KnowledgeInterface("scene_graph.json")
+    from graph_snapshots import EPISODIC_GRAPH
+    kb = KnowledgeInterface(EPISODIC_GRAPH)
     semantic_memory = SemanticMemory()
     search = resolve_search(frame, kb, semantic_memory)
 

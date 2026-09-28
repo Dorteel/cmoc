@@ -582,13 +582,14 @@ def validate_graph(graph, object_schema, graph_schema):
 
 
 def save_graph(graph, world_path):
-    """Save the generated reference beside its source world."""
-    output = world_path.with_suffix(".scene_graph.json")
+    """Save the generated reference under CMOC episodic_memory."""
+    output = Path(__file__).resolve().parents[1] / "episodic_memory" / (world_path.stem + ".scene_graph.json")
+    output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(graph, indent=2, allow_nan=False) + "\n", encoding="utf-8")
 
 
 def generate_scene_graph_from_simulation(world_file):
-    """Save <world>.scene_graph.json beside the source world and return its graph."""
+    """Save <world>.scene_graph.json under episodic_memory and return its graph."""
     # Load the world and the existing object/relation contracts.
     path, text = load_world(world_file)
     object_schema = json.loads((SCHEMAS / "objects.json").read_text(encoding="utf-8"))
@@ -619,7 +620,7 @@ def main():
     args = parser.parse_args()
     graph = generate_scene_graph_from_simulation(args.world_file)
     print(f"Saved {len(graph['objects'])} objects and {len(graph['relations'])} relations to "
-          f"{args.world_file.resolve().with_suffix('.scene_graph.json')}")
+          f"{Path(__file__).resolve().parents[1] / 'episodic_memory' / (args.world_file.stem + '.scene_graph.json')}")
 
 
 if __name__ == "__main__":

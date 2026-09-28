@@ -9,11 +9,13 @@ from simulator_launcher import SIMULATOR, SimulatorLauncher
 
 
 class SimulatorLauncherTests(unittest.TestCase):
+    @patch('simulator_launcher.check_port_available')
     @patch('simulator_launcher.subprocess.Popen')
-    def test_start_command_and_repeated_start(self, popen):
+    def test_start_command_and_repeated_start(self, popen, check_port):
         launcher = SimulatorLauncher()
         popen.return_value.poll.return_value = None
         launcher.start()
+        check_port.assert_called_once()
         command = popen.call_args.args[0]
         self.assertEqual(command[:3],
                          ['ros2', 'launch', str(SIMULATOR / 'launch/navigation.launch.py')])
