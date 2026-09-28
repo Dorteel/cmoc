@@ -2,6 +2,7 @@
 
 Run after building/sourcing: python3 -m unittest discover -s ros2/cmoc_perception/test -v
 """
+from urllib.error import HTTPError, URLError
 import base64
 import json
 import os
@@ -144,6 +145,9 @@ class ObserveIntegrationTest(unittest.TestCase):
             with patch.dict(os.environ, {'OBSERVE_TEST_KEY': 'fixture-key'}):
                 result, feedback = self.ask('Do you see a coffee mug?')
             self.assertTrue(result.success, result.response)
+            self.assertEqual(json.loads(result.perception_provenance),
+                             {'backend': backend, 'model': self.server.get_parameter(backend + '_model').value,
+                              'fallback_used': False})
             self.assertEqual(json.loads(result.response), MUG_RESPONSE)
             self.assertIn('running_vlm', feedback)
             path, body, auth = self.requests[-1]
@@ -183,9 +187,10 @@ class ObserveIntegrationTest(unittest.TestCase):
         self.server.set_parameters([Parameter('backend', value='nebula')])
         with patch.dict(os.environ, {}, clear=True):
             result, _ = self.ask()
-        self.assertFalse(result.success)
-        self.assertIn('API key is missing', result.response)
-        self.assertFalse(self.requests)
+        self.assertTrue(result.success, result.response)
+        self.assertEqual(json.loads(result.perception_provenance),
+                         {'backend': 'ollama', 'model': 'qwen3-vl:2b', 'fallback_used': True})
+        self.assertEqual(self.requests[0][0], '/api/chat')
 
     def test_http_and_invalid_response(self):
         self.frame()
@@ -238,7 +243,7 @@ class ObserveIntegrationTest(unittest.TestCase):
         self.assertFalse(result.success)
         self.assertIn('timed out', result.response)
 
-    def test_nebula_read_header_timeout_retries_once(self):
+    def test_nebula_and_ollama_read_timeouts_each_try_twice(self):
         self.frame()
         type(self).delay = .5
         self.server.set_parameters([Parameter('backend', value='nebula'),
@@ -246,7 +251,8 @@ class ObserveIntegrationTest(unittest.TestCase):
         with patch.dict(os.environ, {'OBSERVE_TEST_KEY': 'fixture-key'}):
             result, _ = self.ask()
         self.assertFalse(result.success)
-        self.assertEqual(len(self.requests), 2)
+        self.assertEqual([request[0] for request in self.requests], ['/api/chat/completions', '/api/chat/completions', '/api/chat', '/api/chat'])
+        self.assertIn('Both perception backends failed', result.response)
 
     def test_observation_client_cleanup_after_perception_failure(self):
         from observation import observe_scene_with_vlm
@@ -263,6 +269,77 @@ class ObserveIntegrationTest(unittest.TestCase):
             rclpy.spin_once(probe, timeout_sec=0.01)
         finally:
             probe.destroy_node()
+
+    def test_fallback_reuses_frame_schema_and_returns_local_result(self):
+        for failure in (RuntimeError('read timeout'), RuntimeError('connection refused'),
+                        RuntimeError('HTTP 503'), ValueError('API key is missing')):
+            with self.subTest(failure=str(failure)), \
+                    patch.object(self.server, '_ask_nebula', side_effect=failure) as remote, \
+                    patch.object(self.server, '_ask_ollama', return_value='local observation') as local:
+                result, provenance = self.server._observe('nebula', 'prompt', 'same-image', MUG_SCHEMA)
+                self.assertEqual(result, 'local observation')
+                self.assertEqual(provenance, {'backend': 'ollama', 'model': 'qwen3-vl:2b', 'fallback_used': True})
+                remote.assert_called_once_with('prompt', 'same-image', MUG_SCHEMA)
+                local.assert_called_once_with('prompt', 'same-image', MUG_SCHEMA)
+        with patch.object(self.server, '_ask_nebula', return_value='remote') as remote, \
+                patch.object(self.server, '_ask_ollama') as local:
+            result, provenance = self.server._observe('nebula', 'prompt', 'image', MUG_SCHEMA)
+            self.assertEqual(result, 'remote')
+            self.assertFalse(provenance['fallback_used'])
+            local.assert_not_called()
+
+    def test_exact_two_attempts_per_backend_success_or_failure(self):
+        def failure(cause):
+            error = RuntimeError('transport failure')
+            error.__cause__ = cause
+            return error
+
+        causes = [TimeoutError('read timeout'), URLError(ConnectionRefusedError('refused')),
+                  HTTPError('http://local', 503, 'unavailable', {}, None)]
+        for cause in causes:
+            for local_succeeds in (True, False):
+                with self.subTest(cause=type(cause).__name__, local_succeeds=local_succeeds):
+                    order = []
+                    def remote(*args):
+                        order.append('nebula')
+                        raise failure(cause)
+                    def local(*args):
+                        order.append('ollama')
+                        if local_succeeds and order.count('ollama') == 2:
+                            return 'local result'
+                        raise failure(cause)
+                    with patch.object(self.server, '_ask_nebula', side_effect=remote), \
+                            patch.object(self.server, '_ask_ollama', side_effect=local):
+                        if local_succeeds:
+                            result, provenance = self.server._observe('nebula', 'prompt', 'image', MUG_SCHEMA)
+                            self.assertEqual(result, 'local result')
+                            self.assertEqual(provenance, {'backend': 'ollama', 'model': 'qwen3-vl:2b', 'fallback_used': True})
+                        else:
+                            with self.assertRaisesRegex(RuntimeError, 'Both perception backends failed'):
+                                self.server._observe('nebula', 'prompt', 'image', MUG_SCHEMA)
+                    self.assertEqual(order, ['nebula', 'nebula', 'ollama', 'ollama'])
+
+    def test_nontransient_http_errors_are_not_retried(self):
+        error = RuntimeError('HTTP 401')
+        error.__cause__ = HTTPError('http://local', 401, 'unauthorized', {}, None)
+        with patch.object(self.server, '_ask_nebula', side_effect=error) as remote, \
+                patch.object(self.server, '_ask_ollama', side_effect=error) as local:
+            with self.assertRaisesRegex(RuntimeError, 'Both perception backends failed'):
+                self.server._observe('nebula', 'prompt', 'image', MUG_SCHEMA)
+        remote.assert_called_once()
+        local.assert_called_once()
+
+    def test_client_provenance_envelope_after_fallback(self):
+        from observation import observe_scene_with_vlm
+        self.frame()
+        self.server.set_parameters([Parameter('backend', value='nebula')])
+        scene = {'objects': [], 'relations': []}
+        type(self).reply = {'message': {'content': json.dumps(scene)}}
+        with patch.dict(os.environ, {}, clear=True):
+            result = observe_scene_with_vlm(with_provenance=True, timeout=5)
+        self.assertEqual(result['scene_graph'], scene)
+        self.assertEqual(result['perception_provenance'],
+                         {'backend': 'ollama', 'model': 'qwen3-vl:2b', 'fallback_used': True})
 
     def test_invalid_requested_schema_before_camera_or_http(self):
         for schema in ('{', '{"type": "not_a_type"}', '{"required": "found"}',

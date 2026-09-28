@@ -17,6 +17,21 @@ SIMULATOR = ROOT / 'external/webots_ros2_simulation'
 MAP_DIRECTORY = SIMULATOR / 'maps/apartment_room_aligned'
 
 
+def entity_approach_pose(robot, target):
+    """Map-frame goal 0.5 m before target, or rotate in place when closer."""
+    rx, ry = robot
+    tx, ty = target
+    if not all(math.isfinite(value) for value in (rx, ry, tx, ty)):
+        raise ValueError('Entity approach requires finite coordinates')
+    dx, dy = tx - rx, ty - ry
+    distance = math.hypot(dx, dy)
+    if distance <= 0.5:
+        x, y = rx, ry
+    else:
+        x, y = tx - 0.5 * dx / distance, ty - 0.5 * dy / distance
+    return x, y, math.atan2(ty - y, tx - x)
+
+
 class OccupancyMap:
     def __init__(self, path):
         path = Path(path)
@@ -202,6 +217,34 @@ class RoomNavigator:
         self.active_goal = None
         print('Navigation succeeded' if success else 'Navigation failed', flush=True)
         return success
+
+    def current_map_position(self, timeout=5):
+        """Read the current Nav2 robot pose, not its pre-plan episodic position."""
+        from rclpy.time import Time
+        from tf2_ros import Buffer, TransformListener
+
+        buffer = Buffer()
+        listener = TransformListener(buffer, self.node, spin_thread=False)
+        future = None
+        try:
+            future = buffer.wait_for_transform_async('map', 'base_link', Time())
+            transform = self._wait(future, timeout)
+            position = transform.transform.translation
+            return position.x, position.y
+        except Exception as error:
+            raise RuntimeError(f'Current robot map pose unavailable: {error}') from error
+        finally:
+            if future is not None and not future.done():
+                future.cancel()
+            listener.unregister()
+
+    def approach_entity(self, target, scene_position):
+        target_position = self.goals.alignment.scene_to_map(*scene_position)
+        x, y, yaw = entity_approach_pose(self.current_map_position(), target_position)
+        print(f'Entity approach (map frame):\n  target={target}\n'
+              f'  target_position={target_position}\n'
+              f'  approach_position=({x:.3f}, {y:.3f})\n  yaw={yaw:.3f}', flush=True)
+        return self.navigate_to(x, y, yaw)
 
     def sample_room_goal(self, room_id, seed=None):
         return self.goals.sample_room_goal(room_id, seed)

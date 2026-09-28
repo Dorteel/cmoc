@@ -5,7 +5,8 @@ import base64
 import json
 import os
 from threading import Lock
-from .vlm_http import NEBULA_URL, NEBULA_MODEL, ask_nebula, post_json, encode_nebula_image
+from urllib.error import HTTPError, URLError
+from .vlm_http import NEBULA_URL, NEBULA_MODEL, ask_nebula, post_json, encode_nebula_image, safe_detail
 
 import cv2
 from jsonschema import Draft202012Validator, SchemaError, ValidationError
@@ -68,10 +69,10 @@ class ObserveWithVLMActionServer(Node):
         with self._image_lock:
             self._latest_image = image
 
-    def _post(self, url, payload, api_key=None):
+    def _post(self, url, payload, api_key=None, *, backend=None):
         return post_json(url, payload, api_key,
                          timeout=float(self.get_parameter('request_timeout_sec').value),
-                         backend=self.get_parameter('backend').value,
+                         backend=backend or self.get_parameter('backend').value,
                          log_error=self.get_logger().error)
 
     def _ask_ollama(self, prompt, image_b64, schema):
@@ -81,7 +82,8 @@ class ObserveWithVLMActionServer(Node):
              'format': schema,
              'options': {'temperature': 0},
              'stream': False,
-             'messages': [{'role': 'user', 'content': prompt, 'images': [image_b64]}]})
+             'messages': [{'role': 'user', 'content': prompt, 'images': [image_b64]}]},
+            backend='ollama')
         return result['message']['content']
 
     def _ask_nebula(self, prompt, image_b64, schema):
@@ -90,7 +92,46 @@ class ObserveWithVLMActionServer(Node):
             api_key=os.environ.get(self.get_parameter('nebula_api_key_env').value),
             url=self.get_parameter('nebula_url').value,
             model=self.get_parameter('nebula_model').value, post=self._post,
-            log_info=self.get_logger().info)
+            log_info=self.get_logger().info, retry_read_timeout=False)
+
+    def _observe(self, backend, prompt, image_b64, schema):
+        """At most two transient-error attempts per backend, then fallback/fail."""
+        def request(name):
+            ask = self._ask_nebula if name == 'nebula' else self._ask_ollama
+            for attempt in (1, 2):
+                self.get_logger().info(f'{name} attempt {attempt}/2')
+                try:
+                    return ask(prompt, image_b64, schema)
+                except (RuntimeError, ValueError) as error:
+                    cause = error.__cause__ or error
+                    transient = (500 <= cause.code < 600 if isinstance(cause, HTTPError)
+                                 else isinstance(cause, (URLError, TimeoutError, ConnectionError)))
+                    if attempt == 2 or not transient:
+                        raise
+                    key = os.environ.get(self.get_parameter('nebula_api_key_env').value)
+                    self.get_logger().warning(f'{name} transient failure; retrying once: ' +
+                                              safe_detail(error, key))
+        fallback_used = False
+        if backend == 'nebula':
+            try:
+                response = request('nebula')
+            except (RuntimeError, ValueError) as error:
+                key = os.environ.get(self.get_parameter('nebula_api_key_env').value)
+                self.get_logger().warning('Nebula unavailable; using Ollama fallback: ' +
+                                          safe_detail(error, key))
+                backend = 'ollama'
+                fallback_used = True
+                try:
+                    response = request('ollama')
+                except (RuntimeError, ValueError, KeyError, IndexError, TypeError) as local_error:
+                    raise RuntimeError('Both perception backends failed: Nebula: ' +
+                                       safe_detail(error, key) + '; Ollama: ' +
+                                       safe_detail(local_error, key)) from local_error
+        else:
+            response = request('ollama')
+        return response, {'backend': backend,
+                          'model': self.get_parameter(backend + '_model').value,
+                          'fallback_used': fallback_used}
 
     def execute(self, goal_handle):
         result = ObserveWithVLM.Result()
@@ -135,9 +176,8 @@ class ObserveWithVLMActionServer(Node):
                 if not ok:
                     raise ValueError('Could not encode camera frame as JPEG.')
                 image_b64 = base64.b64encode(jpeg.tobytes()).decode('ascii')
-            ask = self._ask_ollama if backend == 'ollama' else self._ask_nebula
             logger.info('Sending frame to VLM')
-            response = ask(goal_handle.request.prompt, image_b64, schema)
+            response, provenance = self._observe(backend, goal_handle.request.prompt, image_b64, schema)
             logger.info('Structured response received')
             try:
                 if not isinstance(response, str):
@@ -153,6 +193,7 @@ class ObserveWithVLMActionServer(Node):
                     f'{error.message}') from None
             # success describes the pipeline, not the meaning of any JSON field.
             result.response = json.dumps(response_json, allow_nan=False)
+            result.perception_provenance = json.dumps(provenance)
             logger.info('Response validated successfully')
         except (ValueError, RuntimeError) as error:
             result.response = str(error)

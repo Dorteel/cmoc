@@ -3,22 +3,23 @@
 CMOC is a robotics prototype organized around Sense → Plan → Act. It reuses
 RoboKGNet for static semantic knowledge, Webots/TIAGo for simulation, and the
 existing CMOC perception action for VLM observations. The current SPA demo makes
-a deterministic Bringing decision; it does **not** execute a delivery.
+a grounded Bringing plan; execution is opt-in with `--execute`.
 
 ## Current architecture
 
 ```text
 Sense
-  → current TIAGo camera observation through /observe_with_vlm (Nebula)
+  → current TIAGo camera observation through /observe_with_vlm (Nebula → local Ollama fallback)
   → G1: Episode + Instruction + raw Observation (observedBy robot)
 Plan
   → merge observation into episodic memory
   → extract semantic task frame
   → Perceived Entity Linking (PEL) and concrete task grounding
   → G2: same Episode + PEL + task frame + Frame Element bindings
+  → Unified Planning: existing Bringing domain → ordered symbolic plan
 Act
-  → currently prints the decision; no navigation/manipulation chain
-  → G3: placeholder until action execution/result observations exist
+  → dry-run printout, or sequential ROS2 dispatch with --execute
+  → G3: same Episode, ordered plan, attempted actions and result
 ```
 
 - `external/robokgnet/` is a Git submodule. CMOC's `knowledge_interface.py`
@@ -39,9 +40,16 @@ Act
   mannequin-type fallback is preserved. G1 and stored episodic IDs remain raw.
 
 PEL resolves normalized object types and the task Theme through RoboKGNet, with
-spaces-to-underscores fallback. Only a unique concept match is linked; ambiguous
+spaces-to-underscores fallback. The demo normalizes `ForkConnector` to `fork`
+and selects the existing utensil entry `fork.n.01`. Otherwise only a unique concept match is linked; ambiguous
 senses remain unresolved. Remembered entities are linked on demand by stored type.
-One Theme instance is selected directly; multiple matches require finite robot
+Theme candidates must also pass the simulator affordance check: their local PROTO
+exposes `connectorModel` wired to a passive Connector. A type suffix alone is not
+evidence of graspability. Connector types normalize lexically (`BookConnector` →
+`book`, `ForkConnector` → `fork`). An exact normalized type may identify concrete
+candidates when WordNet is ambiguous, without fabricating a semantic concept link.
+No graspable match leaves Theme unbound and prevents planning/picking.
+One graspable Theme instance is selected directly; multiple matches require finite robot
 and candidate XYZ positions. Nearest Euclidean distance wins, with ID ordering
 for ties. Missing positions never cause an arbitrary choice. Source must belong
 to the selected instance through a unique room `in` relation.
@@ -49,9 +57,10 @@ to the selected instance through a unique room `in` relation.
 The semantic `frame` keeps Theme=`fork`; concrete `bindings` may have
 Theme=`FORK_1`. G2 contains both, plus `entity_links`, `theme_concept`, `type`, and
 `issues`. The happy path returns `bring` only when required concrete entities
-and Source are known. Otherwise it returns `incomplete`. LookFor execution and
-Unified Planning integration into SPA are upcoming. Existing standalone planning
-experiments under `procedural_memory/planning/` remain separate.
+and Source are known. UP additionally requires known robot and destination rooms;
+missing facts return an incomplete plan. `bringing_plan.py` reuses `Planner` and
+`bringing/chatgpt/domain.pddl` (move/pick/place, no LookFor), with a 30-second solver
+timeout. The demo assumes an initially empty gripper. No search/replanning is added.
 
 ## Runtime artifacts
 
@@ -61,7 +70,7 @@ episodic_memory/
     scene_graph_2.json     # preserved older demo snapshot
     g1_sense.json          # raw instruction + current observation
     g2_plan.json           # planning graph after PEL and task grounding
-    g3_action.json         # currently null; future post-action snapshot
+    g3_action.json         # task-only ordered plan, attempts and outcome
     <world>.scene_graph.json  # optional scene-graph generator outputs
 ```
 
@@ -119,8 +128,18 @@ ros2 run cmoc_perception observe_with_vlm_server --ros-args -p backend:=nebula
 No separate perception server is needed for the demo. The configured endpoint is
 `https://nebula.cs.vu.nl/api/chat/completions`; model is
 `SURF.Qwen3.5 122B A10B NVFP4`. The key is inherited by the child process; `.env`
-is not automatically loaded. Missing credentials fail before SPA. Standalone
-Ollama support remains available via `backend:=ollama`.
+is not automatically loaded. Nebula gets at most two attempts; connection/timeout/HTTP
+errors retry once when transient (timeout, connection, HTTP 5xx); exhausted attempts,
+authentication errors or missing credentials trigger a logged
+fallback to existing local Ollama `qwen3-vl:2b` at `http://localhost:11434`.
+Ollama likewise gets at most two attempts with the same transient-error policy.
+Ensure Ollama is running and the model is installed. Both failing aborts perception;
+invalid schemas or schema-invalid model output remain explicit errors.
+Standalone Ollama remains available via `backend:=ollama`.
+
+The action result now has a separate `perception_provenance` JSON field. Rebuild
+**both `cmoc_interfaces` and `cmoc_perception`**, then source the workspace before
+running the demo; clients and server must use the updated interface.
 
 Setup waits for `/wheel/odom`, then ACTIVE lifecycle states from `bt_navigator`,
 `planner_server`, and `controller_server` (120-second deadline), then perception
@@ -128,18 +147,40 @@ action availability (60 seconds). It prints `CMOC READY` before the first prompt
 `demo.py` initializes ROS once and shuts it down after owned-process cleanup.
 Ctrl+C stops perception and simulation with process-group SIGINT/TERM/KILL handling.
 
+The single dispatcher in `plan_execution.py` maps UP `move` to
+`RoomNavigator.go_to_room`, `pick` to `/pick` (`robot`, `object`), and `place` to
+`/place_next_to` (`robot`, `object`, `target`). This simulator operation releases
+the object at a clear lateral pose beside the target. Task identities map to
+verified Webots names: `robot → TIAGo`, `user → pedestrian` (the generated memory
+ID is `pedestrian_1`). Room targets keep existing room navigation, except when immediately followed by
+`pick`: execution approaches that exact grounded Theme if its coordinates are
+known. The symbolic room target and Source binding stay unchanged; unavailable
+Theme coordinates retain room navigation. Positioned
+entity targets use a pose 0.5 m before the target on the current robot→target
+line, facing it. Within 0.5 m the robot keeps its position and turns toward the
+target. Episodic world coordinates use the existing map alignment; current robot
+coordinates come from `map → base_link` TF at execution time. Missing target
+coordinates use the known-room fallback; unavailable robot TF stops the step
+instead of using a stale pre-plan pose. The Bringing planner still requires known
+rooms for its symbolic problem. Manipulation remains the
+simulator's Supervisor fallback, not physical grasp planning. Action availability,
+acceptance and completion are checked; timeout/failure stops later steps, with no
+retry. Cancellation is best effort because the existing fallback servers may reject it.
+
 ## Useful commands
 
 ```bash
-python demo.py
+python demo.py                         # dry-run: no plan goals sent
+python demo.py --execute --step        # confirm each step
+python demo.py --execute               # sequential full execution
 python demo.py --scenario empty
 python demo.py --scenario human-moves
 python demo.py --test-navigation
 ```
 
 Enter at `Instruction [Bring me a fork]:` uses the default. Instruction persists
-across cycles; every Sense call requests a new VLM observation. The preview runs
-one cycle and leaves the simulator open until Ctrl+C. `existing` loads canonical
+across cycles; every Sense call requests a new VLM observation. Dry-run is the default. Live execution stops on the first failure or success,
+then leaves the simulator open until Ctrl+C. `existing` loads canonical
 episodic memory; `empty` starts with no remembered objects; `human-moves` currently
 initializes like `existing` without scripted movement. All use the same planning
 logic. `spa_loop(episodic, robokg, semantic_memory, navigator, observation_count=2)`
@@ -166,8 +207,8 @@ The existing local browser viewer supports both RDF (Turtle/XML/JSON-LD) and
 SPA JSON, retaining its pan/zoom/drag interface and one-second live reload.
 `--format` still overrides RDF format detection. Shortcuts resolve independently
 of the working directory. Missing snapshots produce a friendly message;
-`--watch` opens the viewer and waits for their creation. G3 reports unavailable
-while its value is null.
+`--watch` opens the viewer and waits for their creation. Use `python utils/view_kg.py g3 --watch`
+to inspect the ordered plan and attempted-action statuses.
 
 Snapshots are successive knowledge states of one SPA Episode. G1 keeps the raw
 `scene_graph` unchanged and adds a JSON `context_graph` (nodes/relations):
@@ -181,8 +222,22 @@ with alias metadata, and `hasFrame → BringingFrame_1`. Its four
 `hasFrameElement` nodes (`Agent_FE`, `Theme_FE`, `Source_FE`, `Destination_FE`)
 carry `semanticValue` and, when resolved, `bindsTo` edges to concrete entities.
 Unresolved roles remain visible without `bindsTo`. The `frame` and `bindings`
-dictionaries remain separate. G3 is reserved for the same Episode plus resulting
-actions/observations; it remains null until Act is implemented. This RDF translation exists only
+dictionaries remain separate. `frame_element_links` adds a third, semantic-grounding
+layer: roles first reuse PEL links for canonical entities or matching episodic
+types, then use RoboKGNet lexical resolution. Destination `user` thus inherits
+the canonical pedestrian concept. Missing/ambiguous links stay null with `frame_element_issues` also listed
+in `issues`; they do not change existing concrete plan selection.
+`linkedTo` connects each resolved FE to its concept independently of `bindsTo`.
+
+G1/G2 keep `perception_provenance` (`backend`, `model`, `fallback_used`); the Observation
+shows `generatedByModel`, `perceptionBackend`, and `fallbackUsed`. G2 is bounded
+to current perception, Episode/frame context, canonical user, referenced concepts,
+and selected concrete bindings. Full memory stays in `episodic_memory/scene_graph.json`.
+The G2 viewer renders only the compact task context (about 10–20 nodes), never
+the full `scene_graph`. Instruction, model provenance and types are node details;
+aliases remain in JSON without visible alias nodes.
+G3 contains only the same Episode, plan, ordered actions, attempts/status, and
+direct argument entities; it does not duplicate G1/G2 or world memory. This RDF translation exists only
 inside the viewer; saved knowledge remains JSON. Last valid graphs stay visible
 while invalid/missing files are retried. The UI uses text content for labels.
 
@@ -227,9 +282,10 @@ has matching CLI options. Logs show source/output dimensions and encoding,
 JPEG/base64 bytes, serialized payload bytes, model, and per-attempt elapsed time;
 image contents and credentials are not logged.
 
-Timeout remains 120 seconds per HTTP attempt. Only a confirmed response-read
-timeout gets one retry after 1 second; HTTP errors and connect/TLS timeouts do not.
-The observation client allows 270 seconds for both attempts and stops its local
+Timeout remains configurable via `request_timeout_sec` (default 120 seconds per
+HTTP attempt). The live server allows two attempts per backend, retrying only timeout, connection
+and HTTP 5xx failures before falling back or failing. The standalone Nebula diagnostic retains its one read-timeout
+retry. The observation client allows 510 seconds for the four possible primary/fallback attempts and stops its local
 executor before destroying the action client, so callbacks cannot outlive it. Error diagnostics retain exception
 causes and identify connection/read phases when possible; HTTP bodies are bounded
 and keys redacted. Action availability alone does not prove API reachability.
@@ -245,3 +301,10 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest tests/test_graph_sna
 
 Additional transport tests: `tests/test_vlm_http.py`. Existing ROS perception tests
 in `ros2/cmoc_perception/test/` use a local HTTP fixture after build/source.
+
+For transport/fallback and action-contract tests, use the ROS Python environment
+with the rebuilt workspace sourced (local HTTP fixtures only):
+
+```bash
+ROS_DOMAIN_ID=184 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest tests/test_vlm_http.py ros2/cmoc_perception/test/test_observe_with_vlm.py -q
+```

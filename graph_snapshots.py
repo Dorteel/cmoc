@@ -38,7 +38,11 @@ def episode_snapshot(state, observation_number=1):
     state['context_graph'] = {
         'nodes': [{'id': 'episode_1', 'type': 'Episode'},
                   {'id': 'instruction_1', 'type': 'Instruction', 'text': state['instruction']},
-                  {'id': observation, 'type': 'Observation'},
+                  {'id': observation, 'type': 'Observation',
+                   **({'generatedByModel': state['perception_provenance']['model'],
+                       'perceptionBackend': state['perception_provenance']['backend'],
+                       'fallbackUsed': state['perception_provenance']['fallback_used']}
+                      if state.get('perception_provenance') else {})},
                   {'id': 'robot', 'type': 'Robot'}],
         'relations': [
             {'subject': 'episode_1', 'predicate': 'hasInstruction', 'object': 'instruction_1'},
@@ -50,17 +54,66 @@ def episode_snapshot(state, observation_number=1):
 
 
 def add_frame_graph(state):
-    """Expose semantic roles and concrete bindings without conflating them."""
-    context = state['context_graph']
-    context['nodes'].append({'id': 'BringingFrame_1', 'type': 'Bringing'})
-    context['relations'].append({'subject': 'episode_1', 'predicate': 'hasFrame',
-                                 'object': 'BringingFrame_1'})
+    """Build only task context; raw perception/memory are not expanded here."""
+    observation = deepcopy(next(node for node in state['context_graph']['nodes']
+                                if node['type'] == 'Observation'))
+    relevant = {'robot', 'user'} | {value for value in state['bindings'].values() if value}
+    nodes = [{'id': 'episode_1', 'type': 'Episode', 'instruction': state['instruction']},
+             observation, {'id': 'robot', 'type': 'Robot'},
+             {'id': 'user', 'type': 'Entity'}, {'id': 'BringingFrame_1', 'type': 'Bringing'}]
+    context = state['context_graph'] = {'nodes': nodes, 'relations': [
+        {'subject': 'episode_1', 'predicate': 'hasObservation', 'object': observation['id']},
+        {'subject': observation['id'], 'predicate': 'observedBy', 'object': 'robot'},
+        {'subject': 'episode_1', 'predicate': 'hasFrame', 'object': 'BringingFrame_1'}]}
+    for obj in state['scene_graph'].get('objects', []):
+        if obj['id'] in relevant:
+            relation = {'subject': observation['id'], 'predicate': 'observes', 'object': obj['id']}
+            if relation not in context['relations']:
+                context['relations'].append(relation)
+    for identifier, concept in state.get('entity_links', {}).items():
+        if identifier in relevant:
+            context['relations'].append({'subject': identifier, 'predicate': 'linkedTo', 'object': concept})
     for role in ('Agent', 'Theme', 'Source', 'Destination'):
         identifier = role + '_FE'
         context['nodes'].append({'id': identifier, 'type': 'FrameElement',
                                  'role': role, 'semanticValue': state['frame'].get(role)})
         context['relations'].append({'subject': 'BringingFrame_1',
                                      'predicate': 'hasFrameElement', 'object': identifier})
+        concept = state.get('frame_element_links', {}).get(role)
+        if concept is not None:
+            context['relations'].append({'subject': identifier, 'predicate': 'linkedTo',
+                                         'object': concept})
         if state['bindings'].get(role) is not None:
             context['relations'].append({'subject': identifier, 'predicate': 'bindsTo',
                                          'object': state['bindings'][role]})
+
+    # Declare just endpoints of these task relationships, with no expansion.
+    declared = {node['id'] for node in nodes}
+    for relation in context['relations']:
+        for endpoint in ('subject', 'object'):
+            identifier = relation[endpoint]
+            if identifier not in declared:
+                kind = 'Concept' if endpoint == 'object' and relation['predicate'] == 'linkedTo' else 'Entity'
+                nodes.append({'id': identifier, 'type': kind})
+                declared.add(identifier)
+
+
+def action_snapshot(result):
+    """Task-only G3: ordered plan and attempts, never a world-memory copy."""
+    snapshot = deepcopy(result)
+    nodes = [{'id': 'episode_1', 'type': 'Episode', 'status': result['status']},
+             {'id': 'Plan_1', 'type': 'Plan'}]
+    relations = [{'subject': 'episode_1', 'predicate': 'hasPlan', 'object': 'Plan_1'}]
+    attempts = {attempt['step']: attempt['status'] for attempt in result['executed']}
+    for index, step in enumerate(result['plan'], 1):
+        identifier = f"{step['action']}_{index}"
+        nodes.append({'id': identifier, 'type': 'Action', 'action': step['action'],
+                      'order': index, 'status': attempts.get(index, 'not_attempted')})
+        relations.append({'subject': 'Plan_1', 'predicate': 'hasAction', 'object': identifier})
+        for position, value in enumerate(step['args']):
+            relations.append({'subject': identifier, 'predicate': f'argument{position + 1}', 'object': value})
+    if result.get('reason'):
+        nodes[0]['reason'] = result['reason']
+    snapshot['episode_id'] = 'episode_1'
+    snapshot['context_graph'] = {'nodes': nodes, 'relations': relations}
+    return snapshot

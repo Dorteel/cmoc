@@ -84,10 +84,9 @@ class PerceptionLauncherTests(unittest.TestCase):
 
     @patch.dict('os.environ', {}, clear=True)
     @patch('perception_launcher.subprocess.Popen')
-    def test_missing_nebula_key_fails_before_process_start(self, popen):
-        with self.assertRaisesRegex(RuntimeError, 'NEBULA_API_KEY is not set'):
-            PerceptionLauncher(backend='nebula').start()
-        popen.assert_not_called()
+    def test_missing_nebula_key_allows_server_fallback(self, popen):
+        PerceptionLauncher(backend='nebula').start()
+        popen.assert_called_once()
 
     @patch.dict('os.environ', {}, clear=True)
     @patch('perception_launcher.subprocess.Popen')

@@ -137,7 +137,7 @@ class DemoSetupTests(unittest.TestCase):
 
 
     @patch('demo.candidate_locations', return_value=[])
-    @patch('demo.observe_scene_with_vlm', return_value={'objects': [], 'relations': []})
+    @patch('demo.observe_scene_with_vlm', return_value={'scene_graph': {'objects': [], 'relations': []}})
     @patch('demo.RoomNavigator')
     @patch('demo.SimulatorLauncher')
     @patch('sys.argv', ['demo.py'])
@@ -155,7 +155,7 @@ class DemoSetupTests(unittest.TestCase):
             with patch('builtins.input', side_effect=instruction) as ask:
                 demo.main()
                 ask.assert_called_once_with('Instruction [Bring me a fork]: ')
-        observe.assert_called_once_with(schema_path='schemas/objects.json')
+        observe.assert_called_once_with(schema_path='schemas/objects.json', with_provenance=True)
 
     @patch('builtins.input')
     @patch('demo.spa_loop')

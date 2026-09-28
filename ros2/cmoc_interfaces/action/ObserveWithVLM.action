@@ -3,5 +3,7 @@ string json_schema
 ---
 bool success
 string response
+# JSON metadata separate from the schema-validated response.
+string perception_provenance
 ---
 string state

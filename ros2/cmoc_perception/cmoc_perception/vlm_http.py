@@ -100,7 +100,7 @@ def post_json(url, payload, api_key=None, *, timeout=120, backend='nebula', log_
 
 
 def ask_nebula(prompt, image_b64, schema, *, api_key, url=NEBULA_URL,
-               model=NEBULA_MODEL, post=post_json, log_info=None, retry_delay=1.0):
+               model=NEBULA_MODEL, post=post_json, log_info=None, retry_delay=1.0, retry_read_timeout=True):
     if not api_key:
         raise ValueError('Nebula API key is missing; set the environment variable '
                          'named by nebula_api_key_env before starting the server.')
@@ -118,15 +118,16 @@ def ask_nebula(prompt, image_b64, schema, *, api_key, url=NEBULA_URL,
     report(f'Nebula model: {model}')
     size = len(json.dumps(payload).encode('utf-8'))
     report(f'Payload: {size} bytes ({size / 1024:.1f} KiB)')
-    for attempt in (1, 2):
-        report(f'Attempt {attempt}/2')
+    attempts = 2 if retry_read_timeout else 1
+    for attempt in range(1, attempts + 1):
+        report(f'Attempt {attempt}/{attempts}')
         started = time.monotonic()
         try:
             result = post(url, payload, api_key=api_key)
         except RuntimeError as error:
             report(getattr(error, 'detail', str(error)))
             report(f'Attempt failed after {time.monotonic() - started:.1f} s')
-            if attempt == 2 or not getattr(error, 'read_timeout', False):
+            if attempt == attempts or not getattr(error, 'read_timeout', False):
                 raise
             report(f'Nebula read timeout; retrying once in {retry_delay:g} s')
             time.sleep(retry_delay)

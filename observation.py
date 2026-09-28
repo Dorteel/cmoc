@@ -6,11 +6,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 
 
-def observe_scene_with_vlm(schema_path=ROOT / 'schemas/objects.json', timeout=270):
+def observe_scene_with_vlm(schema_path=ROOT / 'schemas/objects.json', timeout=510, *, with_provenance=False):
     """Request a new observation of the server's latest TIAGo RGB frame.
 
     The application owns rclpy. The existing server owns camera capture, VLM
     backend selection and schema validation; this helper only calls its action.
+    with_provenance returns scene_graph plus server-produced perception_provenance;
+    the default preserves the scene-only API for existing callers.
     """
     import rclpy
     from rclpy.executors import SingleThreadedExecutor
@@ -58,7 +60,11 @@ def observe_scene_with_vlm(schema_path=ROOT / 'schemas/objects.json', timeout=27
         result = wait(handle.get_result_async())
         if result.status != GoalStatus.STATUS_SUCCEEDED or not result.result.success:
             raise RuntimeError(f'VLM observation failed: {result.result.response}')
-        return json.loads(result.result.response)
+        scene = json.loads(result.result.response)
+        if with_provenance:
+            return {'scene_graph': scene,
+                    'perception_provenance': json.loads(result.result.perception_provenance)}
+        return scene
     finally:
         # The existing server has no cancellation support; its HTTP timeout bounds
         # inference if this caller is interrupted. Never shut down application ROS.

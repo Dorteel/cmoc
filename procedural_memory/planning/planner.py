@@ -12,7 +12,7 @@ class Planner:
         # Remember an optional engine name; otherwise select one automatically.
         self.planner_name = planner_name
 
-    def solve(self, domain_path, problem_path):
+    def solve(self, domain_path, problem_path, timeout=30):
         # Parse both PDDL files into Unified Planning's problem model.
         problem = PDDLReader().parse_problem(str(domain_path), str(problem_path))
 
@@ -23,7 +23,7 @@ class Planner:
             else {"problem_kind": problem.kind}
         )
         with OneshotPlanner(**options) as planner:
-            result = planner.solve(problem)
+            result = planner.solve(problem, timeout=timeout)
 
         # Return a successful plan; report the solver status otherwise.
         if result.status in POSITIVE_OUTCOMES and result.plan is not None:

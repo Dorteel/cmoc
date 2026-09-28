@@ -34,6 +34,20 @@ def snapshot_to_graph(data):
         return URIRef("urn:cmoc:" + kind + ":" + quote(str(value), safe=""))
     def edge(subject, label, target):
         graph.add((subject, node("predicate", label), target))
+    context = data.get('context_graph')
+    if context and 'frame' in data:
+        # G2's small context is authoritative; never expand scene_graph here.
+        # Types/provenance are node details, not extra hubs or literal nodes.
+        concepts = {item['id'] for item in context['nodes'] if item['type'] == 'Concept'}
+        def context_node(identifier):
+            return node('concept' if identifier in concepts else 'entity', identifier)
+        graph.node_details = {context_node(item['id']): item for item in context['nodes']}
+        for relation in context['relations']:
+            edge(context_node(relation['subject']), relation['predicate'], context_node(relation['object']))
+        for item in context['nodes']:
+            if item.get('semanticValue') is not None:
+                edge(context_node(item['id']), 'semanticValue', Literal(item['semanticValue']))
+        return graph
     scene = data.get("scene_graph", data)
     for obj in scene.get("objects", []):
         entity = node("entity", obj["id"])
@@ -53,11 +67,10 @@ def snapshot_to_graph(data):
                 if key not in ('id', 'type') and value is not None:
                     edge(entity, key, Literal(value))
         for relation in context['relations']:
-            edge(node('entity', relation['subject']), relation['predicate'], node('entity', relation['object']))
+            edge(node('entity', relation['subject']), relation['predicate'],
+                 node('concept' if relation['predicate'] == 'linkedTo' else 'entity', relation['object']))
         for canonical, aliases in data.get('aliases', {}).items():
             edge(node('entity', canonical), 'aliases', Literal(', '.join(aliases)))
-        if data.get('theme_concept'):
-            edge(node('entity', 'Theme_FE'), 'linkedTo', node('concept', data['theme_concept']))
         for key in ('type', 'issues'):
             if key in data:
                 edge(node('entity', 'episode_1'), key, Literal(json.dumps(data[key])))
@@ -85,8 +98,8 @@ def load_graph(path, rdf_format=None):
     if path.suffix.lower() == ".json" and rdf_format is None:
         data = json.loads(source)
         if data is None:
-            raise ValueError("G3 action snapshot not available yet; Act is not implemented.")
-        if isinstance(data, dict) and ("scene_graph" in data or "objects" in data):
+            raise ValueError("G3 action snapshot not available yet; run demo.py through Act.")
+        if isinstance(data, dict) and ("scene_graph" in data or "objects" in data or "context_graph" in data):
             return snapshot_to_graph(data)
     graph = Graph()
     graph.parse(data=source, format=rdf_format or guess_format(str(path)) or "turtle",
@@ -108,7 +121,8 @@ def type_color(type_uri):
 
 
 def graph_to_data(graph):
-    terms = sorted(set(graph.subjects()) | set(graph.objects()), key=lambda term: term.n3())
+    node_details = getattr(graph, 'node_details', {})
+    terms = sorted(set(graph.subjects()) | set(graph.objects()) | set(node_details), key=lambda term: term.n3())
     identifiers = {term: term.n3() for term in terms}
     nodes = []
     visible_types = set()
@@ -118,6 +132,7 @@ def graph_to_data(graph):
         kind = "literal" if isinstance(term, Literal) else "blank" if isinstance(term, BNode) else "resource"
         label = str(term) if kind == "literal" else local_name(term)
         nodes.append({
+            "details": node_details.get(term, {}),
             "id": identifiers[term], "label": label[:60] + ("…" if len(label) > 60 else ""),
             "kind": kind, "uri": str(term) if kind == "resource" else None,
             "types": [str(item) for item in types],
@@ -168,7 +183,8 @@ function describe(node){
   details.textContent=[node.kind==='blank'?'Blank node: '+node.id:node.uri || 'Literal',
     node.types.length?'Types:\n'+node.types.join('\n'):'',
     node.value!==null?'Value: '+node.value:'',node.language?'Language: '+node.language:'',
-    node.datatype?'Datatype: '+node.datatype:''].filter(Boolean).join('\n\n');
+    node.datatype?'Datatype: '+node.datatype:'',
+    node.details && Object.keys(node.details).length ? JSON.stringify(node.details,null,2) : ''].filter(Boolean).join('\n\n');
 }
 function render(data){
   const previous=new Map(nodes.map(node=>[node.id,node]));
@@ -348,7 +364,7 @@ def main():
         if not arguments.watch:
             return
     elif arguments.path == "g3" and json.loads(path.read_text()) is None:
-        print("G3 action snapshot not available yet; Act is not implemented.")
+        print("G3 action snapshot not available yet; run demo.py through Act.")
         if not arguments.watch:
             return
     run_server(path, arguments.format)

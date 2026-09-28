@@ -12,7 +12,7 @@ from observation import observe_scene_with_vlm
 from scene_graph_interface import KnowledgeInterface
 
 
-def observation(room='KITCHEN', object_id='fork1', object_type='fork'):
+def observation(room='KITCHEN', object_id='fork1', object_type='ForkConnector'):
     return {'objects': [
         {'id': room, 'type': 'Location', 'qualities': {}},
         {'id': 'robot', 'type': 'robot', 'qualities': {}},
@@ -41,11 +41,11 @@ class SpaTests(unittest.TestCase):
     @patch('builtins.input', return_value='')
     def test_default_instruction_and_enriched_state(self, ask, observe):
         graph = observation()
-        observe.return_value = graph
+        observe.return_value = {'scene_graph': graph}
         episodic = KnowledgeInterface()
         state = self.run_spa(episodic)
         ask.assert_called_once_with('Instruction [Bring me a fork]: ')
-        observe.assert_called_once_with(schema_path='schemas/objects.json')
+        observe.assert_called_once_with(schema_path='schemas/objects.json', with_provenance=True)
         expected = {'instruction': 'Bring me a fork', 'scene_graph': graph, 'type': 'bring',
                     'frame': {'Agent': 'robot', 'Theme': 'fork',
                               'Source': 'KITCHEN', 'Destination': 'user'}}
@@ -56,7 +56,8 @@ class SpaTests(unittest.TestCase):
         self.assertEqual({key: state['sense_graph'][key] for key in ('instruction', 'scene_graph')}, {'instruction': 'Bring me a fork',
                                                 'scene_graph': graph})
         self.assertNotIn('frame', state['sense_graph'])
-        self.assertIsNone(state['action_graph'])
+        self.assertEqual(state['action_graph']['episode_id'], 'episode_1')
+        self.assertEqual(state['action_graph']['executed'], [])
         state['frame']['Source'] = 'changed after planning'
         self.assertEqual(state['planning_graph']['frame']['Source'], 'KITCHEN')
         state['scene_graph']['objects'].clear()
@@ -78,7 +79,7 @@ class SpaTests(unittest.TestCase):
             def observe(**kwargs):
                 # Sensing must finish before any memory or frame work starts.
                 self.assertEqual(calls.mock_calls, [])
-                return observation()
+                return {'scene_graph': observation()}
 
             with patch('demo.observe_scene_with_vlm', side_effect=observe):
                 state = self.run_spa(episodic)
@@ -86,7 +87,7 @@ class SpaTests(unittest.TestCase):
         self.assertEqual(set(state['sense_graph']), {'instruction', 'scene_graph', 'context_graph'})
         self.assertEqual(state['planning_graph']['frame']['Source'], 'KITCHEN')
 
-    @patch('demo.observe_scene_with_vlm', return_value={'objects': [], 'relations': []})
+    @patch('demo.observe_scene_with_vlm', return_value={'scene_graph': {'objects': [], 'relations': []}})
     @patch('builtins.input', return_value='')
     def test_existing_memory_fills_source_without_polluting_current_view(self, ask, observe):
         episodic = KnowledgeInterface()
@@ -98,7 +99,7 @@ class SpaTests(unittest.TestCase):
     @patch('demo.observe_scene_with_vlm')
     @patch('builtins.input', return_value='Bring me a spoon')
     def test_explicit_instruction_and_unknown_theme(self, ask, observe):
-        observe.return_value = observation()
+        observe.return_value = {'scene_graph': observation()}
         state = self.run_spa(scenario='empty')
         self.assertEqual(state['instruction'], 'Bring me a spoon')
         self.assertEqual(state['frame']['Theme'], 'spoon')
@@ -108,7 +109,7 @@ class SpaTests(unittest.TestCase):
     @patch('builtins.input', return_value='')
     def test_fresh_observations_update_memory_and_prompt_only_once(self, ask, observe):
         first, second = observation(), observation('LIVING_ROOM_1')
-        observe.side_effect = [first, second]
+        observe.side_effect = [{'scene_graph': first}, {'scene_graph': second}]
         episodic = KnowledgeInterface()
         state = self.run_spa(episodic, observation_count=2)
         ask.assert_called_once()
@@ -119,7 +120,7 @@ class SpaTests(unittest.TestCase):
         self.assertEqual(len(episodic.query_theme('fork1')), 1)
         self.assertEqual(len(episodic.query_locations()), 2)  # Unseen rooms retained.
 
-    @patch('demo.observe_scene_with_vlm', return_value={'objects': [], 'relations': []})
+    @patch('demo.observe_scene_with_vlm', return_value={'scene_graph': {'objects': [], 'relations': []}})
     @patch('builtins.input', return_value='')
     def test_scenarios_choose_initial_memory(self, ask, observe):
         for scenario in ('existing', 'empty', 'human-moves'):
@@ -133,7 +134,7 @@ class SpaTests(unittest.TestCase):
         self.assertEqual(KnowledgeInterface().query_locations(), [])
 
 
-    @patch('demo.observe_scene_with_vlm', return_value={'objects': [], 'relations': []})
+    @patch('demo.observe_scene_with_vlm', return_value={'scene_graph': {'objects': [], 'relations': []}})
     @patch('builtins.input', return_value='')
     def test_missing_grounding_is_incomplete_without_search(self, ask, observe):
         state = self.run_spa(KnowledgeInterface())
@@ -235,7 +236,7 @@ class ObservationClientTests(unittest.TestCase):
         with self.assertRaisesRegex(TimeoutError, 'action timed out'):
             observe_scene_with_vlm()
         self.assertEqual(events, ['shutdown executor', 'cancel', 'destroy client'])
-        self.assertEqual(self.executor.spin_until_future_complete.call_args.kwargs['timeout_sec'], 270)
+        self.assertEqual(self.executor.spin_until_future_complete.call_args.kwargs['timeout_sec'], 510)
         self.ros.shutdown.assert_not_called()
 
     def test_rejected_action_is_reported(self):

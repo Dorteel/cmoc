@@ -1704,7 +1704,7 @@
     },
     {
       "id": "radiator_1",
-      "type": "Radiator",
+      "type": "radiator",
       "qualities": {
         "orientation": [
           -0.0,
@@ -1716,6 +1716,11 @@
           -4.24028,
           -8.71399,
           0.36
+        ],
+        "color": "white",
+        "size": [
+          250,
+          200
         ]
       }
     },
@@ -3329,7 +3334,7 @@
     },
     {
       "id": "table_1",
-      "type": "Table",
+      "type": "table",
       "qualities": {
         "orientation": [
           -0.0,
@@ -3343,10 +3348,11 @@
           0.02
         ],
         "size": [
-          1.2000008156916246,
-          0.8000012235379567,
-          0.53
-        ]
+          300,
+          250
+        ],
+        "color": "brown",
+        "shape": "round"
       }
     },
     {
@@ -4026,6 +4032,152 @@
           1.03
         ]
       }
+    },
+    {
+      "id": "person_1",
+      "type": "person",
+      "qualities": {
+        "color": "green shirt, blue pants"
+      }
+    },
+    {
+      "id": "chair_1",
+      "type": "chair",
+      "qualities": {
+        "color": "brown",
+        "size": [
+          250,
+          300
+        ]
+      }
+    },
+    {
+      "id": "cereal_box_1",
+      "type": "box",
+      "qualities": {
+        "color": "red",
+        "shape": "rectangular"
+      }
+    },
+    {
+      "id": "room_1",
+      "type": "Location",
+      "qualities": {
+        "color": "white"
+      }
+    },
+    {
+      "id": "object_1",
+      "type": "person",
+      "qualities": {
+        "color": "green",
+        "shape": "long-sleeved"
+      }
+    },
+    {
+      "id": "object_2",
+      "type": "pants",
+      "qualities": {
+        "color": "blue"
+      }
+    },
+    {
+      "id": "object_3",
+      "type": "radiator",
+      "qualities": {
+        "color": "white"
+      }
+    },
+    {
+      "id": "object_4",
+      "type": "chair",
+      "qualities": {
+        "color": "brown"
+      }
+    },
+    {
+      "id": "object_5",
+      "type": "table",
+      "qualities": {
+        "color": "brown"
+      }
+    },
+    {
+      "id": "object_6",
+      "type": "book",
+      "qualities": {
+        "color": "red"
+      }
+    },
+    {
+      "id": "object_7",
+      "type": "Location",
+      "qualities": {
+        "color": "white"
+      }
+    },
+    {
+      "id": "mannequin_1",
+      "type": "mannequin",
+      "qualities": {
+        "color": "green",
+        "shape": "human"
+      }
+    },
+    {
+      "id": "shirt_1",
+      "type": "shirt",
+      "qualities": {
+        "color": "green",
+        "size": [
+          375,
+          466
+        ]
+      }
+    },
+    {
+      "id": "pants_1",
+      "type": "pants",
+      "qualities": {
+        "color": "blue",
+        "size": [
+          350,
+          490
+        ]
+      }
+    },
+    {
+      "id": "box_1",
+      "type": "box",
+      "qualities": {
+        "color": "red",
+        "size": [
+          100,
+          150
+        ]
+      }
+    },
+    {
+      "id": "window_1",
+      "type": "window",
+      "qualities": {
+        "color": "gray",
+        "size": [
+          300,
+          300
+        ]
+      }
+    },
+    {
+      "id": "wall_1",
+      "type": "wall",
+      "qualities": {
+        "color": "white",
+        "size": [
+          600,
+          400
+        ]
+      }
     }
   ],
   "relations": [
@@ -4038,6 +4190,1351 @@
       "subject": "lower fridge door",
       "predicate": "attached_to",
       "object": "fridge"
+    },
+    {
+      "subject": "person_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "cereal_box_1",
+      "predicate": "on",
+      "object": "table_1"
+    },
+    {
+      "subject": "KITCHEN_TILES_2",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "cabinet(2)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "cabinet(4)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "cabinet7",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "straightstairs_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "biscuit box(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wall plug(3)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "laptopconnector_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wall plug(5)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "cabinet 4(4)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "cabinet 4(5)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "book(2)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "book(3)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "book(5)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "book(4)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "cabinet 4(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "window 1(6)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "radiator(2)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wall 3(3)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "door(6)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wall 7(10)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wall 9",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wall 9(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "ceiling light 2(5)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "floorlight_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "plate(8)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "plate(6)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "plate(7)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wineglassconnector_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wine glass(7)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wine glass(5)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "carafe(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "chair 1(7)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "chair 1(3)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "chair 4(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "table(5)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "main frame",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "foot 1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "foot 2",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "foot 3",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "foot 4",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "solid(3)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "beerbottleconnector_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "canconnector_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "beer bottle(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "beer bottle(2)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "armchair(4)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "sofa_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "sofa 2",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "carpet",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "bunchofsunflowers_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "cabinet 4",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "television_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "pedestrian_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_1"
+    },
+    {
+      "subject": "wall 3(2)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "ceiling light 2",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "table(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "carafeconnector_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "plateconnector_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "plate(2)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "plate(3)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "plate(4)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "plate(5)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "wine glass(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "wine glass(2)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "wine glass(3)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "wine glass(6)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "wine glass(4)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "chair 1(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "chair 1(2)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "chair 1(5)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "chair 1(6)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "chair 1(4)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "fruitbowlconnector_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "appleconnector_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "orange(1)",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "pottedtree_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "portraitpainting_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "landscapepainting_1",
+      "predicate": "in",
+      "object": "LIVING_ROOM_2"
+    },
+    {
+      "subject": "barbecue_1",
+      "predicate": "in",
+      "object": "GARDEN"
+    },
+    {
+      "subject": "window 1(2)",
+      "predicate": "in",
+      "object": "GARDEN"
+    },
+    {
+      "subject": "table_1",
+      "predicate": "in",
+      "object": "GARDEN"
+    },
+    {
+      "subject": "sofa 2(1)",
+      "predicate": "in",
+      "object": "GARDEN"
+    },
+    {
+      "subject": "TIAGo",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "KITCHEN_BLOCK",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "KITCHEN_TILES_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "KITCHEN_TILES_2",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cabinet(6)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cabinet(2)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cabinet(3)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cabinet(4)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cabinet7",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cabinet(5)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cabinet(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "box(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "box(2)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "solid(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "box(3)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "box(4)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "fridge",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "upper fridge door",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "lower fridge door",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "solid(2)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "solid_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "sink(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "oven(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "oven(2)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "hot plate(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "worktop(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "worktop(2)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "worktop(3)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "worktop(4)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "worktop_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "biscuitboxconnector_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cerealboxconnector_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cereal box(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cereal box(2)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cereal box(3)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "wall plug(3)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cardboardboxconnector_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "squaremanhole_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cardboard box(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cabinet 4(2)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "wooden chair(4)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "wooden chair(6)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "wooden chair(3)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "roundtable_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cookwareconnector_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cookware(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "lidconnector_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "woodenspoonconnector_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "radiator(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "wall 7(8)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "ceiling light 1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "plate1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "plate2",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "table_knife1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "waterbottleconnector_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "table_knife2",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "tablefork1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "tablefork2",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "orangeconnector_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "orange(2)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "orange(3)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "fruit bowl(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "landscape painting(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "washingmachine_1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cupcake1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "cupcake2",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "floor",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall plug(2)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall plug(4)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "radiator(4)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall 7",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall 7(2)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall 7(3)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "door_1",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "door(5)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "door(3)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "door(4)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "door(1)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "door(2)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall 7(1)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall 7(14)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall 7(4)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall 7(5)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "wall 7(11)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "ceiling light 2(1)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "ceiling light 2(2)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "portrait painting(1)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "fireextinguisherconnector_1",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "officetelephoneconnector_1",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "bathroomsink_1",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "ceilingspotlight_1",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "ceiling light(5)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "ceiling light(6)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "ceiling light(7)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "ceiling light(8)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "ceiling light(1)",
+      "predicate": "in",
+      "object": "CORRIDOR"
+    },
+    {
+      "subject": "pipesection_1",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "cabinet 4(3)",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "cabinet 4(6)",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "rubberduckconnector_1",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "rubber duck(1)",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "cabinet(9)",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "window 1(7)",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "radiator_1",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "sink(2)",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "bathtube_1",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "ceiling light(2)",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "ceiling light(3)",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "ceiling light(4)",
+      "predicate": "in",
+      "object": "BATHROOM_1"
+    },
+    {
+      "subject": "cabinet(8)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "wooden chair(2)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "bed_1",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "desk(2)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "window 1(1)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "radiator(3)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "desktopcomputerconnector_1",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "keyboardconnector_1",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "monitorconnector_1",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "computermouseconnector_1",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "wall 7(9)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "wall 7(7)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "wall 7(12)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "ceiling light 2(3)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "table(2)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "table(3)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "armchair(3)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "potted tree(1)",
+      "predicate": "in",
+      "object": "ROOM_1"
+    },
+    {
+      "subject": "cabinet_1",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "bed(1)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "window 1(4)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "radiator(5)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "wall 2(1)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "wall 2(2)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "wall 7(6)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "wall 7(13)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "ceiling light 2(4)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "floor light(1)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "table(4)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "bookconnector_1",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "armchair(1)",
+      "predicate": "in",
+      "object": "ROOM_2"
+    },
+    {
+      "subject": "cupcake1",
+      "predicate": "in",
+      "object": "fridge"
+    },
+    {
+      "subject": "cupcake2",
+      "predicate": "in",
+      "object": "fridge"
+    },
+    {
+      "subject": "KITCHEN_TILES_2",
+      "predicate": "on",
+      "object": "worktop(4)"
+    },
+    {
+      "subject": "biscuitboxconnector_1",
+      "predicate": "on",
+      "object": "worktop(4)"
+    },
+    {
+      "subject": "carafeconnector_1",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "plateconnector_1",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "table_knife1",
+      "predicate": "on",
+      "object": "worktop(1)"
+    },
+    {
+      "subject": "table_knife2",
+      "predicate": "on",
+      "object": "worktop(1)"
+    },
+    {
+      "subject": "tablefork1",
+      "predicate": "on",
+      "object": "worktop(1)"
+    },
+    {
+      "subject": "tablefork2",
+      "predicate": "on",
+      "object": "worktop(1)"
+    },
+    {
+      "subject": "plate(8)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "plate(2)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "plate(3)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "plate(4)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "plate(5)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "plate(6)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "plate(7)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "wineglassconnector_1",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "wine glass(7)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "wine glass(1)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "wine glass(2)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "wine glass(3)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "wine glass(6)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "wine glass(4)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "wine glass(5)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "carafe(1)",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "fruitbowlconnector_1",
+      "predicate": "on",
+      "object": "table(1)"
+    },
+    {
+      "subject": "object_1",
+      "predicate": "on",
+      "object": "object_2"
+    },
+    {
+      "subject": "object_1",
+      "predicate": "in",
+      "object": "object_7"
+    },
+    {
+      "subject": "object_4",
+      "predicate": "on",
+      "object": "object_7"
+    },
+    {
+      "subject": "object_5",
+      "predicate": "on",
+      "object": "object_7"
+    },
+    {
+      "subject": "object_6",
+      "predicate": "on",
+      "object": "object_5"
+    },
+    {
+      "subject": "object_3",
+      "predicate": "on",
+      "object": "object_7"
+    },
+    {
+      "subject": "mannequin_1",
+      "predicate": "in",
+      "object": "Location"
+    },
+    {
+      "subject": "mannequin_1",
+      "predicate": "in",
+      "object": "window_1"
+    },
+    {
+      "subject": "mannequin_1",
+      "predicate": "in",
+      "object": "wall_1"
+    },
+    {
+      "subject": "shirt_1",
+      "predicate": "on",
+      "object": "mannequin_1"
+    },
+    {
+      "subject": "pants_1",
+      "predicate": "on",
+      "object": "mannequin_1"
+    },
+    {
+      "subject": "chair_1",
+      "predicate": "next_to",
+      "object": "mannequin_1"
+    },
+    {
+      "subject": "chair_1",
+      "predicate": "next_to",
+      "object": "table_1"
+    },
+    {
+      "subject": "box_1",
+      "predicate": "on",
+      "object": "table_1"
+    },
+    {
+      "subject": "radiator_1",
+      "predicate": "next_to",
+      "object": "mannequin_1"
+    },
+    {
+      "subject": "radiator_1",
+      "predicate": "next_to",
+      "object": "window_1"
+    },
+    {
+      "subject": "window_1",
+      "predicate": "in",
+      "object": "wall_1"
     }
   ]
 }

@@ -1,6 +1,5 @@
 """Lifecycle wrapper for the existing CMOC perception executable."""
 
-import os
 import subprocess
 import time
 
@@ -18,8 +17,6 @@ class PerceptionLauncher:
     def start(self):
         if self._process is not None:
             raise RuntimeError('Perception already started; call stop() before restarting')
-        if self.backend == "nebula" and not os.environ.get("NEBULA_API_KEY", "").strip():
-            raise RuntimeError("NEBULA_API_KEY is not set")
         command = ['ros2', 'run', 'cmoc_perception', 'observe_with_vlm_server',
                    '--ros-args', '-p', f'backend:={self.backend}']
         if self.model is not None:

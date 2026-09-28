@@ -16,8 +16,10 @@ from simulator_launcher import SimulatorLauncher
 from perception_launcher import PerceptionLauncher
 from navigation import RoomNavigator
 from observation import observe_scene_with_vlm
-from graph_snapshots import EPISODIC_GRAPH, write_graph_snapshot, episode_snapshot, add_frame_graph
-from perceived_entity_linking import perceived_entity_linking, bind_task
+from graph_snapshots import EPISODIC_GRAPH, write_graph_snapshot, episode_snapshot, add_frame_graph, action_snapshot
+from procedural_memory.planning.bringing_plan import plan_bring
+from plan_execution import execute_plan
+from perceived_entity_linking import perceived_entity_linking, bind_task, ground_frame_elements, _position
 
 
 def create_episodic(scenario):
@@ -39,8 +41,8 @@ def candidate_locations(frame, episodic, robokg, semantic_memory):
     return locations
 
 
-def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing", observation_count=1):
-    """Consolidate, perform Perceived Entity Linking (PEL), and ground Bring; do not execute."""
+def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing", observation_count=1, execute=False, step_by_step=False):
+    """Ground and plan Bring, then preview or execute strictly in planner order."""
     if scenario not in ("existing", "empty", "human-moves"):
         raise ValueError(f"Unknown scenario: {scenario}")
     if observation_count < 1:
@@ -51,8 +53,8 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         nonlocal instruction
         if instruction is None:
             instruction = input("Instruction [Bring me a fork]: ").strip() or "Bring me a fork"
-        scene_graph = observe_scene_with_vlm(schema_path="schemas/objects.json")
-        return {"instruction": instruction, "scene_graph": scene_graph}
+        observation = observe_scene_with_vlm(schema_path="schemas/objects.json", with_provenance=True)
+        return {"instruction": instruction, **observation}
 
     def consolidate_knowledge(state):
         episodic.merge_observation(state["scene_graph"])
@@ -70,7 +72,6 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         perceived = perceived_entity_linking(state["scene_graph"], robokg)
         remembered = perceived_entity_linking(episodic.snapshot(), robokg)
         state["scene_graph"] = perceived["scene_graph"]
-        state["entity_links"] = remembered["entity_links"]
         state["aliases"] = remembered["aliases"]
         # Context follows planning identities; the G1 context is a separate copy.
         aliases = {alias: canonical for canonical, names in state['aliases'].items() for alias in names}
@@ -78,38 +79,60 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
             for endpoint in ('subject', 'object'):
                 relation[endpoint] = aliases.get(relation[endpoint], relation[endpoint])
         state.update(bind_task(state["frame"], remembered, robokg))
+        state['frame_element_links'], state['frame_element_issues'] = ground_frame_elements(state['frame'], robokg, remembered)
+        # These diagnostic issues do not change concrete Bring selection.
+        state['issues'].extend(state['frame_element_issues'])
+        # G2 links are task-only; raw scene data remains separate.
+        relevant_ids = {'robot', 'user'} | {value for value in state['bindings'].values() if value}
+        state['entity_links'] = {identifier: concept for identifier, concept in remembered['entity_links'].items()
+                                 if identifier in relevant_ids}
+        state['aliases'] = {identifier: names for identifier, names in state['aliases'].items()
+                            if identifier in relevant_ids}
         add_frame_graph(state)
+        state["planning"] = plan_bring(state["bindings"], remembered["scene_graph"])
         return {
             **state,
+            # Execution-only coordinates for entity navigation; no world dump in G2.
+            "entity_positions": {obj['id']: _position(obj) for obj in remembered['scene_graph']['objects']
+                                 if obj['type'] != 'Location' and _position(obj) is not None
+                                 and any(step['action'] in ('navigate', 'pick') and step['args'][1] == obj['id']
+                                         for step in state['planning'].get('plan', []))},
             "sense_graph": sense_graph,
             "planning_graph": deepcopy(state),  # G2: entities and frame bindings.
-            "action_graph": None,  # G3 is unavailable until Act is implemented.
+            "action_graph": None,  # Populated after Act with task-only results.
         }
 
     def act(plan_):
-        # Decision preview only: navigator is shared for future execution.
-        print("Sensed state:", plan_["sense_graph"])
-        print("Frame:", plan_["frame"])
-        print("Selected plan:", plan_["type"])
-        print("Bindings:", plan_["bindings"])
-        if plan_["type"] == "incomplete":
-            print("Incomplete:", "; ".join(plan_["issues"]))
-        return None
+        return execute_plan(plan_['planning'], navigator, execute=execute, step_by_step=step_by_step,
+                            entity_positions=plan_['entity_positions'])
 
     task_complete = False
     result = None
     observations = 0
-    # Stop the preview after a bounded number of observations, without pretending
-    # the task is complete or repeatedly calling a VLM before task execution exists.
+    # Dry-run may inspect several observations; live execution stops on success
+    # or the first failure, with no automatic replanning.
     while not task_complete and observations < observation_count:
         state = episode_snapshot(sense(result), observations + 1)
         write_graph_snapshot("g1", state)
         plan_ = plan(state)
         write_graph_snapshot("episodic", episodic.snapshot())
-        write_graph_snapshot("g2", plan_["planning_graph"])
+        g2_path = write_graph_snapshot("g2", plan_["planning_graph"])
+        print("Frame:", plan_["frame"], flush=True)
+        print("PEL:", plan_["entity_links"], flush=True)
+        print("Aliases:", plan_["aliases"], flush=True)
+        print("Bindings:", plan_["bindings"], flush=True)
+        print("Issues:", plan_["issues"], flush=True)
+        print("G2 saved:", g2_path, flush=True)
+        if plan_["planning"]["status"] == "planned":
+            print("Plan:", plan_["planning"]["plan"], flush=True)
         result = act(plan_)
-        plan_["action_graph"] = deepcopy(result)
+        plan_["action_graph"] = action_snapshot(result)
+        task_complete = result["status"] == "success"
         write_graph_snapshot("g3", plan_["action_graph"])
+        if result.get("reason") == "Interrupted":
+            raise KeyboardInterrupt
+        if execute and result["status"] != "success":
+            break  # No automatic replanning or recovery after execution failure.
         observations += 1
     return plan_
 
@@ -152,8 +175,12 @@ def main():
     parser.add_argument('--test-navigation', action='store_true',
                         help='Visit KITCHEN and LIVING_ROOM_1 before the memory demo')
     parser.add_argument('--scenario', choices=('existing', 'empty', 'human-moves'),
-                        default='existing', help='Initial episodic memory for the SPA preview')
+                        default='existing', help='Initial episodic memory for SPA')
+    parser.add_argument('--execute', action='store_true', help='Send the generated plan to ROS; default is dry-run')
+    parser.add_argument('--step', action='store_true', help='With --execute, confirm each step before sending it')
     args = parser.parse_args()
+    if args.step and not args.execute:
+        parser.error('--step requires --execute')
     # Keep Ctrl+C as KeyboardInterrupt so cancellation runs before ROS shutdown.
     rclpy.init(args=[], signal_handler_options=SignalHandlerOptions.NO)
     simulator = None
@@ -166,7 +193,7 @@ def main():
             simulator.start()
             simulator.wait_until_ready()
             print('TIAGo ready: received /wheel/odom.', flush=True)
-        if not args.no_simulator or args.test_navigation:
+        if not args.no_simulator or args.test_navigation or args.execute:
             navigator = RoomNavigator()
             navigator.wait_until_ready()
         if args.test_navigation:
@@ -179,7 +206,8 @@ def main():
             robokg = RoboKGNet()
             semantic_memory = SemanticMemory(model="qwen3:1.7b")
             print("\n==============================\nCMOC READY\nPerception backend: Nebula\n==============================", flush=True)
-            spa_loop(episodic, robokg, semantic_memory, navigator, scenario=args.scenario)
+            spa_loop(episodic, robokg, semantic_memory, navigator, scenario=args.scenario,
+                     execute=args.execute, step_by_step=args.step)
         if not args.no_simulator:
             print('Demo complete. Simulator stays open; press Ctrl+C to stop.', flush=True)
             while simulator.is_running():
