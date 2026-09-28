@@ -11,14 +11,14 @@ from plan_execution import execute_step
 @pytest.mark.parametrize('robot,target', [((1, 2), (4, 6)), ((4, 6), (1, 2)), ((0, 0), (-2, 3))])
 def test_standoff_line_and_facing(robot, target):
     x, y, yaw = entity_approach_pose(robot, target)
-    assert math.dist((x, y), target) == pytest.approx(0.5)
+    assert math.dist((x, y), target) == pytest.approx(1.0)
     dx, dy = target[0] - robot[0], target[1] - robot[1]
     assert (x - robot[0]) * dy - (y - robot[1]) * dx == pytest.approx(0)
-    assert math.dist(robot, (x, y)) == pytest.approx(math.dist(robot, target) - 0.5)
+    assert math.dist(robot, (x, y)) == pytest.approx(math.dist(robot, target) - 1.0)
     assert yaw == pytest.approx(math.atan2(target[1] - y, target[0] - x))
 
 
-@pytest.mark.parametrize('target', [(0.1, 0.2), (0.5, 0), (0, 0)])
+@pytest.mark.parametrize('target', [(0.1, 0.2), (0.5, 0), (0.75, 0), (1.0, 0), (0, 0)])
 def test_close_or_coincident_target_keeps_position(target):
     x, y, yaw = entity_approach_pose((0, 0), target)
     assert (x, y) == (0, 0)
@@ -34,7 +34,7 @@ def test_existing_navigator_transforms_target_and_uses_current_robot_pose(capsys
     navigator._reachable_approach = Mock(side_effect=lambda name, target, robot: entity_approach_pose(robot, target))
     assert navigator.approach_entity('person42', [2, 0])
     x, y, yaw = navigator.navigate_to.call_args.args
-    assert (x, y, yaw) == pytest.approx((10, -1.5, math.pi / 2))
+    assert (x, y, yaw) == pytest.approx((10, -2.0, math.pi / 2))
     navigator.current_map_position.assert_called_once()
     assert 'target=person42' in capsys.readouterr().out
 
@@ -137,7 +137,7 @@ def test_pre_pick_refinement_reuses_geometry_and_preserves_symbolic_plan(capsys)
     assert planning == before and result['plan'] == before['plan']
     navigator.go_to_room.assert_not_called()
     x, y, yaw = navigator.navigate_to.call_args_list[0].args
-    assert math.dist((x, y), (3, 4)) == pytest.approx(.5)
+    assert math.dist((x, y), (3, 4)) == pytest.approx(1.0)
     assert yaw == pytest.approx(math.atan2(4 - y, 3 - x))
     assert navigator.navigate_to.call_count == 2  # Destination still uses entity approach.
     assert pick.call_args_list[0].args == ('pick', ['TIAGo', 'book(3)'])
@@ -225,7 +225,7 @@ def path_validator(monkeypatch):
 def test_preferred_pose_validated_before_movement(path_validator, capsys):
     navigator, _, planner, _ = path_validator
     assert navigator.approach_entity('book(3)', (3, 2))
-    assert navigator.navigate_to.call_args.args == pytest.approx((2.5, 2, 0))
+    assert navigator.navigate_to.call_args.args == pytest.approx((2.0, 2, 0))
     planner.send_goal_async.assert_called_once()
     planner.destroy.assert_called_once()
     navigator.node.destroy_client.assert_called_once()
@@ -236,13 +236,13 @@ def test_preferred_pose_validated_before_movement(path_validator, capsys):
 def test_invalid_preferred_uses_reachable_radial_candidate(path_validator, failure):
     navigator, costmap, planner, outcomes = path_validator
     if failure == 'costmap':
-        costmap.data[40 * 100 + 50] = 254
+        costmap.data[40 * 100 + 40] = 254
     else:
         outcomes.append(failure)
     navigator.approach_entity('book(3)', (3, 2))
     x, y, yaw = navigator.navigate_to.call_args.args
-    assert (x, y) != (2.5, 2)
-    assert .5 <= math.dist((x, y), (3, 2)) <= 1
+    assert (x, y) != (2.0, 2)
+    assert math.dist((x, y), (3, 2)) == pytest.approx(1.15)
     assert yaw == pytest.approx(math.atan2(2-y, 3-x))
 
 
@@ -260,6 +260,7 @@ def test_all_blocked_fails_without_movement(path_validator):
 def test_all_radial_candidates_bounded_and_face_target():
     from navigation import approach_candidates
     poses = list(approach_candidates((0, 0), (3, 2)))
+    assert {round(math.dist((x, y), (3, 2)), 6) for x, y, _ in poses} == {1.0, 1.15, 1.3, 1.5}
     for x, y, yaw in poses:
-        assert .5 - 1e-9 <= math.dist((x, y), (3, 2)) <= 1 + 1e-9
+        assert 1.0 - 1e-9 <= math.dist((x, y), (3, 2)) <= 1.5 + 1e-9
         assert yaw == pytest.approx(math.atan2(2-y, 3-x))

@@ -68,7 +68,7 @@ def test_search_ignores_hidden_seed_locations(tmp_path, hidden_location):
         result = demo.spa_loop(KnowledgeInterface(path), knowledge(), Mock(), None, search=True)
     assert result['type'] == 'search'
     assert result['frame']['Location'] == 'worktop(1)'
-    assert result['frame']['Success'] is False
+    assert 'Success' not in result['frame']
 
 
 def test_visible_theme_produces_same_bring_in_both_modes():

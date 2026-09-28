@@ -14,17 +14,12 @@
     },
     "Location": {
       "type": "string"
-    },
-    "Success": {
-      "type": "boolean",
-      "description": "Result status, not a semantic role."
     }
   },
   "required": [
     "Agent",
     "Theme",
-    "Location",
-    "Success"
+    "Location"
   ],
   "additionalProperties": false
 }

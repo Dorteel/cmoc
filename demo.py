@@ -65,25 +65,24 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         nonlocal intention, pending_search, suggestions, recovering, recovery_candidate
         if pending_search is not None:
             outcome = search_result(pending_search, state['scene_graph'], robokg)
-            pending_search['Success'] = outcome['success']
             outcomes.append(outcome)
             state['search_result'] = deepcopy(outcome)
-            if outcome['success']:
+            if outcome['Success']:
                 recovering = False
                 recovery_candidate = None
                 # The attended candidate supplies spatial context for the new sighting.
                 room_ids = {o['id'] for o in episodic.observed_snapshot()['objects'] if o['type'] == 'Location'}
                 location = next((o for o in episodic.observed_snapshot()['objects']
-                                 if o['id'] == outcome['location']), {})
+                                 if o['id'] == outcome['Location']), {})
                 surface = location.get('type', '').casefold() in ('worktop', 'counter', 'table', 'shelf')
-                predicate = 'on' if surface and outcome['location'] not in room_ids else 'in'
+                predicate = 'on' if surface and outcome['Location'] not in room_ids else 'in'
                 for identifier in outcome['observed_ids']:
-                    relation = {'subject': identifier, 'predicate': predicate, 'object': outcome['location']}
+                    relation = {'subject': identifier, 'predicate': predicate, 'object': outcome['Location']}
                     if relation not in state['scene_graph']['relations']:
                         state['scene_graph']['relations'].append(relation)
                 suggestions = []
             else:
-                checked.add(outcome['location'])
+                checked.add(outcome['Location'])
                 alternatives = observe_scene_with_vlm(
                     schema_path="schemas/objects.json", with_provenance=True,
                     search_theme=pending_search['Theme'])
@@ -107,7 +106,7 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         perceived = perceived_entity_linking(state["scene_graph"], robokg)
         world = episodic.observed_snapshot() if search else episodic.snapshot()
         remembered = perceived_entity_linking(world, robokg)
-        theme_visible = (search_result(search_frame(intention, ''), state['scene_graph'], robokg)['success']
+        theme_visible = (search_result(search_frame(intention, ''), state['scene_graph'], robokg)['Success']
                          if search else False)
         state["scene_graph"] = perceived["scene_graph"]
         state["aliases"] = remembered["aliases"]

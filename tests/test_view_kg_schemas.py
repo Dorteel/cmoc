@@ -45,9 +45,12 @@ def test_actual_schemas_slots_metadata_and_layout():
                 assert definition['description'] not in slot['badges']
     for name in ('agent', 'theme', 'source', 'destination'):
         assert 'schema:bring-11.3.json/' + name in nodes
-    for name in ('Agent', 'Theme', 'Location', 'Success'):
+    for name in ('Agent', 'Theme', 'Location'):
         assert 'schema:search.json/' + name in nodes
-    for identifier in ('schema:search.json/Success', 'schema:search_result.json/success'):
+    assert 'schema:search.json/Success' not in nodes
+    for name in ('Agent', 'Theme', 'Location', 'Success'):
+        assert 'schema:search_result.json/' + name in nodes
+    for identifier in ('schema:search_result.json/Success',):
         assert nodes[identifier]['details']['type'] == 'boolean'
         assert nodes[identifier]['family'] == 'Status'
         assert 'status' in nodes[identifier]['badges'][0]

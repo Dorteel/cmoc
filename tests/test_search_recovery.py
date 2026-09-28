@@ -61,15 +61,19 @@ def test_llm_fallback_and_explicit_ungrounded_suggestion():
 @pytest.mark.parametrize('success', [True, False])
 def test_frame_and_result_schemas(success):
     frame = search_frame(BRING, 'worktop(1)')
-    assert frame == {'verb': 'search', 'Agent': 'robot', 'Theme': 'fork', 'Location': 'worktop(1)', 'Success': False}
-    frame['Success'] = success
+    assert frame == {'verb': 'search', 'Agent': 'robot', 'Theme': 'fork', 'Location': 'worktop(1)'}
     schema = json.loads(Path('schemas/task_frames/search.json').read_text())
     validate(frame, schema)
-    frame['Success'] = str(success).lower()
     with pytest.raises(ValidationError):
-        validate(frame, schema)
-    validate({'theme': 'fork', 'location': 'KITCHEN', 'success': success},
-             json.loads(Path('schemas/task_frames/search_result.json').read_text()))
+        validate({**frame, 'Success': success}, schema)
+    result = search_result(frame, scene(success), kg())
+    assert result == {'Agent': 'robot', 'Theme': 'fork', 'Location': 'worktop(1)',
+                      'Success': success, 'observed_ids': ['fork1'] if success else []}
+    result_schema = json.loads(Path('schemas/task_frames/search_result.json').read_text())
+    validate(result, result_schema)
+    with pytest.raises(ValidationError):
+        validate({**result, 'Success': str(success).lower()}, result_schema)
+    assert 'Success' not in frame
 
 
 def test_real_search_pddl_uses_opaque_candidate_token():
@@ -88,7 +92,7 @@ def test_hidden_ground_truth_cannot_change_candidate(tmp_path, hidden_location):
     memory = KnowledgeInterface(path)
     memory.merge_observation(scene())
     assert select_candidate(BRING, kg(), semantic(), memory.observed_snapshot())['location'] == 'worktop(1)'
-    assert not search_result(search_frame(BRING, hidden_location), scene(), kg())['success']
+    assert not search_result(search_frame(BRING, hidden_location), scene(), kg())['Success']
     # Only a real observation can promote the alternate location to evidence.
     memory.merge_observation({'objects': [seed['objects'][-1]], 'relations': [seed['relations'][-1]]})
     assert select_candidate(BRING, kg(), semantic(), memory.observed_snapshot())['location'] == hidden_location
@@ -114,7 +118,7 @@ def test_failed_then_successful_search_replans_bring_and_persists_evidence():
          patch('demo.plan_bring', return_value=bring_plan) as bring:
         result = demo.spa_loop(memory, knowledge, semantic(), Mock(), execute=True, search=True)
     assert events == ['sense', 'look-at', 'sense', 'alternatives', 'look-at', 'sense', 'pick']
-    assert [(r['location'], r['success']) for r in result['search_outcomes']] == [('worktop(1)', False), ('KITCHEN', True)]
+    assert [(r['Location'], r['Success']) for r in result['search_outcomes']] == [('worktop(1)', False), ('KITCHEN', True)]
     assert result['bring_intention'] == BRING
     bring.assert_called_once()
     assert bring.call_args.args[0]['Theme'] == 'fork1'
@@ -136,7 +140,7 @@ def test_compact_search_g2_independent_of_memory_size():
             result = demo.spa_loop(memory, kg(), semantic(), None, search=True)
         sizes.append(json.dumps(result['planning_graph'], sort_keys=True))
     assert sizes[0] == sizes[1]
-    assert 'Success' in sizes[0]
+    assert 'Success' not in sizes[0]
 
 
 def test_execution_error_does_not_become_search_failure():
@@ -190,6 +194,6 @@ def test_spa_hidden_seed_never_binds_theme_or_selects_candidate(tmp_path, hidden
          patch('demo.plan_bring') as bring:
         result = demo.spa_loop(KnowledgeInterface(path), kg(), semantic(), None, search=True)
     assert result['frame']['Location'] == 'worktop(1)'
-    assert result['frame']['Success'] is False
+    assert 'Success' not in result['frame']
     assert result['type'] == 'search'
     bring.assert_not_called()

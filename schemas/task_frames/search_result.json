@@ -3,13 +3,16 @@
   "title": "search_result",
   "type": "object",
   "properties": {
-    "theme": {
+    "Agent": {
       "type": "string"
     },
-    "location": {
+    "Theme": {
       "type": "string"
     },
-    "success": {
+    "Location": {
+      "type": "string"
+    },
+    "Success": {
       "type": "boolean"
     },
     "observed_ids": {
@@ -20,9 +23,10 @@
     }
   },
   "required": [
-    "theme",
-    "location",
-    "success"
+    "Agent",
+    "Theme",
+    "Location",
+    "Success"
   ],
   "additionalProperties": false
 }

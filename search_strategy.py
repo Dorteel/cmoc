@@ -27,7 +27,7 @@ def resolve_search(frame, knowledge_interface, semantic_memory):
 
 def search_frame(bring, location):
     return {"verb": "search", "Agent": bring["Agent"], "Theme": bring["Theme"],
-            "Location": location, "Success": False}
+            "Location": location}
 
 
 def select_candidate(frame, robokg, semantic_memory, observed, checked=(), suggestions=()):
@@ -81,5 +81,5 @@ def search_result(frame, fresh_scene, robokg):
     matches = [obj for obj in fresh_scene.get('objects', [])
                if normalize_type(obj['type']) == normalize_type(frame['Theme'])
                or (concept is not None and resolve_concept(obj['type'], robokg) == concept)]
-    return {'theme': frame['Theme'], 'location': frame['Location'],
-            'success': bool(matches), 'observed_ids': [obj['id'] for obj in matches]}
+    return {'Agent': frame['Agent'], 'Theme': frame['Theme'], 'Location': frame['Location'],
+            'Success': bool(matches), 'observed_ids': [obj['id'] for obj in matches]}

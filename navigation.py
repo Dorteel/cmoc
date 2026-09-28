@@ -15,20 +15,22 @@ from spatial_grounder import get_location_bounds
 ROOT = Path(__file__).resolve().parent
 SIMULATOR = ROOT / 'external/webots_ros2_simulation'
 MAP_DIRECTORY = SIMULATOR / 'maps/apartment_room_aligned'
+ENTITY_APPROACH_DISTANCE = 1.0  # meters
 
 
 def entity_approach_pose(robot, target):
-    """Map-frame goal 0.5 m before target, or rotate in place when closer."""
+    """Map-frame goal at the preferred distance, or rotate in place when closer."""
     rx, ry = robot
     tx, ty = target
     if not all(math.isfinite(value) for value in (rx, ry, tx, ty)):
         raise ValueError('Entity approach requires finite coordinates')
     dx, dy = tx - rx, ty - ry
     distance = math.hypot(dx, dy)
-    if distance <= 0.5:
+    if distance <= ENTITY_APPROACH_DISTANCE:
         x, y = rx, ry
     else:
-        x, y = tx - 0.5 * dx / distance, ty - 0.5 * dy / distance
+        x, y = (tx - ENTITY_APPROACH_DISTANCE * dx / distance,
+                ty - ENTITY_APPROACH_DISTANCE * dy / distance)
     return x, y, math.atan2(ty - y, tx - x)
 
 
@@ -39,7 +41,8 @@ def approach_candidates(robot, target):
     angle = math.atan2(robot[1] - target[1], robot[0] - target[0])
     for offset in (0, math.pi / 4, -math.pi / 4, math.pi / 2, -math.pi / 2,
                    3 * math.pi / 4, -3 * math.pi / 4, math.pi):
-        for radius in (0.5, 0.65, 0.8, 1.0):
+        for extra_distance in (0.0, 0.15, 0.3, 0.5):
+            radius = ENTITY_APPROACH_DISTANCE + extra_distance
             x = target[0] + radius * math.cos(angle + offset)
             y = target[1] + radius * math.sin(angle + offset)
             if math.hypot(x - preferred[0], y - preferred[1]) < 1e-6:
