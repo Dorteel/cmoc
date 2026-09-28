@@ -91,6 +91,7 @@ def test_spa_passes_canonical_target_position_only_to_execution():
                       for identifier in ('TIAGo', 'pedestrian_1', 'fork1')]}
     memory = Mock()
     memory.snapshot.return_value = deepcopy(world)
+    memory.observed_snapshot.return_value = deepcopy(world)
     kg = Mock()
     kg.resolve_concept.side_effect = lambda term: [{'id': 'fork.n.01'}] if term == 'fork' else []
     planning = {'status': 'planned', 'plan': [
@@ -100,7 +101,7 @@ def test_spa_passes_canonical_target_position_only_to_execution():
                 'navigation_rooms': {'KITCHEN': 'KITCHEN', 'user': 'KITCHEN'}}
     navigator = Mock()
     with patch('builtins.input', return_value=''), \
-            patch('demo.observe_scene_with_vlm', return_value={'scene_graph': {'objects': [], 'relations': []}}), \
+            patch('demo.observe_scene_with_vlm', return_value={'scene_graph': deepcopy(world)}), \
             patch('demo.plan_bring', return_value=planning), \
             patch('plan_execution.manipulation', return_value=True):
         result = demo.spa_loop(memory, kg, Mock(), navigator, execute=True)

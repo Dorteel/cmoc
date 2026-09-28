@@ -1,0 +1,132 @@
+{
+  "instruction": "Bring me a fork",
+  "scene_graph": {
+    "objects": [
+      {
+        "id": "KITCHEN",
+        "type": "Location",
+        "qualities": {}
+      },
+      {
+        "id": "worktop(1)",
+        "type": "worktop",
+        "qualities": {}
+      },
+      {
+        "id": "drawer1",
+        "type": "drawer",
+        "qualities": {}
+      },
+      {
+        "id": "robot",
+        "type": "robot",
+        "qualities": {}
+      },
+      {
+        "id": "user",
+        "type": "person",
+        "qualities": {}
+      },
+      {
+        "id": "fork1",
+        "type": "ForkConnector",
+        "qualities": {}
+      }
+    ],
+    "relations": [
+      {
+        "subject": "robot",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "user",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "worktop(1)",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "drawer1",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "fork1",
+        "predicate": "in",
+        "object": "KITCHEN"
+      }
+    ]
+  },
+  "context_graph": {
+    "nodes": [
+      {
+        "id": "episode_1",
+        "type": "Episode"
+      },
+      {
+        "id": "instruction_1",
+        "type": "Instruction",
+        "text": "Bring me a fork"
+      },
+      {
+        "id": "observation_1",
+        "type": "Observation"
+      },
+      {
+        "id": "robot",
+        "type": "Robot"
+      }
+    ],
+    "relations": [
+      {
+        "subject": "episode_1",
+        "predicate": "hasInstruction",
+        "object": "instruction_1"
+      },
+      {
+        "subject": "episode_1",
+        "predicate": "hasObservation",
+        "object": "observation_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observedBy",
+        "object": "robot"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "worktop(1)"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "drawer1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "robot"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "user"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "fork1"
+      }
+    ]
+  }
+}

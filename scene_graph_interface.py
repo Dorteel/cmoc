@@ -14,6 +14,7 @@ class KnowledgeInterface:
         if scene_graph_path is not None:
             with open(scene_graph_path, encoding="utf-8") as source:
                 scene_graph = json.load(source)
+        self._observed = deepcopy(scene_graph.get("observed_evidence", {"objects": [], "relations": []}))
         self._objects = scene_graph.get("objects", [])
         self._explicit_relations = scene_graph.get("relations", [])
         self._ground()
@@ -25,7 +26,19 @@ class KnowledgeInterface:
             if relation not in self.relations:
                 self.relations.append(relation)
 
+    def observed_snapshot(self):
+        """Only interaction evidence; simulator seeds are never evidence."""
+        return deepcopy(self._observed)
+
     def merge_observation(self, observation):
+        evidence = KnowledgeInterface()
+        evidence._objects = deepcopy(self._observed["objects"])
+        evidence._explicit_relations = deepcopy(self._observed["relations"])
+        evidence._merge_observation(observation)
+        self._observed = evidence.snapshot()
+        self._merge_observation(observation)
+
+    def _merge_observation(self, observation):
         """Upsert exact IDs, retaining unseen entities and unspecified qualities.
 
         New spatial evidence supersedes old in/on relations for that subject.

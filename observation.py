@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 
 
-def observe_scene_with_vlm(schema_path=ROOT / 'schemas/objects.json', timeout=510, *, with_provenance=False):
+def observe_scene_with_vlm(schema_path=ROOT / 'schemas/objects.json', timeout=510, *, with_provenance=False, search_theme=None):
     """Request a new observation of the server's latest TIAGo RGB frame.
 
     The application owns rclpy. The existing server owns camera capture, VLM
@@ -35,6 +35,12 @@ def observe_scene_with_vlm(schema_path=ROOT / 'schemas/objects.json', timeout=51
         'Do not guess metric world coordinates, dimensions, or hidden entities; '
         'omit unknown qualities. Return only JSON matching the supplied schema.'
     )
+    if search_theme is not None:
+        schema['properties']['search_candidates'] = {'type': 'array', 'items': {'type': 'string'}}
+        prompt += (f' The search for {search_theme!r} failed. Suggest plausible alternative '
+                   'locations based only on the visible image in search_candidates. Prefer '
+                   'visible symbolic object IDs; free-text suggestions are allowed. Do not '
+                   'claim the missing object is present.')
     node = rclpy.create_node('cmoc_observation_client')
     executor = SingleThreadedExecutor()
     executor.add_node(node)
@@ -63,7 +69,8 @@ def observe_scene_with_vlm(schema_path=ROOT / 'schemas/objects.json', timeout=51
         scene = json.loads(result.result.response)
         if with_provenance:
             return {'scene_graph': scene,
-                    'perception_provenance': json.loads(result.result.perception_provenance)}
+                    'perception_provenance': json.loads(result.result.perception_provenance),
+                    **({'search_candidates': scene.pop('search_candidates', [])} if search_theme is not None else {})}
         return scene
     finally:
         # The existing server has no cancellation support; its HTTP timeout bounds

@@ -2,11 +2,11 @@ from search_strategy import resolve_search
 
 
 class FakeKnowledgeInterface:
-    def query_locations(self):
-        return [
+    def observed_snapshot(self):
+        return {"objects": [
             {"id": "KITCHEN", "type": "Location"},
             {"id": "LIVING_ROOM_1", "type": "Location"},
-        ]
+        ]}
 
 
 class FakeSemanticMemory:

@@ -1,0 +1,122 @@
+{
+  "objects": [
+    {
+      "id": "KITCHEN",
+      "type": "Location",
+      "qualities": {}
+    },
+    {
+      "id": "worktop(1)",
+      "type": "worktop",
+      "qualities": {}
+    },
+    {
+      "id": "drawer1",
+      "type": "drawer",
+      "qualities": {}
+    },
+    {
+      "id": "robot",
+      "type": "robot",
+      "qualities": {}
+    },
+    {
+      "id": "user",
+      "type": "person",
+      "qualities": {}
+    },
+    {
+      "id": "fork1",
+      "type": "ForkConnector",
+      "qualities": {}
+    }
+  ],
+  "relations": [
+    {
+      "subject": "robot",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "user",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "worktop(1)",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "drawer1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    },
+    {
+      "subject": "fork1",
+      "predicate": "in",
+      "object": "KITCHEN"
+    }
+  ],
+  "observed_evidence": {
+    "objects": [
+      {
+        "id": "KITCHEN",
+        "type": "Location",
+        "qualities": {}
+      },
+      {
+        "id": "worktop(1)",
+        "type": "worktop",
+        "qualities": {}
+      },
+      {
+        "id": "drawer1",
+        "type": "drawer",
+        "qualities": {}
+      },
+      {
+        "id": "robot",
+        "type": "robot",
+        "qualities": {}
+      },
+      {
+        "id": "user",
+        "type": "person",
+        "qualities": {}
+      },
+      {
+        "id": "fork1",
+        "type": "ForkConnector",
+        "qualities": {}
+      }
+    ],
+    "relations": [
+      {
+        "subject": "robot",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "user",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "worktop(1)",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "drawer1",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "fork1",
+        "predicate": "in",
+        "object": "KITCHEN"
+      }
+    ]
+  }
+}

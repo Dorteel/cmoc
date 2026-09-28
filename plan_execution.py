@@ -77,12 +77,23 @@ def execute_step(step, navigator, navigation_rooms, entity_positions=None):
         if target != room:
             print(f'Navigating to {target}\'s known room {room}; target coordinates unavailable; using room fallback', flush=True)
         return navigator.go_to_room(room)
+    if action == 'look-at':
+        if navigator is None:
+            raise RuntimeError('RoomNavigator is unavailable')
+        position = (entity_positions or {}).get(args[1])
+        if position is None:
+            raise RuntimeError(f'No execution coordinates for look-at {args[1]}')
+        # Rotate at the current position using the existing backend, without a
+        # new navigation action in the Search domain or changing either backend.
+        target_x, target_y = navigator.goals.alignment.scene_to_map(*position)
+        x, y = navigator.current_map_position()
+        return navigator.navigate_to(x, y, math.atan2(target_y - y, target_x - x))
     if action in ('pick', 'place'):
         return manipulation(action, args)
     raise ValueError(f'Unsupported action: {action}')
 
 
-def execute_plan(planning, navigator=None, *, execute=False, step_by_step=False, entity_positions=None):
+def execute_plan(planning, navigator=None, *, execute=False, step_by_step=False, entity_positions=None, before_pick=None):
     plan = planning.get('plan', [])
     result = {'status': planning['status'], 'plan': plan, 'executed': [], 'failed_step': None}
     if planning['status'] != 'planned':
@@ -97,6 +108,8 @@ def execute_plan(planning, navigator=None, *, execute=False, step_by_step=False,
         try:
             if step_by_step and input(f'Execute step {index}? [Enter=yes, q=stop]: ').strip().lower() == 'q':
                 return {**result, 'status': 'cancelled', 'reason': 'Stopped before next step'}
+            if step['action'] == 'pick' and before_pick is not None and not before_pick(step):
+                return {**result, 'status': 'search_required', 'reason': 'Theme not perceived before pick'}
             attempt = {'step': index, **step, 'status': 'attempted'}
             result['executed'].append(attempt)
             execution_step = step

@@ -58,6 +58,7 @@ def test_ungraspable_theme_is_incomplete_and_never_dispatches_pick():
     raw['objects'] = [obj for obj in raw['objects'] if obj['type'] != 'BookConnector']
     memory = Mock()
     memory.snapshot.return_value = raw
+    memory.observed_snapshot.return_value = raw
     with patch('builtins.input', return_value='Bring me a book'), \
             patch('demo.observe_scene_with_vlm', return_value={'scene_graph': raw}), \
             patch('plan_execution.manipulation') as pick, \

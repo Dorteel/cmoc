@@ -44,7 +44,7 @@ def test_spa_writes_raw_g1_and_linked_g2():
     kg = Mock()
     kg.resolve_concept.return_value = []
     with patch('builtins.input', return_value=''), patch('demo.observe_scene_with_vlm', return_value={'scene_graph': raw}):
-        result = demo.spa_loop(KnowledgeInterface(), kg, Mock(), Mock())
+        result = demo.spa_loop(KnowledgeInterface(), kg, Mock(rank_locations=Mock(return_value=[])), Mock())
     directory = graph_snapshots.ARTIFACT_DIRECTORY
     g1 = json.loads((directory / 'g1_sense.json').read_text())
     g2 = json.loads((directory / 'g2_plan.json').read_text())
@@ -134,7 +134,7 @@ def test_episode_identity_aliases_and_explicit_frame_elements():
     kg = Mock()
     kg.resolve_concept.side_effect = lambda term: [{'id': 'fork.n.01'}] if term == 'fork' else []
     with patch('builtins.input', return_value=''), patch('demo.observe_scene_with_vlm', return_value={'scene_graph': raw}):
-        result = demo.spa_loop(memory, kg, Mock(), Mock())
+        result = demo.spa_loop(memory, kg, Mock(rank_locations=Mock(return_value=[])), Mock())
     g1, g2 = result['sense_graph'], result['planning_graph']
     assert raw == original == g1['scene_graph']
     def edges(snapshot):
@@ -193,7 +193,7 @@ def test_provenance_and_semantic_links_do_not_dump_remembered_entities():
     kg.resolve_concept.side_effect = lambda term: [{'id': term + '.resolved'}]
     with patch('builtins.input', return_value=''), patch('demo.observe_scene_with_vlm', return_value={
             'scene_graph': raw, 'perception_provenance': provenance}):
-        result = demo.spa_loop(memory, kg, Mock(), Mock())
+        result = demo.spa_loop(memory, kg, Mock(rank_locations=Mock(return_value=[])), Mock())
     g1, g2 = result['sense_graph'], result['planning_graph']
     assert g1['scene_graph'] == raw
     assert g1['perception_provenance'] == g2['perception_provenance'] == provenance
@@ -229,7 +229,7 @@ def test_small_g2_with_real_fork_and_user_concepts_despite_large_memory():
     with patch('builtins.input', return_value=''), patch('demo.observe_scene_with_vlm', return_value={
             'scene_graph': raw, 'perception_provenance':
             {'backend': 'ollama', 'model': 'qwen3-vl:2b', 'fallback_used': True}}):
-        result = demo.spa_loop(memory, kg, Mock(), Mock())
+        result = demo.spa_loop(memory, kg, Mock(rank_locations=Mock(return_value=[])), Mock())
     g2 = result['planning_graph']
     assert result['sense_graph']['scene_graph'] == raw
     assert g2['frame_element_links']['Theme'] == 'fork.n.01'
@@ -262,9 +262,10 @@ def test_g2_context_is_constant_with_500_unrelated_world_and_scene_entities():
         scene = {'objects': deepcopy(objects + unrelated), 'relations': deepcopy(relations)}
         memory = Mock()
         memory.snapshot.return_value = deepcopy(scene)
+        memory.observed_snapshot.return_value = deepcopy(scene)
         with patch('builtins.input', return_value=''), patch('demo.observe_scene_with_vlm', return_value={
                 'scene_graph': scene}), patch('demo.plan_bring', return_value={'status': 'incomplete', 'plan': []}):
-            result = demo.spa_loop(memory, kg, Mock(), Mock())
+            result = demo.spa_loop(memory, kg, Mock(rank_locations=Mock(return_value=[])), Mock())
         g2 = result['planning_graph']
         assert result['sense_graph']['scene_graph'] == scene
         assert g2['scene_graph'] == scene
@@ -289,12 +290,13 @@ def test_post_plan_diagnostics_are_restored_without_world_dump(capsys):
     memory = Mock()
     memory.snapshot.return_value = {'objects': scene['objects'] + [
         {'id': 'unrelated_cabinet', 'type': 'cabinet', 'qualities': {}}], 'relations': []}
+    memory.observed_snapshot.return_value = scene
     kg = Mock()
     kg.resolve_concept.return_value = []
     planned = {'status': 'planned', 'plan': [{'action': 'pick', 'args': ['TIAGo', 'tablefork1']}], 'navigation_rooms': {}}
     with patch('builtins.input', return_value=''), patch('demo.observe_scene_with_vlm', return_value={'scene_graph': scene}), \
             patch('demo.plan_bring', return_value=planned):
-        result = demo.spa_loop(memory, kg, Mock(), Mock())
+        result = demo.spa_loop(memory, kg, Mock(rank_locations=Mock(return_value=[])), Mock())
     output = capsys.readouterr().out
     for label in ('Frame:', 'PEL:', 'Aliases:', 'Bindings:', 'Issues:', 'G2 saved:', 'Plan:'):
         assert label in output

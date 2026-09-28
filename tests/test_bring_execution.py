@@ -173,7 +173,7 @@ def test_spa_writes_planned_g3_and_stops_on_failed_execution():
             patch('demo.plan_bring', return_value=PLANNING) as planner, \
             patch('plan_execution.execute_step', side_effect=[True, False]) as dispatch:
         result = demo.spa_loop(KnowledgeInterface(), kg, Mock(), Mock(), execute=True, observation_count=3)
-    observe.assert_called_once()
+    observe.assert_called_once()  # Legacy execution has no Search visibility gate.
     assert planner.call_args.args[0] == BINDINGS
     assert dispatch.call_count == 2
     g3 = json.loads((graph_snapshots.ARTIFACT_DIRECTORY / 'g3_action.json').read_text())

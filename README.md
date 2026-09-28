@@ -313,3 +313,74 @@ ROS_DOMAIN_ID=184 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest tests/test_
 `--teleport` requires `--execute`. It reuses Nav2 goal resolution and path validation
 (Nav2 must remain available), then calls the existing Webots supervisor `move`
 command. Pick/place are unchanged; teleport failure stops execution.
+
+### Search recovery within SPA
+
+Search is opt-in with `--search` (default: off). `python demo.py` uses full
+scene-graph grounding and prints `Demo mode: LEGACY SCENE GRAPH`; it does not
+create Search frames or perform the Search pre-pick visibility check.
+`python demo.py --search` uses observation-backed grounding and prints
+`Demo mode: SEARCH / PARTIAL OBSERVABILITY`. Both modes share the SPA loop,
+Bring planner, Nav2/teleport selection, and pick/place execution.
+
+```bash
+python demo.py                                # legacy dry run
+python demo.py --execute --teleport           # legacy teleport execution
+python demo.py --search                       # Search dry run
+python demo.py --search --execute --teleport  # Search teleport execution
+```
+
+The following recovery behavior applies only with `--search`.
+
+`demo.spa_loop` preserves the Bring intention while Search temporarily plans one
+candidate. An unresolved Theme requests Search. A previously observed Theme can
+still use Bring; a fresh VLM visibility check before pick interrupts that plan if
+the concrete Theme is missing. Other execution failures retain their existing
+stop behavior.
+
+Search uses `schemas/task_frames/search.json`: required `Agent`, `Theme`,
+`Location`, and boolean `Success`, with optional `verb: search`. `Success` is a
+result field, not a semantic role. `search_result.json` requires `theme`,
+`location`, and boolean `success`, with optional `observed_ids`.
+
+`procedural_memory/planning/search/domain.pddl` is separate from Bring. Its sole
+action is `look-at(agent, location)`, with a `checked(location)` goal. The problem
+wrapper uses opaque PDDL tokens to preserve punctuation in symbolic IDs. PDDL
+completion does not mean the Theme was found. Act turns at the current position
+through the existing navigation backend; only the next VLM observation establishes
+Search success. This minimal behavior assumes the candidate is inspectable from
+the current area; it does not navigate between candidate rooms. Missing execution
+coordinates are reported as an execution error.
+
+Candidate selection uses successful interaction evidence and RoboKGNet priors,
+with specific locations before rooms within each tier. Unchecked VLM suggestions
+and then LLM suggestions provide fallbacks. Suggestions must ground to observed
+symbolic IDs; unresolved text is reported and never placed in PDDL. A failed
+candidate is excluded only for the current task, without excluding its room or
+writing a negative KG fact. Following failure, the VLM is asked for alternatives
+based on the current image.
+
+`KnowledgeInterface.observed_snapshot()` is the epistemic boundary: simulator
+seed objects and relations are absent unless learned through `merge_observation`.
+Saved runtime graphs include `observed_evidence` so those facts survive reload.
+Search planning never receives the seed graph. Act may resolve the already chosen
+candidate's coordinates from simulator geometry. Successful post-look evidence
+uses existing `in`/`on` relations and is saved through the existing episodic
+snapshot mechanism; no location histogram or probability is updated. Search G2
+contains only the active frame, selected candidate, and its small plan.
+
+Example recovery trace:
+
+```text
+Bring(fork)
+  -> Search(worktop(1), false) -> look-at -> new VLM observation: absent
+  -> exclude worktop(1) for this task; request visible alternatives
+  -> Search(KITCHEN, false) -> look-at -> new VLM observation: found
+  -> Search.Success = true; persist location evidence
+  -> replan original Bring(fork) from updated state -> execute
+```
+
+The old Bring plan is discarded; it is never resumed after Search.
+Regression coverage is in `tests/test_search_recovery.py`, including changed hidden
+seed locations, observed-location updates, task-local exclusions, fresh sensing,
+PDDL/schema checks, compact G2, and discarding a stale Bring plan.

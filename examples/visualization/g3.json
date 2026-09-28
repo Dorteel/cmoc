@@ -1,0 +1,121 @@
+{
+  "status": "dry_run",
+  "plan": [
+    {
+      "action": "pick",
+      "args": [
+        "robot",
+        "fork1"
+      ]
+    },
+    {
+      "action": "navigate",
+      "args": [
+        "robot",
+        "user"
+      ]
+    },
+    {
+      "action": "place",
+      "args": [
+        "robot",
+        "fork1",
+        "user"
+      ]
+    }
+  ],
+  "executed": [],
+  "failed_step": null,
+  "episode_id": "episode_1",
+  "context_graph": {
+    "nodes": [
+      {
+        "id": "episode_1",
+        "type": "Episode",
+        "status": "dry_run"
+      },
+      {
+        "id": "Plan_1",
+        "type": "Plan"
+      },
+      {
+        "id": "pick_1",
+        "type": "Action",
+        "action": "pick",
+        "order": 1,
+        "status": "not_attempted"
+      },
+      {
+        "id": "navigate_2",
+        "type": "Action",
+        "action": "navigate",
+        "order": 2,
+        "status": "not_attempted"
+      },
+      {
+        "id": "place_3",
+        "type": "Action",
+        "action": "place",
+        "order": 3,
+        "status": "not_attempted"
+      }
+    ],
+    "relations": [
+      {
+        "subject": "episode_1",
+        "predicate": "hasPlan",
+        "object": "Plan_1"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "pick_1"
+      },
+      {
+        "subject": "pick_1",
+        "predicate": "argument1",
+        "object": "robot"
+      },
+      {
+        "subject": "pick_1",
+        "predicate": "argument2",
+        "object": "fork1"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "navigate_2"
+      },
+      {
+        "subject": "navigate_2",
+        "predicate": "argument1",
+        "object": "robot"
+      },
+      {
+        "subject": "navigate_2",
+        "predicate": "argument2",
+        "object": "user"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "place_3"
+      },
+      {
+        "subject": "place_3",
+        "predicate": "argument1",
+        "object": "robot"
+      },
+      {
+        "subject": "place_3",
+        "predicate": "argument2",
+        "object": "fork1"
+      },
+      {
+        "subject": "place_3",
+        "predicate": "argument3",
+        "object": "user"
+      }
+    ]
+  }
+}

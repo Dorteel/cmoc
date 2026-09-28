@@ -38,6 +38,9 @@ class SemanticMemory:
         }}
         """
 
+        if not locations:
+            prompt += " No symbolic locations are known yet. Suggest plausible location names."
+
         response = requests.post(
             self.url,
             json={
@@ -51,6 +54,8 @@ class SemanticMemory:
 
         result = json.loads(response.json()["message"]["content"])
         ranked_types = result["locations"]
+        if not locations:
+            return ranked_types
         print(response.json()["message"]["content"])
 
         # Give every concrete room instance its semantic-type score.

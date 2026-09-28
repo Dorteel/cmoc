@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "search",
+  "type": "object",
+  "properties": {
+    "verb": {
+      "const": "search"
+    },
+    "Agent": {
+      "type": "string"
+    },
+    "Theme": {
+      "type": "string"
+    },
+    "Location": {
+      "type": "string"
+    },
+    "Success": {
+      "type": "boolean",
+      "description": "Result status, not a semantic role."
+    }
+  },
+  "required": [
+    "Agent",
+    "Theme",
+    "Location",
+    "Success"
+  ],
+  "additionalProperties": false
+}

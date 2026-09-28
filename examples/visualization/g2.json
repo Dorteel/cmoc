@@ -1,0 +1,297 @@
+{
+  "instruction": "Bring me a fork",
+  "scene_graph": {
+    "objects": [
+      {
+        "id": "KITCHEN",
+        "type": "Location",
+        "qualities": {}
+      },
+      {
+        "id": "worktop(1)",
+        "type": "worktop",
+        "qualities": {}
+      },
+      {
+        "id": "drawer1",
+        "type": "drawer",
+        "qualities": {}
+      },
+      {
+        "id": "robot",
+        "type": "robot",
+        "qualities": {}
+      },
+      {
+        "id": "user",
+        "type": "person",
+        "qualities": {}
+      },
+      {
+        "id": "fork1",
+        "type": "ForkConnector",
+        "qualities": {}
+      }
+    ],
+    "relations": [
+      {
+        "subject": "robot",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "user",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "worktop(1)",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "drawer1",
+        "predicate": "in",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "fork1",
+        "predicate": "in",
+        "object": "KITCHEN"
+      }
+    ]
+  },
+  "context_graph": {
+    "nodes": [
+      {
+        "id": "episode_1",
+        "type": "Episode",
+        "instruction": "Bring me a fork"
+      },
+      {
+        "id": "observation_1",
+        "type": "Observation"
+      },
+      {
+        "id": "robot",
+        "type": "Robot"
+      },
+      {
+        "id": "user",
+        "type": "Entity"
+      },
+      {
+        "id": "BringingFrame_1",
+        "type": "Bringing"
+      },
+      {
+        "id": "Agent_FE",
+        "type": "FrameElement",
+        "role": "Agent",
+        "semanticValue": "robot"
+      },
+      {
+        "id": "Theme_FE",
+        "type": "FrameElement",
+        "role": "Theme",
+        "semanticValue": "fork"
+      },
+      {
+        "id": "Source_FE",
+        "type": "FrameElement",
+        "role": "Source",
+        "semanticValue": "KITCHEN"
+      },
+      {
+        "id": "Destination_FE",
+        "type": "FrameElement",
+        "role": "Destination",
+        "semanticValue": "user"
+      },
+      {
+        "id": "KITCHEN",
+        "type": "Entity"
+      },
+      {
+        "id": "fork1",
+        "type": "Entity"
+      },
+      {
+        "id": "fork.n.01",
+        "type": "Concept"
+      },
+      {
+        "id": "automaton.n.02",
+        "type": "Concept"
+      },
+      {
+        "id": "kitchen.n.01",
+        "type": "Concept"
+      }
+    ],
+    "relations": [
+      {
+        "subject": "episode_1",
+        "predicate": "hasObservation",
+        "object": "observation_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observedBy",
+        "object": "robot"
+      },
+      {
+        "subject": "episode_1",
+        "predicate": "hasFrame",
+        "object": "BringingFrame_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "robot"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "user"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "fork1"
+      },
+      {
+        "subject": "fork1",
+        "predicate": "linkedTo",
+        "object": "fork.n.01"
+      },
+      {
+        "subject": "robot",
+        "predicate": "linkedTo",
+        "object": "automaton.n.02"
+      },
+      {
+        "subject": "BringingFrame_1",
+        "predicate": "hasFrameElement",
+        "object": "Agent_FE"
+      },
+      {
+        "subject": "Agent_FE",
+        "predicate": "linkedTo",
+        "object": "automaton.n.02"
+      },
+      {
+        "subject": "Agent_FE",
+        "predicate": "bindsTo",
+        "object": "robot"
+      },
+      {
+        "subject": "BringingFrame_1",
+        "predicate": "hasFrameElement",
+        "object": "Theme_FE"
+      },
+      {
+        "subject": "Theme_FE",
+        "predicate": "linkedTo",
+        "object": "fork.n.01"
+      },
+      {
+        "subject": "Theme_FE",
+        "predicate": "bindsTo",
+        "object": "fork1"
+      },
+      {
+        "subject": "BringingFrame_1",
+        "predicate": "hasFrameElement",
+        "object": "Source_FE"
+      },
+      {
+        "subject": "Source_FE",
+        "predicate": "linkedTo",
+        "object": "kitchen.n.01"
+      },
+      {
+        "subject": "Source_FE",
+        "predicate": "bindsTo",
+        "object": "KITCHEN"
+      },
+      {
+        "subject": "BringingFrame_1",
+        "predicate": "hasFrameElement",
+        "object": "Destination_FE"
+      },
+      {
+        "subject": "Destination_FE",
+        "predicate": "bindsTo",
+        "object": "user"
+      }
+    ]
+  },
+  "frame": {
+    "Agent": "robot",
+    "Theme": "fork",
+    "Source": "KITCHEN",
+    "Destination": "user"
+  },
+  "aliases": {},
+  "bindings": {
+    "Agent": "robot",
+    "Theme": "fork1",
+    "Source": "KITCHEN",
+    "Destination": "user"
+  },
+  "theme_concept": "fork.n.01",
+  "type": "bring",
+  "issues": [
+    "Destination semantic value unresolved or ambiguous: user"
+  ],
+  "frame_element_links": {
+    "Agent": "automaton.n.02",
+    "Theme": "fork.n.01",
+    "Source": "kitchen.n.01",
+    "Destination": null
+  },
+  "frame_element_issues": [
+    "Destination semantic value unresolved or ambiguous: user"
+  ],
+  "entity_links": {
+    "fork1": "fork.n.01",
+    "robot": "automaton.n.02"
+  },
+  "planning": {
+    "status": "planned",
+    "plan": [
+      {
+        "action": "pick",
+        "args": [
+          "robot",
+          "fork1"
+        ]
+      },
+      {
+        "action": "navigate",
+        "args": [
+          "robot",
+          "user"
+        ]
+      },
+      {
+        "action": "place",
+        "args": [
+          "robot",
+          "fork1",
+          "user"
+        ]
+      }
+    ],
+    "navigation_rooms": {
+      "KITCHEN": "KITCHEN",
+      "user": "KITCHEN"
+    }
+  }
+}

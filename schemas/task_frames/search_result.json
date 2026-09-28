@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "search_result",
+  "type": "object",
+  "properties": {
+    "theme": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "success": {
+      "type": "boolean"
+    },
+    "observed_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "theme",
+    "location",
+    "success"
+  ],
+  "additionalProperties": false
+}

@@ -25,6 +25,7 @@ class SpaTests(unittest.TestCase):
     def setUp(self):
         self.robokg = Mock()
         self.robokg.resolve_concept.side_effect = lambda term: [{'id': 'fork.n.01'}] if term == 'fork' else []
+        self.robokg.get_locations.return_value = []
         self.semantic = Mock()
         self.semantic.rank_locations.return_value = []
         self.navigator = Mock()
@@ -136,13 +137,13 @@ class SpaTests(unittest.TestCase):
 
     @patch('demo.observe_scene_with_vlm', return_value={'scene_graph': {'objects': [], 'relations': []}})
     @patch('builtins.input', return_value='')
-    def test_missing_grounding_is_incomplete_without_search(self, ask, observe):
-        state = self.run_spa(KnowledgeInterface())
+    def test_missing_grounding_exhausts_search_without_inventing_locations(self, ask, observe):
+        state = self.run_spa(KnowledgeInterface(), search=True)
         self.assertEqual(state['type'], 'incomplete')
         self.assertTrue(state['issues'])
         self.assertIsNone(state['bindings']['Theme'])
-        self.robokg.get_locations.assert_not_called()
-        self.semantic.rank_locations.assert_not_called()
+        self.robokg.get_locations.assert_called_once_with('fork.n.01')
+        self.semantic.rank_locations.assert_called_once_with('fork', [])
 
 
 
