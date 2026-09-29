@@ -1,0 +1,321 @@
+{
+  "instruction": "Bring me a book",
+  "scene_graph": {
+    "objects": [
+      {
+        "id": "user",
+        "type": "person",
+        "qualities": {
+          "color": "green"
+        }
+      },
+      {
+        "id": "radiator_1",
+        "type": "radiator",
+        "qualities": {
+          "color": "white"
+        }
+      },
+      {
+        "id": "chair_1",
+        "type": "chair",
+        "qualities": {
+          "color": "brown"
+        }
+      },
+      {
+        "id": "table_1",
+        "type": "table",
+        "qualities": {
+          "color": "brown"
+        }
+      },
+      {
+        "id": "box_1",
+        "type": "box",
+        "qualities": {
+          "color": "red"
+        }
+      },
+      {
+        "id": "window_1",
+        "type": "window",
+        "qualities": {
+          "color": "gray"
+        }
+      },
+      {
+        "id": "room_1",
+        "type": "Location",
+        "qualities": {
+          "color": "beige"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "subject": "user",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "radiator_1",
+        "predicate": "under",
+        "object": "window_1"
+      },
+      {
+        "subject": "chair_1",
+        "predicate": "next_to",
+        "object": "user"
+      },
+      {
+        "subject": "chair_1",
+        "predicate": "next_to",
+        "object": "table_1"
+      },
+      {
+        "subject": "box_1",
+        "predicate": "on",
+        "object": "table_1"
+      },
+      {
+        "subject": "table_1",
+        "predicate": "next_to",
+        "object": "user"
+      }
+    ]
+  },
+  "perception_provenance": {
+    "backend": "nebula",
+    "model": "SURF.Qwen3.5 122B A10B NVFP4",
+    "fallback_used": false
+  },
+  "context_graph": {
+    "nodes": [
+      {
+        "id": "episode_1",
+        "type": "Episode",
+        "instruction": "Bring me a book"
+      },
+      {
+        "id": "observation_1",
+        "type": "Observation",
+        "generatedByModel": "SURF.Qwen3.5 122B A10B NVFP4",
+        "perceptionBackend": "nebula",
+        "fallbackUsed": false
+      },
+      {
+        "id": "robot",
+        "type": "Robot"
+      },
+      {
+        "id": "user",
+        "type": "Entity"
+      },
+      {
+        "id": "BringingFrame_1",
+        "type": "Bringing"
+      },
+      {
+        "id": "Agent_FE",
+        "type": "FrameElement",
+        "role": "Agent",
+        "semanticValue": "robot"
+      },
+      {
+        "id": "Theme_FE",
+        "type": "FrameElement",
+        "role": "Theme",
+        "semanticValue": "book"
+      },
+      {
+        "id": "Source_FE",
+        "type": "FrameElement",
+        "role": "Source",
+        "semanticValue": "LIVING_ROOM_1"
+      },
+      {
+        "id": "Destination_FE",
+        "type": "FrameElement",
+        "role": "Destination",
+        "semanticValue": "user"
+      },
+      {
+        "id": "pedestrian.n.01",
+        "type": "Concept"
+      },
+      {
+        "id": "automaton.n.02",
+        "type": "Concept"
+      },
+      {
+        "id": "TIAGo",
+        "type": "Entity"
+      },
+      {
+        "id": "book(3)",
+        "type": "Entity"
+      },
+      {
+        "id": "LIVING_ROOM_1",
+        "type": "Entity"
+      }
+    ],
+    "relations": [
+      {
+        "subject": "episode_1",
+        "predicate": "hasObservation",
+        "object": "observation_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observedBy",
+        "object": "robot"
+      },
+      {
+        "subject": "episode_1",
+        "predicate": "hasFrame",
+        "object": "BringingFrame_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "user"
+      },
+      {
+        "subject": "user",
+        "predicate": "linkedTo",
+        "object": "pedestrian.n.01"
+      },
+      {
+        "subject": "BringingFrame_1",
+        "predicate": "hasFrameElement",
+        "object": "Agent_FE"
+      },
+      {
+        "subject": "Agent_FE",
+        "predicate": "linkedTo",
+        "object": "automaton.n.02"
+      },
+      {
+        "subject": "Agent_FE",
+        "predicate": "bindsTo",
+        "object": "TIAGo"
+      },
+      {
+        "subject": "BringingFrame_1",
+        "predicate": "hasFrameElement",
+        "object": "Theme_FE"
+      },
+      {
+        "subject": "Theme_FE",
+        "predicate": "bindsTo",
+        "object": "book(3)"
+      },
+      {
+        "subject": "BringingFrame_1",
+        "predicate": "hasFrameElement",
+        "object": "Source_FE"
+      },
+      {
+        "subject": "Source_FE",
+        "predicate": "bindsTo",
+        "object": "LIVING_ROOM_1"
+      },
+      {
+        "subject": "BringingFrame_1",
+        "predicate": "hasFrameElement",
+        "object": "Destination_FE"
+      },
+      {
+        "subject": "Destination_FE",
+        "predicate": "linkedTo",
+        "object": "pedestrian.n.01"
+      },
+      {
+        "subject": "Destination_FE",
+        "predicate": "bindsTo",
+        "object": "user"
+      }
+    ]
+  },
+  "frame": {
+    "Agent": "robot",
+    "Theme": "book",
+    "Source": "LIVING_ROOM_1",
+    "Destination": "user"
+  },
+  "aliases": {
+    "user": [
+      "mannequin",
+      "mannequin_001",
+      "mannequin_1",
+      "object_1",
+      "pedestrian_1",
+      "person_1"
+    ]
+  },
+  "bindings": {
+    "Agent": "TIAGo",
+    "Theme": "book(3)",
+    "Source": "LIVING_ROOM_1",
+    "Destination": "user"
+  },
+  "theme_concept": null,
+  "type": "bring",
+  "issues": [
+    "Theme semantic value unresolved or ambiguous: book",
+    "Source semantic value unresolved or ambiguous: LIVING_ROOM_1"
+  ],
+  "frame_element_links": {
+    "Agent": "automaton.n.02",
+    "Theme": null,
+    "Source": null,
+    "Destination": "pedestrian.n.01"
+  },
+  "frame_element_issues": [
+    "Theme semantic value unresolved or ambiguous: book",
+    "Source semantic value unresolved or ambiguous: LIVING_ROOM_1"
+  ],
+  "entity_links": {
+    "user": "pedestrian.n.01"
+  },
+  "planning": {
+    "status": "planned",
+    "plan": [
+      {
+        "action": "navigate",
+        "args": [
+          "TIAGo",
+          "LIVING_ROOM_1"
+        ]
+      },
+      {
+        "action": "pick",
+        "args": [
+          "TIAGo",
+          "book(3)"
+        ]
+      },
+      {
+        "action": "navigate",
+        "args": [
+          "TIAGo",
+          "user"
+        ]
+      },
+      {
+        "action": "place",
+        "args": [
+          "TIAGo",
+          "book(3)",
+          "user"
+        ]
+      }
+    ],
+    "navigation_rooms": {
+      "LIVING_ROOM_1": "LIVING_ROOM_1",
+      "user": "KITCHEN"
+    }
+  }
+}

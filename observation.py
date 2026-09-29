@@ -67,9 +67,14 @@ def observe_scene_with_vlm(schema_path=ROOT / 'schemas/objects.json', timeout=51
         if result.status != GoalStatus.STATUS_SUCCEEDED or not result.result.success:
             raise RuntimeError(f'VLM observation failed: {result.result.response}')
         scene = json.loads(result.result.response)
+        provenance = json.loads(result.result.perception_provenance) if with_provenance else {}
+        if provenance.get('backend') == 'replay':
+            print('[VLM] Cache HIT: .cache/vlm/scene_graph.json', flush=True)
+        else:
+            print(f"[VLM] Observation received from {provenance.get('backend', 'VLM')}", flush=True)
         if with_provenance:
             return {'scene_graph': scene,
-                    'perception_provenance': json.loads(result.result.perception_provenance),
+                    'perception_provenance': provenance,
                     **({'search_candidates': scene.pop('search_candidates', [])} if search_theme is not None else {})}
         return scene
     finally:

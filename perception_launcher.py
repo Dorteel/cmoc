@@ -8,12 +8,13 @@ from simulator_launcher import SimulatorLauncher
 
 
 class PerceptionLauncher:
-    def __init__(self, backend="ollama", model=None, *, vlm_cache=False, fresh_frames=False):
+    def __init__(self, backend="ollama", model=None, *, vlm_cache=False, vlm_cache_save=False, fresh_frames=False):
         if backend not in ("ollama", "nebula"):
             raise ValueError("Unsupported perception backend; expected ollama or nebula")
         self.backend = backend
         self.model = model
         self.vlm_cache = vlm_cache
+        self.vlm_cache_save = vlm_cache_save
         self.fresh_frames = fresh_frames
         self._process = None
 
@@ -24,9 +25,11 @@ class PerceptionLauncher:
                    '--ros-args', '-p', f'backend:={self.backend}']
         if self.fresh_frames:
             command.extend(['-p', 'fresh_camera_frames:=true', '-p', 'use_sim_time:=true'])
-        if self.vlm_cache:
+        if self.vlm_cache or self.vlm_cache_save:
             directory = Path(__file__).resolve().parent / '.cache/vlm'
             command.extend(['-p', f'vlm_cache_dir:={directory}'])
+        if self.vlm_cache_save:
+            command.extend(['-p', 'vlm_cache_save:=true'])
         if self.model is not None:
             command.extend(['-p', f'{self.backend}_model:={self.model}'])
         try:

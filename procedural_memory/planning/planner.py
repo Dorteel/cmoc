@@ -4,13 +4,14 @@ from pathlib import Path
 
 from unified_planning.engines.results import POSITIVE_OUTCOMES
 from unified_planning.io import PDDLReader
-from unified_planning.shortcuts import OneshotPlanner
+from unified_planning.shortcuts import OneshotPlanner, get_environment
 
 
 class Planner:
     def __init__(self, planner_name="fast-downward-opt"):
         # Remember an optional engine name; otherwise select one automatically.
         self.planner_name = planner_name
+        get_environment().credits_stream = None
 
     def solve(self, domain_path, problem_path, timeout=30):
         # Parse both PDDL files into Unified Planning's problem model.

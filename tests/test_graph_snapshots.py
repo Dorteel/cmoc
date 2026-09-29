@@ -296,7 +296,7 @@ def test_post_plan_diagnostics_are_restored_without_world_dump(capsys):
     planned = {'status': 'planned', 'plan': [{'action': 'pick', 'args': ['TIAGo', 'tablefork1']}], 'navigation_rooms': {}}
     with patch('builtins.input', return_value=''), patch('demo.observe_scene_with_vlm', return_value={'scene_graph': scene}), \
             patch('demo.plan_bring', return_value=planned):
-        result = demo.spa_loop(memory, kg, Mock(rank_locations=Mock(return_value=[])), Mock())
+        result = demo.spa_loop(memory, kg, Mock(rank_locations=Mock(return_value=[])), Mock(), debug_search=True)
     output = capsys.readouterr().out
     for label in ('Frame:', 'PEL:', 'Aliases:', 'Bindings:', 'Issues:', 'G2 saved:', 'Plan:'):
         assert label in output

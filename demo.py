@@ -56,7 +56,9 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         nonlocal instruction
         if instruction is None:
             instruction = input("Instruction [Bring me a fork]: ").strip() or "Bring me a fork"
+        print('[SENSE] Starting ' + ('fresh perception' if previous_result else 'perception'), flush=True)
         observation = observe_scene_with_vlm(schema_path="schemas/objects.json", with_provenance=True)
+        print('[SENSE] Observation received', flush=True)
         return {"instruction": instruction, **observation}
 
     def consolidate_knowledge(state):
@@ -71,7 +73,7 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
                 checked.add(gaze_key({'action': pending_search.get('GazeAction', 'look-at'),
                                       **({'target': pending_search['Location']}
                                          if pending_search.get('GazeAction', 'look-at') == 'look-at' else {})}))
-            search_trace(debug_search, f"Fresh observation Theme found: {outcome['Success']}")
+            search_trace(True, f"Fresh observation Theme found: {outcome['Success']}")
             pending_search = None
         episodic.merge_observation(state["scene_graph"])
         if intention is None:
@@ -86,6 +88,7 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         nonlocal current_identity_mapping
         # G1 remains sensed information only; consolidation starts planning.
         sense_graph = deepcopy(state)
+        print('[PLAN] Building task frame', flush=True)
         state = consolidate_knowledge(deepcopy(state))
         # PEL is planning-only: normalize perceived IDs and link canonical concepts.
         perceived = perceived_entity_linking(state["scene_graph"], robokg)
@@ -94,6 +97,8 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         remembered = perceived_entity_linking(world, robokg)
         theme_visible = (search_result(search_frame(intention, ''), state['scene_graph'], robokg)['Success']
                          if search else False)
+        if search:
+            print(f"[SENSE] Theme '{intention['Theme']}' " + ('observed' if theme_visible else 'not observed'), flush=True)
         state["scene_graph"] = perceived["scene_graph"]
         state["aliases"] = remembered["aliases"]
         # Context follows planning identities; the G1 context is a separate copy.
@@ -111,6 +116,7 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
             frame = search_frame(intention, chosen.get('target'))
             if chosen['action'] != 'look-at':
                 frame['GazeAction'] = chosen['action']
+            print('[PLAN] Generating Search plan', flush=True)
             planning = plan_search(frame)
             compact = {'type': 'search', 'frame': frame, 'candidate': frame['Location'],
                        'planning': planning}
@@ -127,6 +133,7 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         state['aliases'] = {identifier: names for identifier, names in state['aliases'].items()
                             if identifier in relevant_ids}
         add_frame_graph(state)
+        print('[PLAN] Generating Bring plan', flush=True)
         state["planning"] = plan_bring(state["bindings"], remembered["scene_graph"])
         return {
             **state,
@@ -157,6 +164,7 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
             return result
         def verify_theme(step):
             nonlocal recovering
+            print('[SENSE] Verifying Theme before pick with fresh perception', flush=True)
             fresh = observe_scene_with_vlm(schema_path="schemas/objects.json", with_provenance=True)
             episodic.merge_observation(fresh['scene_graph'])
             seen = perceived_entity_linking(fresh['scene_graph'], robokg)['scene_graph']
@@ -175,19 +183,21 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
     # Recovery uses the same SPA loop; system failures still stop execution.
     while not task_complete and (observations < observation_count or pending_search is not None
                                 or (result and result["status"] == "search_required")):
+        print(f'\n================ SPA LOOP {observations + 1} ================', flush=True)
         state = episode_snapshot(sense(result), observations + 1)
         write_graph_snapshot("g1", state)
         plan_ = plan(state)
         write_graph_snapshot("episodic", {**episodic.snapshot(), "observed_evidence": episodic.observed_snapshot()})
         g2_path = write_graph_snapshot("g2", plan_["planning_graph"])
-        print("Frame:", plan_["frame"], flush=True)
-        print("PEL:", plan_["entity_links"], flush=True)
-        print("Aliases:", plan_["aliases"], flush=True)
-        print("Bindings:", plan_["bindings"], flush=True)
-        print("Issues:", plan_["issues"], flush=True)
-        print("G2 saved:", g2_path, flush=True)
-        if plan_["planning"]["status"] == "planned":
-            print("Plan:", plan_["planning"]["plan"], flush=True)
+        if debug_search:
+            print("Frame:", plan_["frame"], flush=True)
+            print("PEL:", plan_["entity_links"], flush=True)
+            print("Aliases:", plan_["aliases"], flush=True)
+            print("Bindings:", plan_["bindings"], flush=True)
+            print("Issues:", plan_["issues"], flush=True)
+            print("G2 saved:", g2_path, flush=True)
+            if plan_["planning"]["status"] == "planned":
+                print("Plan:", plan_["planning"]["plan"], flush=True)
         result = act(plan_)
         plan_["action_graph"] = action_snapshot(result)
         task_complete = result["status"] == "success"
@@ -237,7 +247,9 @@ def main():
     parser.add_argument('--execute', action='store_true', help='Send the generated plan to ROS; default is dry-run')
     parser.add_argument('--search', action='store_true', default=False,
                         help='Enable observation-backed Search recovery; default uses legacy scene-graph grounding')
-    parser.add_argument('--vlm-cache', action='store_true', help='Cache identical validated VLM requests for debugging')
+    cache_flags = parser.add_mutually_exclusive_group()
+    cache_flags.add_argument('--vlm-cache', action='store_true', help='Replay saved graph for the first observation only')
+    cache_flags.add_argument('--vlm-cache-save', action='store_true', help='Save the first live observation to .cache/vlm/scene_graph.json')
     parser.add_argument('--debug-search', action='store_true', help='Trace Search gaze choices, execution grounding, and fresh observations')
     parser.add_argument('--step', action='store_true', help='With --execute, confirm each step before sending it')
     parser.add_argument('--teleport', action='store_true', help='With --execute, teleport to resolved navigation poses in Webots')
@@ -266,6 +278,7 @@ def main():
             run_demo(navigator)
         else:
             perception = PerceptionLauncher(backend="nebula", **({"vlm_cache": True} if args.vlm_cache else {}),
+                                            **({"vlm_cache_save": True} if args.vlm_cache_save else {}),
                                             **({"fresh_frames": True} if args.search else {}))
             perception.start()
             perception.wait_for_observe_with_vlm()

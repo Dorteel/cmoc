@@ -138,3 +138,11 @@ def test_search_fresh_frames_use_simulator_clock_and_legacy_stays_default():
         command = popen.call_args.args[0]
         assert ('fresh_camera_frames:=true' in command) is fresh
         assert ('use_sim_time:=true' in command) is fresh
+
+
+def test_record_flag_sets_single_cache_directory_and_save_parameter():
+    with patch('perception_launcher.subprocess.Popen') as popen:
+        PerceptionLauncher(vlm_cache_save=True).start()
+    command = popen.call_args.args[0]
+    assert 'vlm_cache_save:=true' in command
+    assert any(arg.startswith('vlm_cache_dir:=') for arg in command)

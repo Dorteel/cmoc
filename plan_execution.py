@@ -113,8 +113,11 @@ def execute_step(step, navigator, navigation_rooms, entity_positions=None, *, ex
         if action == 'look-at':
             if execution_oracle is None:
                 raise RuntimeError('Search gaze requires an execution grounding Oracle')
-            execution_oracle.resolve(args[1], require_current=True)
+            print(f'[GROUNDING] Resolving perceived entity {args[1]}', flush=True)
+            resolved = execution_oracle.resolve(args[1], require_current=True)
+            print(f'[GROUNDING] Camera-grounded instance: {resolved}', flush=True)
             parameters['optical_target'] = execution_oracle.optical_targets[args[1]]
+        print('[ACT] Moving head ' + (f'toward {args[1]}' if action == 'look-at' else action.removeprefix('look-')), flush=True)
         response = send_action('gaze', parameters)
         if not response.get('ok'):
             raise RuntimeError(f"Head gaze failed: {response.get('error', 'unknown error')}")
@@ -134,9 +137,9 @@ def execute_plan(planning, navigator=None, *, execute=False, step_by_step=False,
     if planning['status'] != 'planned':
         print(f"Plan {planning['status']}: {planning.get('reason', 'No executable plan')}", flush=True)
         return {**result, 'reason': planning.get('reason', 'No executable plan')}
-    print('Generated plan:', flush=True)
+    print('[PLAN] Generated plan:', flush=True)
     for index, step in enumerate(plan, 1):
-        print(f"  {index}. {step['action']} {' '.join(step['args'])}", flush=True)
+        print(f"[PLAN]   {index}. {step['action']} {' '.join(step['args'])}", flush=True)
     if not execute:
         return {**result, 'status': 'dry_run'}
     for index, step in enumerate(plan, 1):
@@ -145,6 +148,7 @@ def execute_plan(planning, navigator=None, *, execute=False, step_by_step=False,
                 return {**result, 'status': 'cancelled', 'reason': 'Stopped before next step'}
             if step['action'] == 'pick' and before_pick is not None and not before_pick(step):
                 return {**result, 'status': 'search_required', 'reason': 'Theme not perceived before pick'}
+            print(f"[ACT] Executing step {index}/{len(plan)}: {step['action']} {' '.join(step['args'])}", flush=True)
             attempt = {'step': index, **step, 'status': 'attempted'}
             result['executed'].append(attempt)
             execution_step = step
@@ -168,8 +172,9 @@ def execute_plan(planning, navigator=None, *, execute=False, step_by_step=False,
                                 **({'execution_oracle': execution_oracle} if execution_oracle is not None else {})):
                 raise RuntimeError(f"{step['action']} failed")
             attempt['status'] = 'success'
+            print('[ACT] Action complete', flush=True)
         except (Exception, KeyboardInterrupt) as error:
-            print(f'Execution stopped at step {index}: {str(error) or "Interrupted"}', flush=True)
+            print(f'[ACT] Execution stopped at step {index}: {str(error) or "Interrupted"}', flush=True)
             if result['executed'] and result['executed'][-1]['step'] == index:
                 result['executed'][-1]['status'] = 'failed'
             return {**result, 'status': 'failed', 'failed_step': step,

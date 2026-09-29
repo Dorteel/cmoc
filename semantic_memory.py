@@ -2,8 +2,12 @@
 import json
 import re
 import requests
+from time import monotonic
 
 from semantic_fallback import label
+
+
+GAZE_TIMEOUT_SECONDS = 30
 
 
 class SemanticMemory:
@@ -106,11 +110,37 @@ class SemanticMemory:
             f"Available gaze actions: {json.dumps(options)}\nAlready checked: {json.dumps(sorted(checked))}\n"
             "Choose exactly one supplied action to gain new visual evidence about the Theme. "
             "Do not choose an already checked action. This is a gaze decision, not an object-location claim. "
-            'Return only one JSON object: {"action":"look-at","target":"<supplied ID>"} '
-            'or {"action":"look-left"} or {"action":"look-right"}.'
+            'Return only one JSON object with action, target, and reason: '
+            '{"action":"look-at","target":"<supplied ID>","reason":"A table is a plausible place to inspect."} '
+            'or use action look-left/look-right with target null. '
+            'The reason must be exactly one short explanatory sentence, at most 240 characters, '
+            'ending in a period, question mark, or exclamation mark. Do not assert hidden locations.'
         )
-        response = requests.post(self.url, json={
-            'model': self.model, 'messages': [{'role': 'user', 'content': prompt}],
-            'stream': False, 'format': 'json'})
-        response.raise_for_status()
-        return json.loads(response.json()['message']['content'])
+        print('[SEARCH] Calling gaze LLM...', flush=True)
+        print(f'[SEARCH] Gaze LLM backend: Ollama ({self.url})', flush=True)
+        print(f'[SEARCH] Gaze LLM model: {self.model}', flush=True)
+        started = monotonic()
+        try:
+            response = requests.post(self.url, json={
+                'model': self.model, 'messages': [{'role': 'user', 'content': prompt}],
+                'stream': False, 'format': 'json', 'think': False},
+                timeout=GAZE_TIMEOUT_SECONDS)
+            response.raise_for_status()
+            chosen = json.loads(response.json()['message']['content'])
+            if not isinstance(chosen, dict):
+                raise ValueError('expected a JSON object')
+            reason = chosen.get('reason')
+            if (not isinstance(reason, str) or len(reason) > 240
+                    or re.fullmatch(r'[^.!?\r\n]+[.!?]', reason.strip()) is None):
+                raise ValueError('reason must be one short sentence (maximum 240 characters)')
+            chosen['reason'] = reason.strip()
+        except requests.Timeout as error:
+            message = f'Gaze LLM timed out (timeout {GAZE_TIMEOUT_SECONDS} s)'
+            print(f'[SEARCH] Gaze LLM failed after {monotonic() - started:.1f} s: {message}', flush=True)
+            raise TimeoutError(message) from error
+        except (requests.RequestException, ValueError, KeyError, TypeError) as error:
+            message = f'Invalid gaze LLM response: {error}' if not isinstance(error, requests.RequestException) else str(error)
+            print(f'[SEARCH] Gaze LLM failed after {monotonic() - started:.1f} s: {message}', flush=True)
+            raise ValueError(message) from error
+        print(f'[SEARCH] Gaze LLM response received in {monotonic() - started:.1f} s', flush=True)
+        return chosen

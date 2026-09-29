@@ -1,0 +1,183 @@
+{
+  "instruction": "Bring me a fork",
+  "scene_graph": {
+    "objects": [
+      {
+        "id": "person_1",
+        "type": "person",
+        "qualities": {
+          "color": "green",
+          "shape": "blocky"
+        }
+      },
+      {
+        "id": "pants_1",
+        "type": "pants",
+        "qualities": {
+          "color": "blue"
+        }
+      },
+      {
+        "id": "chair_1",
+        "type": "chair",
+        "qualities": {
+          "material": "wood",
+          "color": "brown"
+        }
+      },
+      {
+        "id": "table_1",
+        "type": "table",
+        "qualities": {
+          "material": "wood",
+          "color": "brown"
+        }
+      },
+      {
+        "id": "cereal_box_1",
+        "type": "cereal_box",
+        "qualities": {
+          "color": "red",
+          "shape": "rectangular"
+        }
+      },
+      {
+        "id": "radiator_1",
+        "type": "radiator",
+        "qualities": {
+          "color": "white"
+        }
+      },
+      {
+        "id": "room_1",
+        "type": "Location",
+        "qualities": {
+          "color": "white"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "subject": "person_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "chair_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "table_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "cereal_box_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "radiator_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "person_1",
+        "predicate": "on",
+        "object": "pants_1"
+      },
+      {
+        "subject": "chair_1",
+        "predicate": "next_to",
+        "object": "table_1"
+      },
+      {
+        "subject": "cereal_box_1",
+        "predicate": "on",
+        "object": "table_1"
+      }
+    ]
+  },
+  "perception_provenance": {
+    "backend": "replay",
+    "model": "cached graph",
+    "fallback_used": false
+  },
+  "context_graph": {
+    "nodes": [
+      {
+        "id": "episode_1",
+        "type": "Episode"
+      },
+      {
+        "id": "instruction_1",
+        "type": "Instruction",
+        "text": "Bring me a fork"
+      },
+      {
+        "id": "observation_1",
+        "type": "Observation",
+        "generatedByModel": "cached graph",
+        "perceptionBackend": "replay",
+        "fallbackUsed": false
+      },
+      {
+        "id": "robot",
+        "type": "Robot"
+      }
+    ],
+    "relations": [
+      {
+        "subject": "episode_1",
+        "predicate": "hasInstruction",
+        "object": "instruction_1"
+      },
+      {
+        "subject": "episode_1",
+        "predicate": "hasObservation",
+        "object": "observation_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observedBy",
+        "object": "robot"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "person_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "pants_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "chair_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "table_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "cereal_box_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "radiator_1"
+      },
+      {
+        "subject": "observation_1",
+        "predicate": "observes",
+        "object": "room_1"
+      }
+    ]
+  }
+}

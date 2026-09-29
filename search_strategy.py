@@ -169,16 +169,25 @@ def choose_gaze(frame, current, semantic_memory, checked=(), *, debug=False):
                and normalize_type(obj['type']) != normalize_type(frame['Theme'])]
     options = [{'action': 'look-at', 'target': obj['id']} for obj in targets]
     options += [{'action': 'look-left'}, {'action': 'look-right'}]
-    search_trace(debug, f"Theme unresolved: {frame['Theme']}")
-    search_trace(debug, "Available gaze actions:")
+    search_trace(True, f"Theme unresolved: {frame['Theme']}")
+    search_trace(True, "Building gaze options")
+    search_trace(True, "Available gaze actions:")
     for option in options:
-        search_trace(debug, f"  {gaze_key(option)}" + (" (checked)" if gaze_key(option) in checked else ""))
+        search_trace(True, f"  {gaze_key(option)}" + (" (checked)" if gaze_key(option) in checked else ""))
     if all(gaze_key(option) in checked for option in options):
         raise ValueError('Search exhausted: all current gaze actions already checked')
     chosen = semantic_memory.choose_gaze_action(frame['Theme'], current, options, checked=checked)
-    if not isinstance(chosen, dict) or chosen not in options:
+    if not isinstance(chosen, dict) or set(chosen) - {'action', 'target', 'reason'}:
+        raise ValueError(f'Invalid LLM gaze action: {chosen!r}')
+    # Explanation is display-only. Validate the action against unchanged options.
+    action = {key: value for key, value in chosen.items() if key != 'reason'}
+    if action.get('action') in ('look-left', 'look-right') and action.get('target') is None:
+        action.pop('target', None)
+    if action not in options:
         raise ValueError(f'Invalid LLM gaze action: {chosen!r}')
     if gaze_key(chosen) in checked:
         raise ValueError(f'LLM repeated checked gaze action: {gaze_key(chosen)}')
-    search_trace(debug, f"LLM selected: {gaze_key(chosen)}")
+    search_trace(True, f"LLM selected: {gaze_key(chosen)}")
+    if chosen.get("reason"):
+        search_trace(True, f"Reason: {chosen['reason']}")
     return chosen

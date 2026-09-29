@@ -1,0 +1,188 @@
+{
+  "status": "success",
+  "plan": [
+    {
+      "action": "navigate",
+      "args": [
+        "TIAGo",
+        "LIVING_ROOM_1"
+      ]
+    },
+    {
+      "action": "pick",
+      "args": [
+        "TIAGo",
+        "book(3)"
+      ]
+    },
+    {
+      "action": "navigate",
+      "args": [
+        "TIAGo",
+        "user"
+      ]
+    },
+    {
+      "action": "place",
+      "args": [
+        "TIAGo",
+        "book(3)",
+        "user"
+      ]
+    }
+  ],
+  "executed": [
+    {
+      "step": 1,
+      "action": "navigate",
+      "args": [
+        "TIAGo",
+        "LIVING_ROOM_1"
+      ],
+      "status": "success"
+    },
+    {
+      "step": 2,
+      "action": "pick",
+      "args": [
+        "TIAGo",
+        "book(3)"
+      ],
+      "status": "success"
+    },
+    {
+      "step": 3,
+      "action": "navigate",
+      "args": [
+        "TIAGo",
+        "user"
+      ],
+      "status": "success"
+    },
+    {
+      "step": 4,
+      "action": "place",
+      "args": [
+        "TIAGo",
+        "book(3)",
+        "user"
+      ],
+      "status": "success"
+    }
+  ],
+  "failed_step": null,
+  "episode_id": "episode_1",
+  "context_graph": {
+    "nodes": [
+      {
+        "id": "episode_1",
+        "type": "Episode",
+        "status": "success"
+      },
+      {
+        "id": "Plan_1",
+        "type": "Plan"
+      },
+      {
+        "id": "navigate_1",
+        "type": "Action",
+        "action": "navigate",
+        "order": 1,
+        "status": "success"
+      },
+      {
+        "id": "pick_2",
+        "type": "Action",
+        "action": "pick",
+        "order": 2,
+        "status": "success"
+      },
+      {
+        "id": "navigate_3",
+        "type": "Action",
+        "action": "navigate",
+        "order": 3,
+        "status": "success"
+      },
+      {
+        "id": "place_4",
+        "type": "Action",
+        "action": "place",
+        "order": 4,
+        "status": "success"
+      }
+    ],
+    "relations": [
+      {
+        "subject": "episode_1",
+        "predicate": "hasPlan",
+        "object": "Plan_1"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "navigate_1"
+      },
+      {
+        "subject": "navigate_1",
+        "predicate": "argument1",
+        "object": "TIAGo"
+      },
+      {
+        "subject": "navigate_1",
+        "predicate": "argument2",
+        "object": "LIVING_ROOM_1"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "pick_2"
+      },
+      {
+        "subject": "pick_2",
+        "predicate": "argument1",
+        "object": "TIAGo"
+      },
+      {
+        "subject": "pick_2",
+        "predicate": "argument2",
+        "object": "book(3)"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "navigate_3"
+      },
+      {
+        "subject": "navigate_3",
+        "predicate": "argument1",
+        "object": "TIAGo"
+      },
+      {
+        "subject": "navigate_3",
+        "predicate": "argument2",
+        "object": "user"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "place_4"
+      },
+      {
+        "subject": "place_4",
+        "predicate": "argument1",
+        "object": "TIAGo"
+      },
+      {
+        "subject": "place_4",
+        "predicate": "argument2",
+        "object": "book(3)"
+      },
+      {
+        "subject": "place_4",
+        "predicate": "argument3",
+        "object": "user"
+      }
+    ]
+  }
+}
