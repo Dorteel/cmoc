@@ -10,7 +10,10 @@
       "type": "string"
     },
     "Location": {
-      "type": "string"
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "Success": {
       "type": "boolean"
@@ -20,6 +23,13 @@
       "items": {
         "type": "string"
       }
+    },
+    "GazeAction": {
+      "enum": [
+        "look-at",
+        "look-left",
+        "look-right"
+      ]
     }
   },
   "required": [
@@ -28,5 +38,36 @@
     "Location",
     "Success"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "GazeAction": {
+            "enum": [
+              "look-left",
+              "look-right"
+            ]
+          }
+        },
+        "required": [
+          "GazeAction"
+        ]
+      },
+      "then": {
+        "properties": {
+          "Location": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "Location": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
 }

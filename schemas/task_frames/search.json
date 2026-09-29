@@ -13,7 +13,17 @@
       "type": "string"
     },
     "Location": {
-      "type": "string"
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "GazeAction": {
+      "enum": [
+        "look-at",
+        "look-left",
+        "look-right"
+      ]
     }
   },
   "required": [
@@ -21,5 +31,36 @@
     "Theme",
     "Location"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "GazeAction": {
+            "enum": [
+              "look-left",
+              "look-right"
+            ]
+          }
+        },
+        "required": [
+          "GazeAction"
+        ]
+      },
+      "then": {
+        "properties": {
+          "Location": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "Location": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
 }

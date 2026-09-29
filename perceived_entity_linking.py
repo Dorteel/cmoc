@@ -104,6 +104,7 @@ def perceived_entity_linking(scene_graph, robokg):
     graph['relations'] = relations
     links = {identifier: next(iter(values)) for identifier, values in concepts.items() if len(values) == 1}
     return {'scene_graph': graph, 'entity_links': links, 'issues': issues,
+            'identity_mapping': renames,  # This call's actual correspondence, not stored aliases.
             'aliases': {key: sorted(set(values)) for key, values in provenance.items()}}
 
 
@@ -115,7 +116,7 @@ def _position(obj):
     return None
 
 
-def bind_task(frame, episodic_pel, robokg):
+def bind_task(frame, episodic_pel, robokg, *, known_self=None):
     """Bind exact episodic IDs; Source always belongs to the selected Theme."""
     frame = deepcopy(frame)
     frame['Source'] = None
@@ -132,6 +133,9 @@ def bind_task(frame, episodic_pel, robokg):
             identifier = 'TIAGo'
         if identifier in objects:
             bindings[role] = identifier
+        elif role == 'Agent' and frame[role] == 'robot' and known_self is not None:
+            # Static self identity only: no perceived object, pose, or room is invented.
+            bindings[role] = known_self
         else:
             issues.append(f'Missing concrete {role}: {identifier}')
     concept = resolve_concept(frame['Theme'], robokg)

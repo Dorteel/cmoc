@@ -120,3 +120,21 @@ class PerceptionLauncherTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def test_cache_flag_sets_absolute_runtime_directory():
+    from pathlib import Path
+    with patch('perception_launcher.subprocess.Popen') as popen:
+        PerceptionLauncher(backend='nebula', vlm_cache=True).start()
+    command = popen.call_args.args[0]
+    directory = Path(__file__).resolve().parents[1] / '.cache/vlm'
+    assert f'vlm_cache_dir:={directory}' in command
+
+
+def test_search_fresh_frames_use_simulator_clock_and_legacy_stays_default():
+    for fresh in (False, True):
+        with patch('perception_launcher.subprocess.Popen') as popen:
+            PerceptionLauncher(fresh_frames=fresh).start()
+        command = popen.call_args.args[0]
+        assert ('fresh_camera_frames:=true' in command) is fresh
+        assert ('use_sim_time:=true' in command) is fresh

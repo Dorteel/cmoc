@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Ask a selected VLM about one snapshot of TIAGo's latest RGB frame."""
 
+import hashlib
 import base64
 import json
 import os
-from threading import Lock
+from threading import Condition, Lock
 from urllib.error import HTTPError, URLError
+from .vlm_cache import VLMResponseCache
 from .vlm_http import NEBULA_URL, NEBULA_MODEL, ask_nebula, post_json, encode_nebula_image, safe_detail
 
 import cv2
@@ -22,6 +24,9 @@ from sensor_msgs.msg import Image
 from cmoc_interfaces.action import ObserveWithVLM
 
 
+CAMERA_STARTUP_TIMEOUT_SEC = 5.0
+
+
 def _strict_json(text):
     # Python otherwise accepts NaN/Infinity, which are not valid JSON values.
     def reject_constant(value):
@@ -29,11 +34,29 @@ def _strict_json(text):
     return json.loads(text, parse_constant=reject_constant)
 
 
+def _validated_response(response, validator):
+    try:
+        if not isinstance(response, str):
+            raise ValueError('Expected a JSON string from the VLM.')
+        response_json = _strict_json(response)
+    except ValueError as error:
+        raise ValueError(f'VLM returned invalid JSON: {error}') from None
+    try:
+        validator.validate(response_json)
+    except ValidationError as error:
+        raise ValueError(
+            f'VLM response failed schema validation at {error.json_path}: '
+            f'{error.message}') from None
+    return response_json
+
+
 class ObserveWithVLMActionServer(Node):
     def __init__(self):
         super().__init__('observe_with_vlm_server')
         for name, default in {
             'backend': 'ollama',
+            'vlm_cache_dir': '',
+            'fresh_camera_frames': False,
             'camera_topic': '/tiago/camera/color/image_raw',
             'ollama_url': 'http://localhost:11434',
             'ollama_model': 'qwen3-vl:2b',
@@ -47,6 +70,7 @@ class ObserveWithVLMActionServer(Node):
             self.declare_parameter(name, default)
         self._latest_image = None
         self._image_lock = Lock()
+        self._image_ready = Condition(self._image_lock)
         self._goal_lock = Lock()
         self._bridge = CvBridge()
         # Keep receiving frames while the action's separate callback group waits
@@ -68,6 +92,7 @@ class ObserveWithVLMActionServer(Node):
     def _cache_image(self, image):
         with self._image_lock:
             self._latest_image = image
+            self._image_ready.notify_all()
 
     def _post(self, url, payload, api_key=None, *, backend=None):
         return post_json(url, payload, api_key,
@@ -94,9 +119,13 @@ class ObserveWithVLMActionServer(Node):
             model=self.get_parameter('nebula_model').value, post=self._post,
             log_info=self.get_logger().info, retry_read_timeout=False)
 
-    def _observe(self, backend, prompt, image_b64, schema):
+    def _observe(self, backend, prompt, image_b64, schema, *, cache=None, cache_requests=None, validate=None):
         """At most two transient-error attempts per backend, then fallback/fail."""
         def request(name):
+            if cache is not None:
+                cached = cache.load(cache_requests[name], validate)
+                if cached is not None:
+                    return cached
             ask = self._ask_nebula if name == 'nebula' else self._ask_ollama
             for attempt in (1, 2):
                 self.get_logger().info(f'{name} attempt {attempt}/2')
@@ -137,6 +166,8 @@ class ObserveWithVLMActionServer(Node):
         result = ObserveWithVLM.Result()
         logger = self.get_logger()
         logger.info('Observation requested')
+        fresh = self.get_parameter('fresh_camera_frames').value
+        boundary = self.get_clock().now().nanoseconds if fresh else None
         try:
             backend = self.get_parameter('backend').value
             logger.info(f'Backend: {backend}')
@@ -157,6 +188,23 @@ class ObserveWithVLMActionServer(Node):
             # Snapshot once after schema validation. Camera callbacks replace,
             # never mutate, this message while inference runs.
             with self._image_lock:
+                if fresh:
+                    logger.info('[VLM] Waiting for post-request camera frame...')
+                    def current_frame():
+                        image = self._latest_image
+                        return (image is not None and
+                                image.header.stamp.sec * 1000000000 + image.header.stamp.nanosec > boundary)
+                    if not self._image_ready.wait_for(current_frame, timeout=CAMERA_STARTUP_TIMEOUT_SEC):
+                        raise ValueError('No fresh camera frame available after gaze')
+                if self._latest_image is None and self.get_parameter('vlm_cache_dir').value:
+                    logger.info('[VLM CACHE] Waiting for camera frame...')
+                    # Condition releases the lock while the separate camera
+                    # callback group receives frames; no polling or stale-cache fallback.
+                    if not self._image_ready.wait_for(
+                            lambda: self._latest_image is not None,
+                            timeout=CAMERA_STARTUP_TIMEOUT_SEC):
+                        raise ValueError(f'No camera frame available after {CAMERA_STARTUP_TIMEOUT_SEC:.1f} s')
+                    logger.info('[VLM CACHE] Camera frame ready')
                 image = self._latest_image
             if image is None:
                 raise ValueError('No camera frame available.')
@@ -176,21 +224,37 @@ class ObserveWithVLMActionServer(Node):
                 if not ok:
                     raise ValueError('Could not encode camera frame as JPEG.')
                 image_b64 = base64.b64encode(jpeg.tobytes()).decode('ascii')
-            logger.info('Sending frame to VLM')
-            response, provenance = self._observe(backend, goal_handle.request.prompt, image_b64, schema)
+            logger.info('Processing frame for VLM')
+            cache = None
+            cache_requests = {}
+            cache_directory = self.get_parameter('vlm_cache_dir').value
+            if cache_directory:
+                cache = VLMResponseCache(cache_directory, logger.info)
+                # Hash original bytes too: lossy JPEG/resizing must never merge
+                # distinct camera frames. Timestamps are not visual content.
+                common = {
+                    'version': 1, 'image_sha256': hashlib.sha256(bytes(image.data)).hexdigest(),
+                    'image_encoding': image.encoding, 'height': image.height, 'width': image.width,
+                    'step': image.step, 'is_bigendian': image.is_bigendian,
+                    'encoded_image_sha256': hashlib.sha256(base64.b64decode(image_b64)).hexdigest(),
+                    'prompt': goal_handle.request.prompt, 'system_prompt': None, 'schema': schema,
+                    'stream': False,
+                }
+                for name in ('nebula', 'ollama'):
+                    cache_requests[name] = {
+                        **common, 'backend': name, 'model': self.get_parameter(name + '_model').value,
+                        'url': self.get_parameter(name + '_url').value,
+                        'options': {'temperature': 0} if name == 'ollama' else {},
+                        'response_format': 'ollama-schema' if name == 'ollama' else 'strict-json-schema',
+                    }
+            response, provenance = self._observe(
+                backend, goal_handle.request.prompt, image_b64, schema,
+                **({'cache': cache, 'cache_requests': cache_requests,
+                    'validate': lambda text: _validated_response(text, validator)} if cache else {}))
             logger.info('Structured response received')
-            try:
-                if not isinstance(response, str):
-                    raise ValueError('Expected a JSON string from the VLM.')
-                response_json = _strict_json(response)
-            except ValueError as error:
-                raise ValueError(f'VLM returned invalid JSON: {error}') from None
-            try:
-                validator.validate(response_json)
-            except ValidationError as error:
-                raise ValueError(
-                    f'VLM response failed schema validation at {error.json_path}: '
-                    f'{error.message}') from None
+            response_json = _validated_response(response, validator)
+            if cache is not None:
+                cache.save(cache_requests[provenance['backend']], response_json)
             # success describes the pipeline, not the meaning of any JSON field.
             result.response = json.dumps(response_json, allow_nan=False)
             result.perception_provenance = json.dumps(provenance)

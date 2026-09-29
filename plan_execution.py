@@ -63,7 +63,37 @@ def manipulation(action, args, timeout=60):
         node.destroy_node()
 
 
-def execute_step(step, navigator, navigation_rooms, entity_positions=None):
+def execution_target_position(target, oracle=None, *, full_pose=False, identity_source="perceived"):
+    # Only identity_source="simulator" permits direct lookup. Perceived IDs
+    # must first establish current camera correspondence through the Oracle.
+    # Simulator pose lookup provides execution grounding only. On a physical
+    # robot this would come from perception, object localization, semantic
+    # mapping, or another grounding system. Never treat these coordinates as
+    # observations or Search evidence.
+    from external.webots_ros2_simulation.controllers.fallback_action_supervisor.action_cli import send_action
+
+    try:
+        if identity_source == 'perceived':
+            if oracle is None:
+                raise RuntimeError('perceived identity requires an execution grounding Oracle')
+            execution_target = oracle.resolve(target, require_current=True)
+        elif identity_source == 'simulator':
+            execution_target = target
+        else:
+            raise ValueError(f'Unknown identity source: {identity_source}')
+        response = send_action('get_object_pose', {'target': execution_target})
+        if not response.get('ok'):
+            raise RuntimeError(response.get('error', 'unknown supervisor error'))
+        position = response['result']['position']
+        if (not isinstance(position, list) or len(position) != 3
+                or not all(type(v) in (int, float) and math.isfinite(v) for v in position)):
+            raise ValueError('expected three finite world coordinates')
+        return position if full_pose else position[:2]
+    except (OSError, ValueError, KeyError, TypeError, RuntimeError) as error:
+        raise RuntimeError(f'Cannot resolve execution target {target}: {error}') from error
+
+
+def execute_step(step, navigator, navigation_rooms, entity_positions=None, *, execution_oracle=None):
     action, args = step['action'], step['args']
     if action == 'navigate':
         if navigator is None:
@@ -77,23 +107,28 @@ def execute_step(step, navigator, navigation_rooms, entity_positions=None):
         if target != room:
             print(f'Navigating to {target}\'s known room {room}; target coordinates unavailable; using room fallback', flush=True)
         return navigator.go_to_room(room)
-    if action == 'look-at':
-        if navigator is None:
-            raise RuntimeError('RoomNavigator is unavailable')
-        position = (entity_positions or {}).get(args[1])
-        if position is None:
-            raise RuntimeError(f'No execution coordinates for look-at {args[1]}')
-        # Rotate at the current position using the existing backend, without a
-        # new navigation action in the Search domain or changing either backend.
-        target_x, target_y = navigator.goals.alignment.scene_to_map(*position)
-        x, y = navigator.current_map_position()
-        return navigator.navigate_to(x, y, math.atan2(target_y - y, target_x - x))
+    if action in ('look-at', 'look-left', 'look-right'):
+        from external.webots_ros2_simulation.controllers.fallback_action_supervisor.action_cli import send_action
+        parameters = {'action': action}
+        if action == 'look-at':
+            if execution_oracle is None:
+                raise RuntimeError('Search gaze requires an execution grounding Oracle')
+            execution_oracle.resolve(args[1], require_current=True)
+            parameters['optical_target'] = execution_oracle.optical_targets[args[1]]
+        response = send_action('gaze', parameters)
+        if not response.get('ok'):
+            raise RuntimeError(f"Head gaze failed: {response.get('error', 'unknown error')}")
+        if execution_oracle is not None and execution_oracle.debug:
+            positions = response.get('result', {}).get('head_positions', {})
+            print(f"[SEARCH] Head target: pan={positions.get('head_1_joint')}, "
+                  f"tilt={positions.get('head_2_joint')}; Base motion: none", flush=True)
+        return True
     if action in ('pick', 'place'):
         return manipulation(action, args)
     raise ValueError(f'Unsupported action: {action}')
 
 
-def execute_plan(planning, navigator=None, *, execute=False, step_by_step=False, entity_positions=None, before_pick=None):
+def execute_plan(planning, navigator=None, *, execute=False, step_by_step=False, entity_positions=None, before_pick=None, execution_oracle=None):
     plan = planning.get('plan', [])
     result = {'status': planning['status'], 'plan': plan, 'executed': [], 'failed_step': None}
     if planning['status'] != 'planned':
@@ -129,7 +164,8 @@ def execute_plan(planning, navigator=None, *, execute=False, step_by_step=False,
                 else:
                     print('Theme position unavailable; falling back to room navigation: '
                           + step['args'][1], flush=True)
-            if not execute_step(execution_step, navigator, planning['navigation_rooms'], entity_positions):
+            if not execute_step(execution_step, navigator, planning['navigation_rooms'], entity_positions,
+                                **({'execution_oracle': execution_oracle} if execution_oracle is not None else {})):
                 raise RuntimeError(f"{step['action']} failed")
             attempt['status'] = 'success'
         except (Exception, KeyboardInterrupt) as error:

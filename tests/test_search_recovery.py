@@ -37,7 +37,9 @@ def kg():
 
 def semantic():
     result = Mock()
-    result.rank_locations.return_value = []
+    result.rank_gaze_targets.return_value = []
+    result.choose_gaze_action.side_effect = lambda theme, current, options, checked: next(
+        o for o in options if __import__("search_strategy").gaze_key(o) not in checked)
     return result
 
 
@@ -52,10 +54,12 @@ def test_exact_before_room_and_exclusion_is_exact_and_task_local():
 def test_llm_fallback_and_explicit_ungrounded_suggestion():
     knowledge, llm = kg(), semantic()
     knowledge.get_locations.return_value = []
-    llm.rank_locations.return_value = [{'location': 'drawer1'}]
-    result = select_candidate(BRING, knowledge, llm, scene(), suggestions=['behind the bowl'])
+    llm.rank_gaze_targets.return_value = [{'location': 'drawer1', 'score': 1.0}]
+    graph = scene()
+    graph['relations'].append({'subject': 'worktop(1)', 'predicate': 'next_to', 'object': 'drawer1'})
+    result = select_candidate(BRING, knowledge, llm, graph, suggestions=['behind the bowl'])
     assert result == {'location': 'drawer1', 'ungrounded': ['behind the bowl']}
-    llm.rank_locations.assert_called_once()
+    llm.rank_gaze_targets.assert_called_once()
 
 
 @pytest.mark.parametrize('success', [True, False])
@@ -101,7 +105,6 @@ def test_hidden_ground_truth_cannot_change_candidate(tmp_path, hidden_location):
 def test_failed_then_successful_search_replans_bring_and_persists_evidence():
     memory, knowledge = KnowledgeInterface(), kg()
     views = [{'scene_graph': scene()}, {'scene_graph': scene()},
-             {'scene_graph': scene(), 'search_candidates': ['drawer1']},
              {'scene_graph': scene(True)}]
     events = []
     def observe(**kwargs):
@@ -117,8 +120,8 @@ def test_failed_then_successful_search_replans_bring_and_persists_evidence():
          patch('demo.execute_plan', side_effect=execute), \
          patch('demo.plan_bring', return_value=bring_plan) as bring:
         result = demo.spa_loop(memory, knowledge, semantic(), Mock(), execute=True, search=True)
-    assert events == ['sense', 'look-at', 'sense', 'alternatives', 'look-at', 'sense', 'pick']
-    assert [(r['Location'], r['Success']) for r in result['search_outcomes']] == [('worktop(1)', False), ('KITCHEN', True)]
+    assert events == ['sense', 'look-at', 'sense', 'look-at', 'sense', 'pick']
+    assert [(r['Location'], r['Success']) for r in result['search_outcomes']] == [('worktop(1)', False), ('drawer1', True)]
     assert result['bring_intention'] == BRING
     bring.assert_called_once()
     assert bring.call_args.args[0]['Theme'] == 'fork1'
@@ -168,7 +171,7 @@ def test_missing_pick_discards_old_bring_plan_and_replans_after_search():
     new['plan'][1]['args'][2] = 'user'
     observations = [scene(True), scene(), scene(), scene(True), scene(True)]
     dispatched = []
-    def dispatch(step, *args):
+    def dispatch(step, *args, **kwargs):
         dispatched.append(deepcopy(step))
         return True
     with patch('builtins.input', return_value=''), \

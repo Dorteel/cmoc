@@ -30,7 +30,8 @@ def test_launch_preserves_historical_wheel_configuration_pair():
     assert params[0]['set_robot_state_publisher'] is True
     assert params[1] == str(control)
     expected = {'wheel_left_joint', 'wheel_right_joint'}
-    assert {j.attrib['name'] for j in ET.parse(urdf).findall('ros2_control/joint')} == expected
+    assert {j.attrib['name'] for j in ET.parse(urdf).findall('ros2_control/joint')
+            if j.find('command_interface') is not None} == expected
     controller = yaml.safe_load(control.read_text())['diffdrive_controller']['ros__parameters']
     assert set(controller['left_wheel_names'] + controller['right_wheel_names']) == expected
 

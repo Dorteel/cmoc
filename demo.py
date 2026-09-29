@@ -2,8 +2,9 @@ from listener import NaiveFrameFiller
 from scene_graph_interface import KnowledgeInterface as EpisodicMemory
 from knowledge_interface import KnowledgeInterface as RoboKGNet
 from semantic_memory import SemanticMemory
-from search_strategy import select_candidate, search_frame, search_result
+from search_strategy import select_candidate, search_frame, search_result, search_trace, choose_gaze, gaze_key
 from procedural_memory.planning.search_plan import plan_search
+from execution_grounding import ExecutionGroundingOracle
 
 from pathlib import Path
 from copy import deepcopy
@@ -37,22 +38,19 @@ def candidate_locations(frame, episodic, robokg, semantic_memory):
     return [selected['location']] if selected['location'] else []
 
 
-def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing", observation_count=1, execute=False, step_by_step=False, search=False):
+def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing", observation_count=1, execute=False, step_by_step=False, search=False, debug_search=False):
     """Ground and plan Bring, then preview or execute strictly in planner order."""
     if scenario not in ("existing", "empty", "human-moves"):
         raise ValueError(f"Unknown scenario: {scenario}")
     if observation_count < 1:
         raise ValueError("observation_count must be positive")
-    # Keep seed geometry available only to Act; observation merges may invalidate it.
-    execution_world = episodic.snapshot() if search else None
     instruction = None
     intention = None
     pending_search = None
     checked = set()
     outcomes = []
-    suggestions = []
-    recovery_candidate = None
     recovering = False
+    current_identity_mapping = {}
 
     def sense(previous_result=None):
         nonlocal instruction
@@ -62,32 +60,18 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         return {"instruction": instruction, **observation}
 
     def consolidate_knowledge(state):
-        nonlocal intention, pending_search, suggestions, recovering, recovery_candidate
+        nonlocal intention, pending_search, recovering
         if pending_search is not None:
             outcome = search_result(pending_search, state['scene_graph'], robokg)
             outcomes.append(outcome)
             state['search_result'] = deepcopy(outcome)
             if outcome['Success']:
                 recovering = False
-                recovery_candidate = None
-                # The attended candidate supplies spatial context for the new sighting.
-                room_ids = {o['id'] for o in episodic.observed_snapshot()['objects'] if o['type'] == 'Location'}
-                location = next((o for o in episodic.observed_snapshot()['objects']
-                                 if o['id'] == outcome['Location']), {})
-                surface = location.get('type', '').casefold() in ('worktop', 'counter', 'table', 'shelf')
-                predicate = 'on' if surface and outcome['Location'] not in room_ids else 'in'
-                for identifier in outcome['observed_ids']:
-                    relation = {'subject': identifier, 'predicate': predicate, 'object': outcome['Location']}
-                    if relation not in state['scene_graph']['relations']:
-                        state['scene_graph']['relations'].append(relation)
-                suggestions = []
             else:
-                checked.add(outcome['Location'])
-                alternatives = observe_scene_with_vlm(
-                    schema_path="schemas/objects.json", with_provenance=True,
-                    search_theme=pending_search['Theme'])
-                episodic.merge_observation(alternatives['scene_graph'])
-                suggestions = alternatives.get('search_candidates', [])
+                checked.add(gaze_key({'action': pending_search.get('GazeAction', 'look-at'),
+                                      **({'target': pending_search['Location']}
+                                         if pending_search.get('GazeAction', 'look-at') == 'look-at' else {})}))
+            search_trace(debug_search, f"Fresh observation Theme found: {outcome['Success']}")
             pending_search = None
         episodic.merge_observation(state["scene_graph"])
         if intention is None:
@@ -99,11 +83,13 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         return state
 
     def plan(state):
+        nonlocal current_identity_mapping
         # G1 remains sensed information only; consolidation starts planning.
         sense_graph = deepcopy(state)
         state = consolidate_knowledge(deepcopy(state))
         # PEL is planning-only: normalize perceived IDs and link canonical concepts.
         perceived = perceived_entity_linking(state["scene_graph"], robokg)
+        current_identity_mapping = dict(perceived["identity_mapping"])
         world = episodic.observed_snapshot() if search else episodic.snapshot()
         remembered = perceived_entity_linking(world, robokg)
         theme_visible = (search_result(search_frame(intention, ''), state['scene_graph'], robokg)['Success']
@@ -115,23 +101,22 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         for relation in state['context_graph']['relations']:
             for endpoint in ('subject', 'object'):
                 relation[endpoint] = aliases.get(relation[endpoint], relation[endpoint])
-        state.update(bind_task(state["frame"], remembered, robokg))
-        if search and not theme_visible and (state['bindings']['Theme'] is None or recovering):
-            selection = select_candidate(intention, robokg, semantic_memory,
-                                         episodic.observed_snapshot(), checked, suggestions)
-            if recovery_candidate is not None and recovery_candidate not in checked:
-                selection['location'] = recovery_candidate
-            if selection['location'] is not None:
-                frame = search_frame(intention, selection['location'])
-                planning = plan_search(frame)
-                compact = {'type': 'search', 'frame': frame, 'candidate': frame['Location'],
-                           'planning': planning}
-                return {**compact, 'bindings': {}, 'entity_links': {}, 'aliases': {}, 'issues': [],
-                        'entity_positions': {}, 'sense_graph': sense_graph,
-                        'planning_graph': deepcopy(compact), 'action_graph': None}
-            state['bindings']['Theme'] = None
-            state['type'] = 'incomplete'
-            state['issues'].append('Search candidates exhausted or ungrounded: ' + repr(selection['ungrounded']))
+        state.update(bind_task(state["frame"], remembered, robokg,
+                               **({"known_self": "TIAGo"} if search else {})))
+        if search and (state['bindings']['Theme'] is None or not theme_visible or recovering):
+            search_trace(debug_search, f"Search triggered: Theme={intention['Theme']!r}, "
+                         f"binding={state['bindings']['Theme']!r}, visible={theme_visible}, recovering={recovering}")
+            chosen = choose_gaze(intention, sense_graph['scene_graph'], semantic_memory,
+                                 checked, debug=debug_search)
+            frame = search_frame(intention, chosen.get('target'))
+            if chosen['action'] != 'look-at':
+                frame['GazeAction'] = chosen['action']
+            planning = plan_search(frame)
+            compact = {'type': 'search', 'frame': frame, 'candidate': frame['Location'],
+                       'planning': planning}
+            return {**compact, 'bindings': {}, 'entity_links': {}, 'aliases': {}, 'issues': [],
+                    'entity_positions': {}, 'sense_graph': sense_graph,
+                    'planning_graph': deepcopy(compact), 'action_graph': None}
         state['frame_element_links'], state['frame_element_issues'] = ground_frame_elements(state['frame'], robokg, remembered)
         # These diagnostic issues do not change concrete Bring selection.
         state['issues'].extend(state['frame_element_issues'])
@@ -156,31 +141,28 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         }
 
     def act(plan_):
-        nonlocal pending_search, recovery_candidate
+        nonlocal pending_search
         if plan_.get('type') == 'search':
-            # Coordinates are resolved only after candidate selection, for execution.
-            world = episodic.snapshot()
-            candidate = plan_['frame']['Location']
-            target = next((obj for obj in world['objects'] if obj['id'] == candidate), None)
-            if target is None or _position(target) is None:
-                target = next((obj for obj in execution_world['objects'] if obj['id'] == candidate), None)
-            positions = {candidate: _position(target)} if target and _position(target) is not None else {}
+            search_trace(debug_search, f"Executing gaze action: {plan_['planning']['plan']}")
             result = execute_plan(plan_['planning'], navigator, execute=execute,
-                                  step_by_step=step_by_step, entity_positions=positions)
+                                  step_by_step=step_by_step,
+                                  execution_oracle=ExecutionGroundingOracle(
+                                      episodic.observed_snapshot(), robokg, debug=debug_search,
+                                      current_observed_ids=[o["id"] for o in plan_["sense_graph"]["scene_graph"]["objects"]],
+                                      current_identity_mapping=current_identity_mapping))
             if result['status'] == 'success':
+                search_trace(debug_search, 'Fresh perception requested')
                 pending_search = deepcopy(plan_['frame'])
                 result['status'] = 'search_observation_required'
             return result
         def verify_theme(step):
-            nonlocal recovery_candidate, recovering
+            nonlocal recovering
             fresh = observe_scene_with_vlm(schema_path="schemas/objects.json", with_provenance=True)
             episodic.merge_observation(fresh['scene_graph'])
             seen = perceived_entity_linking(fresh['scene_graph'], robokg)['scene_graph']
             present = step['args'][1] in {obj['id'] for obj in seen['objects']}
             if not present:
                 recovering = True
-                trusted = perceived_entity_linking(episodic.observed_snapshot(), robokg)
-                recovery_candidate = bind_task(intention, trusted, robokg)['bindings']['Source']
             return present
 
         return execute_plan(plan_['planning'], navigator, execute=execute, step_by_step=step_by_step,
@@ -255,6 +237,8 @@ def main():
     parser.add_argument('--execute', action='store_true', help='Send the generated plan to ROS; default is dry-run')
     parser.add_argument('--search', action='store_true', default=False,
                         help='Enable observation-backed Search recovery; default uses legacy scene-graph grounding')
+    parser.add_argument('--vlm-cache', action='store_true', help='Cache identical validated VLM requests for debugging')
+    parser.add_argument('--debug-search', action='store_true', help='Trace Search gaze choices, execution grounding, and fresh observations')
     parser.add_argument('--step', action='store_true', help='With --execute, confirm each step before sending it')
     parser.add_argument('--teleport', action='store_true', help='With --execute, teleport to resolved navigation poses in Webots')
     args = parser.parse_args()
@@ -281,7 +265,8 @@ def main():
         if args.test_navigation:
             run_demo(navigator)
         else:
-            perception = PerceptionLauncher(backend="nebula")
+            perception = PerceptionLauncher(backend="nebula", **({"vlm_cache": True} if args.vlm_cache else {}),
+                                            **({"fresh_frames": True} if args.search else {}))
             perception.start()
             perception.wait_for_observe_with_vlm()
             episodic = create_episodic(args.scenario)
@@ -289,7 +274,7 @@ def main():
             semantic_memory = SemanticMemory(model="qwen3:1.7b")
             print("\n==============================\nCMOC READY\nPerception backend: Nebula\n==============================", flush=True)
             spa_loop(episodic, robokg, semantic_memory, navigator, scenario=args.scenario,
-                     execute=args.execute, step_by_step=args.step, search=args.search)
+                     execute=args.execute, step_by_step=args.step, search=args.search, debug_search=args.debug_search)
         if not args.no_simulator:
             print('Demo complete. Simulator stays open; press Ctrl+C to stop.', flush=True)
             while simulator.is_running():
