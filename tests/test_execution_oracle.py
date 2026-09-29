@@ -99,7 +99,8 @@ def test_look_at_oracle_round_trip_keeps_symbolic_plan_and_evidence(capsys):
     assert 'table(1)' not in repr(result)
     nav.navigate_to.assert_not_called()
     nav._reachable_approach.assert_not_called()
-    assert calls[-1][1] == {'action': 'look-at', 'optical_target': [0.0, 0.0, 2.0]}
+    assert calls[-1][1]['action'] == 'look-at'
+    assert calls[-1][1]['optical_target'] == pytest.approx([0,0,1.99])
     frame = search_frame({'Agent': 'robot', 'Theme': 'book'}, 'object_5')
     assert not search_result(frame, scene, kg)['Success']
     assert search_result(frame, {'objects': [{'id': 'book_1', 'type': 'book'}]}, kg)['Success']

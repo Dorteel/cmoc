@@ -29,6 +29,9 @@ class KnowledgeInterface:
     def get_superclasses(self, concept_id):
         return self._backend.get_superclasses(concept_id)
 
+    def get_subclasses(self, concept_id):
+        return self._backend.get_subclasses(concept_id)
+
     def get_locations(self, concept_id):
         return self._backend.get_locations(concept_id)
 

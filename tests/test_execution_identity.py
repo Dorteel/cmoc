@@ -42,7 +42,8 @@ def test_same_name_cannot_bypass_camera_or_fallback_on_ambiguity(ambiguous, caps
             assert execute_step({'action':'look-at','args':['robot','table_1']},nav,{},execution_oracle=oracle)
             assert [a for a,_ in calls] == ['get_object_pose','resolve_execution_instance','gaze']
             assert calls[0][1] == {'target':'TIAGo'}
-            assert calls[2][1] == {'action':'look-at','optical_target':[0,0,2]}
+            assert calls[2][1]['action'] == 'look-at'
+            assert calls[2][1]['optical_target'] == pytest.approx([0,0,1.99])
             assert oracle.execution_bindings == {'table_1':'table(2)'}
         geometry.assert_called_once()
     assert not nav.mock_calls

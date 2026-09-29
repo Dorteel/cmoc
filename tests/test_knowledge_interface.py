@@ -26,6 +26,18 @@ class KnowledgeInterfaceIntegrationTests(unittest.TestCase):
         self.assertEqual(k.resolve_concept('aircraft'), [k.get_concept('aircraft.n.01')])
         self.assertEqual(k.get_locations('aircraft.n.01'), [('sky.n.01', 1)])
 
+    def test_subclasses_are_direct_stored_edges_and_return_copies(self):
+        k = self.knowledge
+        children = k.get_subclasses('table.n.02')
+        self.assertIn('desk.n.01', children)
+        self.assertIn('counter.n.01', children)
+        self.assertNotIn('chair.n.01', children)
+        self.assertEqual(k.get_superclasses('desk.n.01'), ['table.n.02'])
+        children.clear()
+        self.assertIn('desk.n.01', k.get_subclasses('table.n.02'))
+        with self.assertRaises(KeyError):
+            k.get_subclasses('not_a_concept')
+
     def test_real_action_and_framenet_elements(self):
         k = self.knowledge
         action = k.get_action('bring-11.3')

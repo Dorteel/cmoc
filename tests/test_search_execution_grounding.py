@@ -23,7 +23,13 @@ def node(identifier, name='', definition='', position=(3, 2, 0)):
     result.getTypeName.return_value = 'Solid'
     result.getId.return_value = identifier
     result.getDef.return_value = definition
-    result.getField.return_value = SimpleNamespace(getSFString=lambda: name)
+    box = SimpleNamespace(getTypeName=lambda:'Box',
+                          getField=lambda key: SimpleNamespace(getSFVec3f=lambda:[.02,.02,.02]))
+    collision = SimpleNamespace(getSFNode=lambda:box)
+    result.getField.side_effect = lambda key: (collision if key == 'boundingObject' else
+                                              SimpleNamespace(getSFString=lambda:name))
+    result.getBaseNodeField.return_value = collision
+    result.getOrientation.return_value = [1,0,0,0,1,0,0,0,1]
     result.getNumberOfFields.return_value = 0
     result.getPosition.return_value = list(position)
     return result

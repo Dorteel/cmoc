@@ -43,14 +43,42 @@ class ExecutionGroundingOracle:
         label = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", obj['type']).replace('_', ' ')
         concept = resolve_concept(label, self._robokg)
         compatible_types = []
+        # Preserve legacy concept/parent compatibility. Camera grounding also
+        # accepts stored subtypes of the perceived concept, never sibling types
+        # reached through a broad common superclass.
         if concept is not None:
             parents = self._robokg.get_superclasses(concept)
             for identifier in [concept, *(parents if isinstance(parents, list) else [])]:
                 entry = self._robokg.get_concept(identifier)
                 if isinstance(entry, dict) and isinstance(entry.get('type'), str):
                     compatible_types.append(entry['type'])
+        entries = self._robokg.resolve_concept(label.casefold())
+        if not entries and ' ' in label:
+            entries = self._robokg.resolve_concept(label.casefold().replace(' ', '_'))
+        pending = ([(entry['id'], [entry['id']]) for entry in entries]
+                   if perceived_id in self._current_observed_ids else [])
+        seen = set()
+        while pending:
+            identifier, path = pending.pop()
+            if identifier in seen:
+                continue
+            seen.add(identifier)
+            entry = self._robokg.get_concept(identifier)
+            if isinstance(entry, dict) and isinstance(entry.get('type'), str):
+                if entry['type'] not in compatible_types:
+                    compatible_types.append(entry['type'])
+                for alias in entry.get('alternative_names', []):
+                    if resolve_concept(alias, self._robokg) == identifier:
+                        compatible_types.append(alias)
+                log(f"[GROUNDING] Compatible semantic type {entry['type']}: "
+                    f"RoboKG subtype/equivalence evidence {' -> '.join(path)}")
+            children = self._robokg.get_subclasses(identifier)
+            if isinstance(children, list):
+                pending.extend((child, [*path, child]) for child in children)
         log(f"  raw concept={obj['type']!r}; canonical concept={concept!r}")
-        log(f"  compatible canonical types (concept + immediate superclass)={compatible_types!r}")
+        log(f"[GROUNDING] Perceived entity: {perceived_id}")
+        log(f"[GROUNDING] Semantic type: {obj['type']}; PEL concept={concept!r}")
+        log(f"  compatible canonical types (RoboKG lexical concepts and subtypes)={compatible_types!r}")
         log("Current-observation provenance:")
         for raw, canonical in self._current_identity_mapping.items():
             if canonical == perceived_id or raw == perceived_id:
