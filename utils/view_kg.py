@@ -101,6 +101,60 @@ def snapshot_to_graph(data):
     return graph
 
 
+SEMANTIC_GRAPH = Path(__file__).resolve().parents[1] / 'knowledge/robokgnet/robokgnet.ttl'
+WORDNET = 'https://example.org/cmoc/robokgnet/wordnet/'
+FRAMENET = 'https://example.org/cmoc/robokgnet/framenet/'
+OBSERVES = URIRef('urn:cmoc:predicate:observes')
+LINKED_TO = URIRef('urn:cmoc:predicate:linkedTo')
+
+
+def g1_path_for_g2(path):
+    if path.name == SNAPSHOTS['g2']:
+        return path.with_name(SNAPSHOTS['g1'])
+    if path.name == 'g2.json':
+        return path.with_name('g1.json')
+    return None
+
+
+def add_g1_provenance(graph, g1, semantic_path=None):
+    """Copy only explicit, one-hop provenance links; preserve predicate direction."""
+    roots = set(graph.subjects()) | set(graph.objects()) | set(getattr(graph, 'node_details', {}))
+    expected = {node for node, details in getattr(graph, 'node_details', {}).items()
+                if details.get('type') == 'Observation'}
+    sources = set()
+    stages = {}
+    for subject, _, entity in g1.triples((None, OBSERVES, None)):
+        if entity in roots and (not expected or subject in expected):
+            graph.add((subject, OBSERVES, entity))
+            sources.update((subject, entity))
+            stages[subject] = 'G1 observation'
+    concepts = set()
+    for source in sources:
+        for origin in (g1, graph):
+            for concept in list(origin.objects(source, LINKED_TO)):
+                graph.add((source, LINKED_TO, concept))
+                concepts.add(concept)
+                stages[concept] = 'WordNet concept'
+    semantic_path = SEMANTIC_GRAPH if semantic_path is None else semantic_path
+    if concepts and semantic_path.exists():
+        semantic = Graph().parse(semantic_path, format='turtle')
+        # Snapshot concepts use synset IDs; the RDF resource uses the same IDs
+        # under its WordNet namespace. Keep the viewer's existing node identity.
+        for concept in concepts:
+            wn = (URIRef(WORDNET + quote(local_name(concept), safe=''))
+                  if str(concept).startswith('urn:cmoc:concept:') else concept)
+            if not str(wn).startswith(WORDNET):
+                continue
+            for subject, predicate, target in set(semantic.triples((wn, None, None))) | set(semantic.triples((None, None, wn))):
+                other = target if subject == wn else subject
+                if isinstance(other, URIRef) and str(other).startswith(FRAMENET):
+                    graph.add((concept if subject == wn else subject, predicate,
+                               concept if target == wn else target))
+                    stages[other] = 'FrameNet entity'
+    graph.provenance_stages = stages
+    return graph
+
+
 def load_schema_documents(path):
     """Load the actual task-frame documents, in deterministic file order."""
     files = sorted(path.glob('*.json'))
@@ -120,8 +174,16 @@ def load_graph(path, rdf_format=None):
         data = json.loads(source)
         if data is None:
             raise ValueError("G3 action snapshot not available yet; run demo.py through Act.")
-        if isinstance(data, dict) and ("scene_graph" in data or "objects" in data or "context_graph" in data):
-            return snapshot_to_graph(data)
+        if isinstance(data, dict) and ("scene_graph" in data or "objects" in data or "context_graph" in data or "frame" in data):
+            graph = snapshot_to_graph(data)
+            g1_path = g1_path_for_g2(path)
+            if g1_path is not None:
+                g1_data = data.get('sense_graph')
+                if g1_data is None and g1_path.exists():
+                    g1_data = json.loads(g1_path.read_bytes())
+                if isinstance(g1_data, dict):
+                    add_g1_provenance(graph, snapshot_to_graph(g1_data))
+            return graph
     graph = Graph()
     graph.parse(data=source, format=rdf_format or guess_format(str(path)) or "turtle",
                 publicID=path.as_uri())
@@ -145,6 +207,7 @@ def graph_to_data(graph):
     if hasattr(graph, "schema_documents"):
         return schemas_to_data(graph.schema_documents)
     node_details = getattr(graph, 'node_details', {})
+    stages = getattr(graph, 'provenance_stages', {})
     terms = sorted(set(graph.subjects()) | set(graph.objects()) | set(node_details), key=lambda term: term.n3())
     identifiers = {term: term.n3() for term in terms}
     nodes = []
@@ -155,8 +218,8 @@ def graph_to_data(graph):
         kind = "literal" if isinstance(term, Literal) else "blank" if isinstance(term, BNode) else "resource"
         label = str(term) if kind == "literal" else local_name(term)
         nodes.append({
-            "details": node_details.get(term, {}),
-            "id": identifiers[term], "label": label[:60] + ("…" if len(label) > 60 else ""),
+            "details": {**node_details.get(term, {}), **({"provenance_stage": stages[term]} if term in stages else {})},
+            "id": identifiers[term], "label": (stages[term] + ": " if term in stages else "") + label[:60] + ("…" if len(label) > 60 else ""),
             "kind": kind, "uri": str(term) if kind == "resource" else None,
             "types": [str(item) for item in types],
             "value": str(term) if kind == "literal" else None,
@@ -344,6 +407,9 @@ def schemas_to_data(documents):
 def graph_stamp(path):
     """Schema directories also reload when an existing JSON file is edited."""
     paths = [path, *sorted(path.glob('*.json'))] if path.is_dir() else [path]
+    g1_path = g1_path_for_g2(path)
+    if g1_path is not None:
+        paths.extend(item for item in (g1_path, SEMANTIC_GRAPH) if item.exists())
     return tuple((str(item), stat.st_mtime_ns, stat.st_size, stat.st_ino)
                  for item in paths for stat in [item.stat()])
 

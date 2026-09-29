@@ -38,7 +38,7 @@ def kg():
 def semantic():
     result = Mock()
     result.rank_gaze_targets.return_value = []
-    result.choose_gaze_action.side_effect = lambda theme, current, options, checked: next(
+    result.choose_gaze_action.side_effect = lambda theme, current, options, checked, sweep_direction=None: next(
         o for o in options if __import__("search_strategy").gaze_key(o) not in checked)
     return result
 

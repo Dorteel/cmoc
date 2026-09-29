@@ -161,11 +161,13 @@ def test_missing_self_and_unresolved_book_search_dispatch(search, visible_ungras
     memory = KnowledgeInterface()
     with patch('builtins.input', return_value='Bring me a book'),          patch('demo.observe_scene_with_vlm', return_value={'scene_graph': observed}),          patch('demo.plan_bring', wraps=demo.plan_bring) as bring:
         result = demo.spa_loop(memory, kg, llm, None, search=search)
-    if search:
+    if search and not visible_ungraspable:
         bring.assert_not_called()
         assert result['planning']['plan'] == [
             {'action': 'look-at', 'args': ['robot', 'worktop(1)']}]
         assert result['frame']['Theme'] == 'book'
     else:
+        bring.assert_called_once()
+        llm.choose_gaze_action.assert_not_called()
         assert result['planning']['status'] == 'incomplete'
     assert not any(o['id'] == 'TIAGo' for o in memory.observed_snapshot()['objects'])

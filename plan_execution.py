@@ -113,18 +113,27 @@ def execute_step(step, navigator, navigation_rooms, entity_positions=None, *, ex
         if action == 'look-at':
             if execution_oracle is None:
                 raise RuntimeError('Search gaze requires an execution grounding Oracle')
-            print(f'[GROUNDING] Resolving perceived entity {args[1]}', flush=True)
-            resolved = execution_oracle.resolve(args[1], require_current=True)
-            print(f'[GROUNDING] Camera-grounded instance: {resolved}', flush=True)
-            parameters['optical_target'] = execution_oracle.optical_targets[args[1]]
-        print('[ACT] Moving head ' + (f'toward {args[1]}' if action == 'look-at' else action.removeprefix('look-')), flush=True)
+            if execution_oracle.gaze_region(args[1]) == 'floor':
+                print(f'[GROUNDING] Perceived entity {args[1]} classified as gaze region: floor', flush=True)
+                print('[ACT] Gaze region floor -> tilt head downward', flush=True)
+                print('[ACT] Base motion: none', flush=True)
+                parameters['action'] = 'look-down'
+            else:
+                print(f'[GROUNDING] Resolving perceived entity {args[1]}', flush=True)
+                resolved = execution_oracle.resolve(args[1], require_current=True)
+                print(f'[GROUNDING] Camera-grounded instance: {resolved}', flush=True)
+                parameters['optical_target'] = execution_oracle.optical_targets[args[1]]
+        if action == 'look-at':
+            print(f'[ACT] Moving head toward {args[1]}', flush=True)
+        else:
+            print(f"[ACT] Rotating base {'+60' if action == 'look-left' else '-60'} degrees; translation: none", flush=True)
         response = send_action('gaze', parameters)
         if not response.get('ok'):
             raise RuntimeError(f"Head gaze failed: {response.get('error', 'unknown error')}")
         if execution_oracle is not None and execution_oracle.debug:
             positions = response.get('result', {}).get('head_positions', {})
             print(f"[SEARCH] Head target: pan={positions.get('head_1_joint')}, "
-                  f"tilt={positions.get('head_2_joint')}; Base motion: none", flush=True)
+                  f"tilt={positions.get('head_2_joint')}; Base motion: {'none' if action == 'look-at' else 'rotation only'}", flush=True)
         return True
     if action in ('pick', 'place'):
         return manipulation(action, args)

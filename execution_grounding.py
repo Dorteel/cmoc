@@ -3,7 +3,7 @@ from copy import deepcopy
 import re
 
 from external.webots_ros2_simulation.controllers.fallback_action_supervisor.action_cli import send_action
-from perceived_entity_linking import resolve_concept
+from perceived_entity_linking import normalize_type, resolve_concept
 from search_strategy import search_trace
 from ros_camera_geometry import acquire_camera_geometry
 
@@ -25,6 +25,17 @@ class ExecutionGroundingOracle:
         self._current_observed_ids = raw_ids | frozenset(self._current_identity_mapping.values())
         self.execution_bindings = {}
         self.optical_targets = {}
+
+    def gaze_region(self, perceived_id):
+        obj = self._objects.get(perceived_id)
+        if obj is None or perceived_id not in self._current_observed_ids:
+            return None
+        if normalize_type(obj['type']) == 'floor':
+            return 'floor'
+        floor = resolve_concept('floor', self._robokg)
+        if floor is not None and resolve_concept(obj['type'], self._robokg) == floor:
+            return 'floor'
+        return None
 
     def resolve(self, perceived_id, *, require_current=False):
         def log(message):

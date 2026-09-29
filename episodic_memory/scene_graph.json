@@ -1320,7 +1320,7 @@
     },
     {
       "id": "cabinet_1",
-      "type": "Cabinet",
+      "type": "cabinet",
       "qualities": {
         "orientation": [
           0.0,
@@ -1328,11 +1328,7 @@
           1.0,
           3.14159
         ],
-        "location": [
-          -0.16999999999999998,
-          -9.12,
-          0.0
-        ]
+        "color": "dark gray"
       }
     },
     {
@@ -1551,13 +1547,14 @@
     },
     {
       "id": "wall 1",
-      "type": "Wall",
+      "type": "wall",
       "qualities": {
         "location": [
           0.0,
           -0.65,
           0.0
-        ]
+        ],
+        "color": "brown"
       }
     },
     {
@@ -2164,7 +2161,7 @@
     },
     {
       "id": "door_1",
-      "type": "Door",
+      "type": "door",
       "qualities": {
         "orientation": [
           -0.0,
@@ -2181,7 +2178,10 @@
           1.0000003058840734,
           0.3000010196151545,
           2.4
-        ]
+        ],
+        "color": "white",
+        "shape": "rectangular",
+        "area": 0.45
       }
     },
     {
@@ -3347,9 +3347,9 @@
           0.25
         ],
         "color": "brown",
-        "shape": "round",
+        "shape": "rectangular",
         "material": "wood",
-        "area": 0.2
+        "area": 1
       }
     },
     {
@@ -4058,7 +4058,7 @@
           0.47,
           0.33
         ],
-        "shape": "wooden chair",
+        "shape": "rectangular",
         "material": "wood",
         "area": 0.1
       }
@@ -4076,14 +4076,16 @@
       "id": "room_1",
       "type": "Location",
       "qualities": {
-        "color": "white"
+        "color": "white",
+        "area": 1,
+        "shape": "walls"
       }
     },
     {
       "id": "person_1",
       "type": "person",
       "qualities": {
-        "color": "blue",
+        "color": "green shirt, blue pants",
         "size": [
           1.5,
           2.0
@@ -4096,7 +4098,7 @@
       "id": "window_1",
       "type": "window",
       "qualities": {
-        "color": "grey",
+        "color": "gray",
         "size": [
           0.36,
           0.47,
@@ -4143,7 +4145,7 @@
           0.1,
           0.1
         ],
-        "shape": "round",
+        "shape": "oval",
         "material": "wood"
       }
     },
@@ -4250,7 +4252,7 @@
           0.12
         ],
         "shape": "rectangular",
-        "area": 0.1
+        "area": 1
       }
     },
     {
@@ -4280,7 +4282,8 @@
       "type": "wall",
       "qualities": {
         "color": "white",
-        "shape": "wall"
+        "shape": "wall",
+        "area": 0.55
       }
     },
     {
@@ -4288,7 +4291,8 @@
       "type": "floor",
       "qualities": {
         "color": "brown",
-        "shape": "herringbone"
+        "shape": "herringbone",
+        "material": "wood"
       }
     },
     {
@@ -4323,9 +4327,9 @@
     },
     {
       "id": "object_2",
-      "type": "shirt",
+      "type": "object",
       "qualities": {
-        "color": "green"
+        "color": "white"
       }
     },
     {
@@ -4522,7 +4526,321 @@
       "type": "bottle",
       "qualities": {
         "color": "white",
+        "shape": "cylindrical",
+        "material": "plastic"
+      }
+    },
+    {
+      "id": "user",
+      "type": "person",
+      "qualities": {
+        "color": "blue",
+        "shape": "pants"
+      }
+    },
+    {
+      "id": "box_2",
+      "type": "box",
+      "qualities": {
+        "color": "red",
+        "area": 1
+      }
+    },
+    {
+      "id": "stool_1",
+      "type": "stool",
+      "qualities": {
+        "material": "wood"
+      }
+    },
+    {
+      "id": "stool_2",
+      "type": "stool",
+      "qualities": {
+        "material": "wood"
+      }
+    },
+    {
+      "id": "fridge_red",
+      "type": "refrigerator",
+      "qualities": {
+        "color": "red"
+      }
+    },
+    {
+      "id": "cabinet_left",
+      "type": "cabinet",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "cabinet_dark",
+      "type": "cabinet",
+      "qualities": {
+        "color": "dark brown"
+      }
+    },
+    {
+      "id": "person_green_shirt",
+      "type": "person",
+      "qualities": {
+        "color": "green"
+      }
+    },
+    {
+      "id": "kitchen",
+      "type": "Location",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "fridge_1",
+      "type": "refrigerator",
+      "qualities": {
+        "color": "red"
+      }
+    },
+    {
+      "id": "cabinet_2",
+      "type": "cabinet",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "kitchen_counter",
+      "type": "counter",
+      "qualities": {
+        "color": "beige",
+        "shape": "L-shaped"
+      }
+    },
+    {
+      "id": "upper_cabinet",
+      "type": "cabinet",
+      "qualities": {
+        "color": "beige",
+        "shape": "rectangular"
+      }
+    },
+    {
+      "id": "lower_cabinet",
+      "type": "cabinet",
+      "qualities": {
+        "color": "beige",
+        "shape": "rectangular"
+      }
+    },
+    {
+      "id": "pot",
+      "type": "pot",
+      "qualities": {
+        "color": "gray",
         "shape": "cylindrical"
+      }
+    },
+    {
+      "id": "red_appliance",
+      "type": "microwave",
+      "qualities": {
+        "color": "red",
+        "shape": "rectangular"
+      }
+    },
+    {
+      "id": "red_book",
+      "type": "book",
+      "qualities": {
+        "color": "red",
+        "shape": "rectangular"
+      }
+    },
+    {
+      "id": "range_hood",
+      "type": "range_hood",
+      "qualities": {
+        "color": "brown",
+        "shape": "rectangular"
+      }
+    },
+    {
+      "id": "picture_1",
+      "type": "picture",
+      "qualities": {
+        "color": "black_and_white",
+        "shape": "rectangular",
+        "area": 0.25
+      }
+    },
+    {
+      "id": "handle_1",
+      "type": "handle",
+      "qualities": {
+        "color": "silver",
+        "shape": "cylindrical"
+      }
+    },
+    {
+      "id": "cabinet_upper_left",
+      "type": "cabinet",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "cabinet_upper_right",
+      "type": "cabinet",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "cabinet_lower_left",
+      "type": "cabinet",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "cabinet_lower_right",
+      "type": "cabinet",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "cabinet_tall",
+      "type": "cabinet",
+      "qualities": {
+        "color": "dark gray"
+      }
+    },
+    {
+      "id": "refrigerator",
+      "type": "refrigerator",
+      "qualities": {
+        "color": "red"
+      }
+    },
+    {
+      "id": "microwave",
+      "type": "microwave",
+      "qualities": {
+        "color": "red"
+      }
+    },
+    {
+      "id": "book_2",
+      "type": "book",
+      "qualities": {
+        "color": "red"
+      }
+    },
+    {
+      "id": "book_3",
+      "type": "book",
+      "qualities": {
+        "color": "red"
+      }
+    },
+    {
+      "id": "countertop",
+      "type": "countertop",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "backsplash",
+      "type": "backsplash",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "Location 1",
+      "type": "Location",
+      "qualities": {
+        "color": null
+      }
+    },
+    {
+      "id": "surface 1",
+      "type": "counter",
+      "qualities": {
+        "color": "beige"
+      }
+    },
+    {
+      "id": "sink 1",
+      "type": "sink",
+      "qualities": {
+        "color": "silver"
+      }
+    },
+    {
+      "id": "faucet 1",
+      "type": "faucet",
+      "qualities": {
+        "color": "silver"
+      }
+    },
+    {
+      "id": "fork 1",
+      "type": "fork",
+      "qualities": {
+        "color": "silver"
+      }
+    },
+    {
+      "id": "knife 1",
+      "type": "knife",
+      "qualities": {
+        "color": "silver"
+      }
+    },
+    {
+      "id": "fork 2",
+      "type": "fork",
+      "qualities": {
+        "color": "silver"
+      }
+    },
+    {
+      "id": "fork 3",
+      "type": "fork",
+      "qualities": {
+        "color": "silver"
+      }
+    },
+    {
+      "id": "stove 1",
+      "type": "stove",
+      "qualities": {
+        "color": "black"
+      }
+    },
+    {
+      "id": "pot 1",
+      "type": "pot",
+      "qualities": {
+        "color": "silver"
+      }
+    },
+    {
+      "id": "range_hood 1",
+      "type": "range_hood",
+      "qualities": {
+        "color": "brown"
+      }
+    },
+    {
+      "id": "box 1",
+      "type": "box",
+      "qualities": {
+        "color": "red"
       }
     }
   ],
@@ -5578,11 +5896,6 @@
       "object": "ROOM_1"
     },
     {
-      "subject": "cabinet_1",
-      "predicate": "in",
-      "object": "ROOM_2"
-    },
-    {
       "subject": "bed(1)",
       "predicate": "in",
       "object": "ROOM_2"
@@ -5803,16 +6116,6 @@
       "object": "wooden_table"
     },
     {
-      "subject": "radiator",
-      "predicate": "under",
-      "object": "window"
-    },
-    {
-      "subject": "chair_1",
-      "predicate": "attached_to",
-      "object": "table_1"
-    },
-    {
       "subject": "radiator_1",
       "predicate": "attached_to",
       "object": "wall_1"
@@ -5856,11 +6159,6 @@
       "subject": "object_1",
       "predicate": "on",
       "object": "object_10"
-    },
-    {
-      "subject": "object_2",
-      "predicate": "on",
-      "object": "object_1"
     },
     {
       "subject": "object_3",
@@ -5993,11 +6291,6 @@
       "object": "person_1"
     },
     {
-      "subject": "book_1",
-      "predicate": "on",
-      "object": "table_1"
-    },
-    {
       "subject": "mannequin_1",
       "predicate": "next_to",
       "object": "chair_1"
@@ -6006,26 +6299,6 @@
       "subject": "mannequin_1",
       "predicate": "in",
       "object": "location_1"
-    },
-    {
-      "subject": "radiator_1",
-      "predicate": "next_to",
-      "object": "mannequin_1"
-    },
-    {
-      "subject": "radiator_1",
-      "predicate": "under",
-      "object": "window_1"
-    },
-    {
-      "subject": "radiator_1",
-      "predicate": "in",
-      "object": "room_1"
-    },
-    {
-      "subject": "window_1",
-      "predicate": "in",
-      "object": "room_1"
     },
     {
       "subject": "mannequin_0",
@@ -6103,11 +6376,6 @@
       "object": "room"
     },
     {
-      "subject": "window",
-      "predicate": "in",
-      "object": "room"
-    },
-    {
       "subject": "wall",
       "predicate": "in",
       "object": "room"
@@ -6141,6 +6409,266 @@
       "subject": "window",
       "predicate": "next_to",
       "object": "radiator"
+    },
+    {
+      "subject": "table_1",
+      "predicate": "next_to",
+      "object": "wall_1"
+    },
+    {
+      "subject": "box_2",
+      "predicate": "on",
+      "object": "table_1"
+    },
+    {
+      "subject": "object_2",
+      "predicate": "on",
+      "object": "table_1"
+    },
+    {
+      "subject": "stool_1",
+      "predicate": "under",
+      "object": "table_1"
+    },
+    {
+      "subject": "stool_2",
+      "predicate": "under",
+      "object": "table_1"
+    },
+    {
+      "subject": "user",
+      "predicate": "next_to",
+      "object": "chair_1"
+    },
+    {
+      "subject": "chair_1",
+      "predicate": "attached_to",
+      "object": "table"
+    },
+    {
+      "subject": "cereal_box_1",
+      "predicate": "on",
+      "object": "table"
+    },
+    {
+      "subject": "bottle_1",
+      "predicate": "on",
+      "object": "table"
+    },
+    {
+      "subject": "box_1",
+      "predicate": "on",
+      "object": "table"
+    },
+    {
+      "subject": "fridge_red",
+      "predicate": "next_to",
+      "object": "cabinet_left"
+    },
+    {
+      "subject": "fridge_red",
+      "predicate": "next_to",
+      "object": "window"
+    },
+    {
+      "subject": "radiator",
+      "predicate": "under",
+      "object": "window"
+    },
+    {
+      "subject": "person_green_shirt",
+      "predicate": "next_to",
+      "object": "radiator"
+    },
+    {
+      "subject": "cabinet_dark",
+      "predicate": "next_to",
+      "object": "fridge_red"
+    },
+    {
+      "subject": "cabinet_left",
+      "predicate": "under",
+      "object": "cabinet_dark"
+    },
+    {
+      "subject": "fridge_red",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "window",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "person_green_shirt",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "cabinet_left",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "cabinet_dark",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "fridge_1",
+      "predicate": "next_to",
+      "object": "cabinet_1"
+    },
+    {
+      "subject": "fridge_1",
+      "predicate": "next_to",
+      "object": "window_1"
+    },
+    {
+      "subject": "cabinet_1",
+      "predicate": "above",
+      "object": "cabinet_2"
+    },
+    {
+      "subject": "cabinet_2",
+      "predicate": "next_to",
+      "object": "fridge_1"
+    },
+    {
+      "subject": "radiator_1",
+      "predicate": "under",
+      "object": "window_1"
+    },
+    {
+      "subject": "person_1",
+      "predicate": "next_to",
+      "object": "window_1"
+    },
+    {
+      "subject": "fridge_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "cabinet_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "cabinet_2",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "person_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "radiator_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "chair_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "table_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "window_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "wall_1",
+      "predicate": "in",
+      "object": "room_1"
+    },
+    {
+      "subject": "chair_1",
+      "predicate": "next_to",
+      "object": "table_1"
+    },
+    {
+      "subject": "radiator_1",
+      "predicate": "next_to",
+      "object": "window_1"
+    },
+    {
+      "subject": "red_appliance",
+      "predicate": "on",
+      "object": "kitchen_counter"
+    },
+    {
+      "subject": "red_book",
+      "predicate": "on",
+      "object": "kitchen_counter"
+    },
+    {
+      "subject": "upper_cabinet",
+      "predicate": "above",
+      "object": "kitchen_counter"
+    },
+    {
+      "subject": "lower_cabinet",
+      "predicate": "under",
+      "object": "kitchen_counter"
+    },
+    {
+      "subject": "range_hood",
+      "predicate": "above",
+      "object": "kitchen_counter"
+    },
+    {
+      "subject": "kitchen_counter",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "upper_cabinet",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "lower_cabinet",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "range_hood",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "door_1",
+      "predicate": "attached_to",
+      "object": "wall_1"
+    },
+    {
+      "subject": "picture_1",
+      "predicate": "held_by",
+      "object": "wall_1"
+    },
+    {
+      "subject": "handle_1",
+      "predicate": "attached_to",
+      "object": "door_1"
+    },
+    {
+      "subject": "table_1",
+      "predicate": "in_front_of",
+      "object": "wall_1"
+    },
+    {
+      "subject": "chair_1",
+      "predicate": "in_front_of",
+      "object": "wall_1"
     },
     {
       "subject": "mannequin",
@@ -6188,49 +6716,209 @@
       "object": "table"
     },
     {
-      "subject": "person_1",
+      "subject": "cabinet_upper_left",
+      "predicate": "above",
+      "object": "countertop"
+    },
+    {
+      "subject": "cabinet_upper_right",
+      "predicate": "above",
+      "object": "countertop"
+    },
+    {
+      "subject": "cabinet_lower_left",
+      "predicate": "under",
+      "object": "countertop"
+    },
+    {
+      "subject": "cabinet_lower_right",
+      "predicate": "under",
+      "object": "countertop"
+    },
+    {
+      "subject": "cabinet_tall",
       "predicate": "next_to",
-      "object": "chair_1"
+      "object": "refrigerator"
     },
     {
-      "subject": "chair_1",
+      "subject": "cabinet_tall",
       "predicate": "next_to",
-      "object": "table_1"
+      "object": "microwave"
     },
     {
-      "subject": "cereal_box_1",
-      "predicate": "on",
-      "object": "table_1"
-    },
-    {
-      "subject": "bottle_1",
-      "predicate": "on",
-      "object": "table_1"
-    },
-    {
-      "subject": "box_1",
-      "predicate": "on",
-      "object": "table_1"
-    },
-    {
-      "subject": "chair_1",
-      "predicate": "on",
-      "object": "floor_1"
-    },
-    {
-      "subject": "table_1",
-      "predicate": "on",
-      "object": "floor_1"
-    },
-    {
-      "subject": "person_1",
-      "predicate": "on",
-      "object": "floor_1"
-    },
-    {
-      "subject": "table_1",
+      "subject": "refrigerator",
       "predicate": "next_to",
-      "object": "wall_1"
+      "object": "cabinet_tall"
+    },
+    {
+      "subject": "microwave",
+      "predicate": "on",
+      "object": "countertop"
+    },
+    {
+      "subject": "pot",
+      "predicate": "on",
+      "object": "microwave"
+    },
+    {
+      "subject": "book_1",
+      "predicate": "on",
+      "object": "countertop"
+    },
+    {
+      "subject": "book_2",
+      "predicate": "next_to",
+      "object": "book_1"
+    },
+    {
+      "subject": "book_3",
+      "predicate": "next_to",
+      "object": "book_2"
+    },
+    {
+      "subject": "countertop",
+      "predicate": "attached_to",
+      "object": "backsplash"
+    },
+    {
+      "subject": "cabinet_upper_left",
+      "predicate": "next_to",
+      "object": "cabinet_upper_right"
+    },
+    {
+      "subject": "cabinet_lower_left",
+      "predicate": "next_to",
+      "object": "cabinet_lower_right"
+    },
+    {
+      "subject": "microwave",
+      "predicate": "next_to",
+      "object": "book_3"
+    },
+    {
+      "subject": "cabinet_upper_left",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "cabinet_upper_right",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "cabinet_lower_left",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "cabinet_lower_right",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "cabinet_tall",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "refrigerator",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "microwave",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "pot",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "book_1",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "book_2",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "book_3",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "countertop",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "backsplash",
+      "predicate": "in",
+      "object": "kitchen"
+    },
+    {
+      "subject": "sink 1",
+      "predicate": "on",
+      "object": "surface 1"
+    },
+    {
+      "subject": "faucet 1",
+      "predicate": "attached_to",
+      "object": "sink 1"
+    },
+    {
+      "subject": "fork 1",
+      "predicate": "on",
+      "object": "surface 1"
+    },
+    {
+      "subject": "knife 1",
+      "predicate": "on",
+      "object": "surface 1"
+    },
+    {
+      "subject": "fork 2",
+      "predicate": "on",
+      "object": "surface 1"
+    },
+    {
+      "subject": "fork 3",
+      "predicate": "on",
+      "object": "surface 1"
+    },
+    {
+      "subject": "box 1",
+      "predicate": "on",
+      "object": "surface 1"
+    },
+    {
+      "subject": "stove 1",
+      "predicate": "on",
+      "object": "surface 1"
+    },
+    {
+      "subject": "pot 1",
+      "predicate": "on",
+      "object": "stove 1"
+    },
+    {
+      "subject": "range_hood 1",
+      "predicate": "above",
+      "object": "stove 1"
+    },
+    {
+      "subject": "surface 1",
+      "predicate": "in",
+      "object": "Location 1"
+    },
+    {
+      "subject": "wall 1",
+      "predicate": "behind",
+      "object": "surface 1"
     }
   ],
   "observed_evidence": {
@@ -6239,7 +6927,7 @@
         "id": "person_1",
         "type": "person",
         "qualities": {
-          "color": "blue",
+          "color": "green shirt, blue pants",
           "shape": "pants",
           "area": 0.5
         }
@@ -6251,7 +6939,7 @@
           "material": "wood",
           "color": "brown",
           "area": 0.1,
-          "shape": "wooden chair"
+          "shape": "rectangular"
         }
       },
       {
@@ -6267,7 +6955,8 @@
         "type": "cereal_box",
         "qualities": {
           "color": "red",
-          "shape": "rectangular"
+          "shape": "rectangular",
+          "area": 1
         }
       },
       {
@@ -6283,7 +6972,7 @@
         "id": "window_1",
         "type": "window",
         "qualities": {
-          "color": "grey",
+          "color": "gray",
           "shape": "window",
           "area": 0.2
         }
@@ -6292,7 +6981,9 @@
         "id": "room_1",
         "type": "Location",
         "qualities": {
-          "color": "white"
+          "color": "white",
+          "area": 1,
+          "shape": "walls"
         }
       },
       {
@@ -6305,9 +6996,9 @@
       },
       {
         "id": "object_2",
-        "type": "shirt",
+        "type": "object",
         "qualities": {
-          "color": "green"
+          "color": "white"
         }
       },
       {
@@ -6359,8 +7050,8 @@
         "id": "table_1",
         "type": "table",
         "qualities": {
-          "shape": "round",
-          "area": 0.2,
+          "shape": "rectangular",
+          "area": 1,
           "color": "brown",
           "material": "wood"
         }
@@ -6388,7 +7079,8 @@
         "type": "wall",
         "qualities": {
           "color": "white",
-          "shape": "wall"
+          "shape": "wall",
+          "area": 0.55
         }
       },
       {
@@ -6456,7 +7148,8 @@
         "type": "table",
         "qualities": {
           "color": "brown",
-          "material": "wood"
+          "material": "wood",
+          "shape": "oval"
         }
       },
       {
@@ -6569,7 +7262,8 @@
         "type": "floor",
         "qualities": {
           "color": "brown",
-          "shape": "herringbone"
+          "shape": "herringbone",
+          "material": "wood"
         }
       },
       {
@@ -6646,12 +7340,349 @@
         "type": "bottle",
         "qualities": {
           "color": "white",
-          "shape": "cylindrical"
+          "shape": "cylindrical",
+          "material": "plastic"
         }
       },
       {
         "id": "book",
         "type": "book",
+        "qualities": {
+          "color": "red"
+        }
+      },
+      {
+        "id": "user",
+        "type": "person",
+        "qualities": {
+          "color": "blue",
+          "shape": "pants"
+        }
+      },
+      {
+        "id": "box_2",
+        "type": "box",
+        "qualities": {
+          "color": "red",
+          "area": 1
+        }
+      },
+      {
+        "id": "stool_1",
+        "type": "stool",
+        "qualities": {
+          "material": "wood"
+        }
+      },
+      {
+        "id": "stool_2",
+        "type": "stool",
+        "qualities": {
+          "material": "wood"
+        }
+      },
+      {
+        "id": "fridge_red",
+        "type": "refrigerator",
+        "qualities": {
+          "color": "red"
+        }
+      },
+      {
+        "id": "cabinet_left",
+        "type": "cabinet",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "cabinet_dark",
+        "type": "cabinet",
+        "qualities": {
+          "color": "dark brown"
+        }
+      },
+      {
+        "id": "person_green_shirt",
+        "type": "person",
+        "qualities": {
+          "color": "green"
+        }
+      },
+      {
+        "id": "kitchen",
+        "type": "Location",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "fridge_1",
+        "type": "refrigerator",
+        "qualities": {
+          "color": "red"
+        }
+      },
+      {
+        "id": "cabinet_1",
+        "type": "cabinet",
+        "qualities": {
+          "color": "dark gray"
+        }
+      },
+      {
+        "id": "cabinet_2",
+        "type": "cabinet",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "kitchen_counter",
+        "type": "counter",
+        "qualities": {
+          "color": "beige",
+          "shape": "L-shaped"
+        }
+      },
+      {
+        "id": "upper_cabinet",
+        "type": "cabinet",
+        "qualities": {
+          "color": "beige",
+          "shape": "rectangular"
+        }
+      },
+      {
+        "id": "lower_cabinet",
+        "type": "cabinet",
+        "qualities": {
+          "color": "beige",
+          "shape": "rectangular"
+        }
+      },
+      {
+        "id": "pot",
+        "type": "pot",
+        "qualities": {
+          "color": "gray",
+          "shape": "cylindrical"
+        }
+      },
+      {
+        "id": "red_appliance",
+        "type": "microwave",
+        "qualities": {
+          "color": "red",
+          "shape": "rectangular"
+        }
+      },
+      {
+        "id": "red_book",
+        "type": "book",
+        "qualities": {
+          "color": "red",
+          "shape": "rectangular"
+        }
+      },
+      {
+        "id": "range_hood",
+        "type": "range_hood",
+        "qualities": {
+          "color": "brown",
+          "shape": "rectangular"
+        }
+      },
+      {
+        "id": "door_1",
+        "type": "door",
+        "qualities": {
+          "color": "white",
+          "shape": "rectangular",
+          "area": 0.45
+        }
+      },
+      {
+        "id": "picture_1",
+        "type": "picture",
+        "qualities": {
+          "color": "black_and_white",
+          "shape": "rectangular",
+          "area": 0.25
+        }
+      },
+      {
+        "id": "handle_1",
+        "type": "handle",
+        "qualities": {
+          "color": "silver",
+          "shape": "cylindrical"
+        }
+      },
+      {
+        "id": "cabinet_upper_left",
+        "type": "cabinet",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "cabinet_upper_right",
+        "type": "cabinet",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "cabinet_lower_left",
+        "type": "cabinet",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "cabinet_lower_right",
+        "type": "cabinet",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "cabinet_tall",
+        "type": "cabinet",
+        "qualities": {
+          "color": "dark gray"
+        }
+      },
+      {
+        "id": "refrigerator",
+        "type": "refrigerator",
+        "qualities": {
+          "color": "red"
+        }
+      },
+      {
+        "id": "microwave",
+        "type": "microwave",
+        "qualities": {
+          "color": "red"
+        }
+      },
+      {
+        "id": "book_2",
+        "type": "book",
+        "qualities": {
+          "color": "red"
+        }
+      },
+      {
+        "id": "book_3",
+        "type": "book",
+        "qualities": {
+          "color": "red"
+        }
+      },
+      {
+        "id": "countertop",
+        "type": "countertop",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "backsplash",
+        "type": "backsplash",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "Location 1",
+        "type": "Location",
+        "qualities": {
+          "color": null
+        }
+      },
+      {
+        "id": "surface 1",
+        "type": "counter",
+        "qualities": {
+          "color": "beige"
+        }
+      },
+      {
+        "id": "sink 1",
+        "type": "sink",
+        "qualities": {
+          "color": "silver"
+        }
+      },
+      {
+        "id": "faucet 1",
+        "type": "faucet",
+        "qualities": {
+          "color": "silver"
+        }
+      },
+      {
+        "id": "fork 1",
+        "type": "fork",
+        "qualities": {
+          "color": "silver"
+        }
+      },
+      {
+        "id": "knife 1",
+        "type": "knife",
+        "qualities": {
+          "color": "silver"
+        }
+      },
+      {
+        "id": "fork 2",
+        "type": "fork",
+        "qualities": {
+          "color": "silver"
+        }
+      },
+      {
+        "id": "fork 3",
+        "type": "fork",
+        "qualities": {
+          "color": "silver"
+        }
+      },
+      {
+        "id": "stove 1",
+        "type": "stove",
+        "qualities": {
+          "color": "black"
+        }
+      },
+      {
+        "id": "pot 1",
+        "type": "pot",
+        "qualities": {
+          "color": "silver"
+        }
+      },
+      {
+        "id": "range_hood 1",
+        "type": "range_hood",
+        "qualities": {
+          "color": "brown"
+        }
+      },
+      {
+        "id": "wall 1",
+        "type": "wall",
+        "qualities": {
+          "color": "brown"
+        }
+      },
+      {
+        "id": "box 1",
+        "type": "box",
         "qualities": {
           "color": "red"
         }
@@ -6697,11 +7728,6 @@
         "subject": "object_1",
         "predicate": "on",
         "object": "object_10"
-      },
-      {
-        "subject": "object_2",
-        "predicate": "on",
-        "object": "object_1"
       },
       {
         "subject": "object_3",
@@ -6834,11 +7860,6 @@
         "object": "person_1"
       },
       {
-        "subject": "book_1",
-        "predicate": "on",
-        "object": "table_1"
-      },
-      {
         "subject": "mannequin_1",
         "predicate": "next_to",
         "object": "chair_1"
@@ -6847,26 +7868,6 @@
         "subject": "mannequin_1",
         "predicate": "in",
         "object": "location_1"
-      },
-      {
-        "subject": "radiator_1",
-        "predicate": "next_to",
-        "object": "mannequin_1"
-      },
-      {
-        "subject": "radiator_1",
-        "predicate": "under",
-        "object": "window_1"
-      },
-      {
-        "subject": "radiator_1",
-        "predicate": "in",
-        "object": "room_1"
-      },
-      {
-        "subject": "window_1",
-        "predicate": "in",
-        "object": "room_1"
       },
       {
         "subject": "mannequin_0",
@@ -6944,11 +7945,6 @@
         "object": "room"
       },
       {
-        "subject": "window",
-        "predicate": "in",
-        "object": "room"
-      },
-      {
         "subject": "wall",
         "predicate": "in",
         "object": "room"
@@ -6982,6 +7978,266 @@
         "subject": "window",
         "predicate": "next_to",
         "object": "radiator"
+      },
+      {
+        "subject": "table_1",
+        "predicate": "next_to",
+        "object": "wall_1"
+      },
+      {
+        "subject": "box_2",
+        "predicate": "on",
+        "object": "table_1"
+      },
+      {
+        "subject": "object_2",
+        "predicate": "on",
+        "object": "table_1"
+      },
+      {
+        "subject": "stool_1",
+        "predicate": "under",
+        "object": "table_1"
+      },
+      {
+        "subject": "stool_2",
+        "predicate": "under",
+        "object": "table_1"
+      },
+      {
+        "subject": "user",
+        "predicate": "next_to",
+        "object": "chair_1"
+      },
+      {
+        "subject": "chair_1",
+        "predicate": "attached_to",
+        "object": "table"
+      },
+      {
+        "subject": "cereal_box_1",
+        "predicate": "on",
+        "object": "table"
+      },
+      {
+        "subject": "bottle_1",
+        "predicate": "on",
+        "object": "table"
+      },
+      {
+        "subject": "box_1",
+        "predicate": "on",
+        "object": "table"
+      },
+      {
+        "subject": "fridge_red",
+        "predicate": "next_to",
+        "object": "cabinet_left"
+      },
+      {
+        "subject": "fridge_red",
+        "predicate": "next_to",
+        "object": "window"
+      },
+      {
+        "subject": "radiator",
+        "predicate": "under",
+        "object": "window"
+      },
+      {
+        "subject": "person_green_shirt",
+        "predicate": "next_to",
+        "object": "radiator"
+      },
+      {
+        "subject": "cabinet_dark",
+        "predicate": "next_to",
+        "object": "fridge_red"
+      },
+      {
+        "subject": "cabinet_left",
+        "predicate": "under",
+        "object": "cabinet_dark"
+      },
+      {
+        "subject": "fridge_red",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "window",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "person_green_shirt",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "cabinet_left",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "cabinet_dark",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "fridge_1",
+        "predicate": "next_to",
+        "object": "cabinet_1"
+      },
+      {
+        "subject": "fridge_1",
+        "predicate": "next_to",
+        "object": "window_1"
+      },
+      {
+        "subject": "cabinet_1",
+        "predicate": "above",
+        "object": "cabinet_2"
+      },
+      {
+        "subject": "cabinet_2",
+        "predicate": "next_to",
+        "object": "fridge_1"
+      },
+      {
+        "subject": "radiator_1",
+        "predicate": "under",
+        "object": "window_1"
+      },
+      {
+        "subject": "person_1",
+        "predicate": "next_to",
+        "object": "window_1"
+      },
+      {
+        "subject": "fridge_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "cabinet_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "cabinet_2",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "person_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "radiator_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "chair_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "table_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "window_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "wall_1",
+        "predicate": "in",
+        "object": "room_1"
+      },
+      {
+        "subject": "chair_1",
+        "predicate": "next_to",
+        "object": "table_1"
+      },
+      {
+        "subject": "radiator_1",
+        "predicate": "next_to",
+        "object": "window_1"
+      },
+      {
+        "subject": "red_appliance",
+        "predicate": "on",
+        "object": "kitchen_counter"
+      },
+      {
+        "subject": "red_book",
+        "predicate": "on",
+        "object": "kitchen_counter"
+      },
+      {
+        "subject": "upper_cabinet",
+        "predicate": "above",
+        "object": "kitchen_counter"
+      },
+      {
+        "subject": "lower_cabinet",
+        "predicate": "under",
+        "object": "kitchen_counter"
+      },
+      {
+        "subject": "range_hood",
+        "predicate": "above",
+        "object": "kitchen_counter"
+      },
+      {
+        "subject": "kitchen_counter",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "upper_cabinet",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "lower_cabinet",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "range_hood",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "door_1",
+        "predicate": "attached_to",
+        "object": "wall_1"
+      },
+      {
+        "subject": "picture_1",
+        "predicate": "held_by",
+        "object": "wall_1"
+      },
+      {
+        "subject": "handle_1",
+        "predicate": "attached_to",
+        "object": "door_1"
+      },
+      {
+        "subject": "table_1",
+        "predicate": "in_front_of",
+        "object": "wall_1"
+      },
+      {
+        "subject": "chair_1",
+        "predicate": "in_front_of",
+        "object": "wall_1"
       },
       {
         "subject": "mannequin",
@@ -7029,49 +8285,209 @@
         "object": "table"
       },
       {
-        "subject": "person_1",
+        "subject": "cabinet_upper_left",
+        "predicate": "above",
+        "object": "countertop"
+      },
+      {
+        "subject": "cabinet_upper_right",
+        "predicate": "above",
+        "object": "countertop"
+      },
+      {
+        "subject": "cabinet_lower_left",
+        "predicate": "under",
+        "object": "countertop"
+      },
+      {
+        "subject": "cabinet_lower_right",
+        "predicate": "under",
+        "object": "countertop"
+      },
+      {
+        "subject": "cabinet_tall",
         "predicate": "next_to",
-        "object": "chair_1"
+        "object": "refrigerator"
       },
       {
-        "subject": "chair_1",
+        "subject": "cabinet_tall",
         "predicate": "next_to",
-        "object": "table_1"
+        "object": "microwave"
       },
       {
-        "subject": "cereal_box_1",
-        "predicate": "on",
-        "object": "table_1"
-      },
-      {
-        "subject": "bottle_1",
-        "predicate": "on",
-        "object": "table_1"
-      },
-      {
-        "subject": "box_1",
-        "predicate": "on",
-        "object": "table_1"
-      },
-      {
-        "subject": "chair_1",
-        "predicate": "on",
-        "object": "floor_1"
-      },
-      {
-        "subject": "table_1",
-        "predicate": "on",
-        "object": "floor_1"
-      },
-      {
-        "subject": "person_1",
-        "predicate": "on",
-        "object": "floor_1"
-      },
-      {
-        "subject": "table_1",
+        "subject": "refrigerator",
         "predicate": "next_to",
-        "object": "wall_1"
+        "object": "cabinet_tall"
+      },
+      {
+        "subject": "microwave",
+        "predicate": "on",
+        "object": "countertop"
+      },
+      {
+        "subject": "pot",
+        "predicate": "on",
+        "object": "microwave"
+      },
+      {
+        "subject": "book_1",
+        "predicate": "on",
+        "object": "countertop"
+      },
+      {
+        "subject": "book_2",
+        "predicate": "next_to",
+        "object": "book_1"
+      },
+      {
+        "subject": "book_3",
+        "predicate": "next_to",
+        "object": "book_2"
+      },
+      {
+        "subject": "countertop",
+        "predicate": "attached_to",
+        "object": "backsplash"
+      },
+      {
+        "subject": "cabinet_upper_left",
+        "predicate": "next_to",
+        "object": "cabinet_upper_right"
+      },
+      {
+        "subject": "cabinet_lower_left",
+        "predicate": "next_to",
+        "object": "cabinet_lower_right"
+      },
+      {
+        "subject": "microwave",
+        "predicate": "next_to",
+        "object": "book_3"
+      },
+      {
+        "subject": "cabinet_upper_left",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "cabinet_upper_right",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "cabinet_lower_left",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "cabinet_lower_right",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "cabinet_tall",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "refrigerator",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "microwave",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "pot",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "book_1",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "book_2",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "book_3",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "countertop",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "backsplash",
+        "predicate": "in",
+        "object": "kitchen"
+      },
+      {
+        "subject": "sink 1",
+        "predicate": "on",
+        "object": "surface 1"
+      },
+      {
+        "subject": "faucet 1",
+        "predicate": "attached_to",
+        "object": "sink 1"
+      },
+      {
+        "subject": "fork 1",
+        "predicate": "on",
+        "object": "surface 1"
+      },
+      {
+        "subject": "knife 1",
+        "predicate": "on",
+        "object": "surface 1"
+      },
+      {
+        "subject": "fork 2",
+        "predicate": "on",
+        "object": "surface 1"
+      },
+      {
+        "subject": "fork 3",
+        "predicate": "on",
+        "object": "surface 1"
+      },
+      {
+        "subject": "box 1",
+        "predicate": "on",
+        "object": "surface 1"
+      },
+      {
+        "subject": "stove 1",
+        "predicate": "on",
+        "object": "surface 1"
+      },
+      {
+        "subject": "pot 1",
+        "predicate": "on",
+        "object": "stove 1"
+      },
+      {
+        "subject": "range_hood 1",
+        "predicate": "above",
+        "object": "stove 1"
+      },
+      {
+        "subject": "surface 1",
+        "predicate": "in",
+        "object": "Location 1"
+      },
+      {
+        "subject": "wall 1",
+        "predicate": "behind",
+        "object": "surface 1"
       }
     ]
   }

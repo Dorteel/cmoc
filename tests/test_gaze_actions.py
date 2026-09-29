@@ -24,13 +24,24 @@ def test_choices_current_only_and_directions_always_offered(choice):
     assert options == [ACTIONS[0], {'action': 'look-at', 'target': 'chair_1'}, *ACTIONS[1:]]
     assert CURRENT == before
 
+def test_checked_objects_filtered_but_directions_always_available():
+    current = {'objects': [{'id': 'table', 'type': 'table'}, {'id': 'chair', 'type': 'chair'}]}
+    remaining = [{'action': 'look-at', 'target': 'chair'}, {'action': 'look-left'}, {'action': 'look-right'}]
+    llm = Mock(choose_gaze_action=Mock(return_value=remaining[0]))
+    checked = {'look-at(table)'}
+    assert choose_gaze({'Theme': 'fork'}, current, llm, checked) == remaining[0]
+    assert llm.choose_gaze_action.call_args.args[2] == remaining
+    llm.choose_gaze_action.return_value = {'action': 'look-left'}
+    choose_gaze({'Theme': 'fork'}, current, llm, checked | {gaze_key(option) for option in remaining})
+    assert llm.choose_gaze_action.call_args.args[2] == remaining[1:]
+
 @pytest.mark.parametrize('choice', [{'action':'navigate'}, {'action':'look-at','target':'retained_1'},
                                     {'action':'look-left','target':'table_1'}, {}, None])
 def test_invalid_llm_choices_rejected(choice):
     with pytest.raises(ValueError, match='Invalid LLM'):
         choose_gaze({'Theme':'fork'}, CURRENT, Mock(choose_gaze_action=Mock(return_value=choice)))
 
-@pytest.mark.parametrize('choice', ACTIONS)
+@pytest.mark.parametrize('choice', ACTIONS[:1])
 def test_checked_action_rejected(choice):
     with pytest.raises(ValueError, match='repeated checked'):
         choose_gaze({'Theme':'fork'}, CURRENT, Mock(choose_gaze_action=Mock(return_value=choice)), {gaze_key(choice)})
@@ -54,6 +65,40 @@ def test_direction_execution_has_no_navigation_or_ground_truth_lookup(action):
     send.assert_called_once_with('gaze', {'action':action})
     assert not nav.mock_calls and not oracle.mock_calls
 
+@pytest.mark.parametrize('kind', ['floor', 'FloorConnector', 'ground surface'])
+def test_floor_region_bypasses_instance_grounding(kind, capsys):
+    from execution_grounding import ExecutionGroundingOracle
+    scene = {'objects': [{'id': 'region_1', 'type': kind}], 'relations': []}
+    before = deepcopy(scene)
+    kg = Mock()
+    kg.resolve_concept.side_effect = lambda term: [{'id': 'floor.n.01'}] if term in ('floor', 'ground surface') else []
+    oracle = ExecutionGroundingOracle(scene, kg, current_observed_ids=['region_1'])
+    nav = Mock()
+    with patch.object(oracle, 'resolve') as resolve, \
+         patch('execution_grounding.send_action') as geometry, \
+         patch('external.webots_ros2_simulation.controllers.fallback_action_supervisor.action_cli.send_action',
+               return_value={'ok': True}) as send:
+        assert execute_step({'action': 'look-at', 'args': ['robot', 'region_1']}, nav, {}, execution_oracle=oracle)
+    send.assert_called_once_with('gaze', {'action': 'look-down'})
+    resolve.assert_not_called()
+    geometry.assert_not_called()
+    assert not nav.mock_calls
+    assert oracle.execution_bindings == oracle.optical_targets == {}
+    assert scene == before
+    assert 'classified as gaze region: floor' in capsys.readouterr().out
+
+
+def test_floor_region_requires_current_type_evidence():
+    from execution_grounding import ExecutionGroundingOracle
+    kg = Mock(resolve_concept=Mock(return_value=[]))
+    oracle = ExecutionGroundingOracle({'objects': [{'id': 'floor_1', 'type': 'table'},
+                                                   {'id': 'old_floor', 'type': 'floor'}]},
+                                     kg, current_observed_ids=['floor_1'])
+    assert oracle.gaze_region('floor_1') is None
+    assert oracle.gaze_region('old_floor') is None
+    assert oracle.gaze_region('missing') is None
+
+
 @pytest.fixture
 def head():
     path = Path('external/webots_ros2_simulation/controllers/fallback_action_supervisor/head_gaze.py')
@@ -63,29 +108,63 @@ def head():
         spec.loader.exec_module(module)
     return module
 
-@pytest.mark.parametrize('action,expected', [('look-left',math.pi/6),('look-right',-math.pi/6)])
-def test_head_relative_pan_only_and_clamps(head, action, expected):
-    position = NS(value=0.0)
-    field = Mock(getSFFloat=lambda:position.value)
-    joint = Mock()
-    pending = {}
-    joint.setJointPosition.side_effect = lambda value,index:pending.update(pan=value)
-    tilt = Mock()
-    head.head_joints = Mock(return_value={'head_1_joint':(joint,field,-0.7,0.7), 'head_2_joint':(tilt,Mock(getSFFloat=lambda: .2),-0.5,0.5)})
+@pytest.mark.parametrize('action,expected', [('look-left', math.pi/3), ('look-right', -math.pi/3)])
+def test_direction_rotates_base_without_translation_and_centers_head(head, action, expected):
+    from test_search_execution_grounding import world_utils
+    yaw = NS(value=0.4)
+    positions = {'head_1_joint': 0.3, 'head_2_joint': -0.5}
+    robot = head.get_node.return_value
+    robot.getOrientation.side_effect = lambda: [math.cos(yaw.value), -math.sin(yaw.value), 0,
+                                                math.sin(yaw.value), math.cos(yaw.value), 0, 0, 0, 1]
+    rotation, translation = Mock(), Mock()
+    robot.getField.side_effect = lambda name: {'rotation': rotation, 'translation': translation}[name]
+    rotation.setSFRotation.side_effect = lambda value: setattr(yaw, 'value', value[3])
+    head.set_yaw = world_utils.set_yaw
+    joints = {}
+    for name in positions:
+        field = Mock(getSFFloat=lambda n=name: positions[n])
+        joint = Mock()
+        joint.setJointPosition.side_effect = lambda value, index, n=name: positions.__setitem__(n, value)
+        joints[name] = (joint, field, -0.7, 0.7)
+    head.head_joints = Mock(return_value=joints)
     supervisor = Mock(getBasicTimeStep=Mock(return_value=20))
-    supervisor.step.side_effect = lambda timestep:setattr(position, 'value', pending['pan'])
-    head.gaze(supervisor,action)
-    assert position.value == pytest.approx(expected)
-    head.gaze(supervisor,action)
-    assert position.value == pytest.approx(0.7 if expected>0 else -0.7)
-    with pytest.raises(ValueError,match='limit reached'):
-        head.gaze(supervisor,action)
-    assert not tilt.mock_calls
-    assert supervisor.step.call_count == 2
+    for _ in range(3):
+        previous = yaw.value
+        result = head.gaze(supervisor, action)
+        delta = yaw.value - previous
+        assert math.atan2(math.sin(delta), math.cos(delta)) == pytest.approx(expected)
+        assert result['base_yaw'] == yaw.value
+        assert positions == {'head_1_joint': 0, 'head_2_joint': 0}
+    assert supervisor.step.call_count == 3
+    assert not translation.mock_calls
+    assert all(call.args == ('rotation',) for call in robot.getField.call_args_list)
+    robot.setPosition.assert_not_called()
+
+def test_floor_head_tilt_preserves_pan_and_clamps(head):
+    positions = {'head_1_joint': 0.3, 'head_2_joint': 0.0}
+    joints = {}
+    for name, limits in [('head_1_joint', (-1.24, 1.24)), ('head_2_joint', (-.98, .79))]:
+        field = Mock(getSFFloat=lambda n=name: positions[n])
+        joint = Mock()
+        joint.setJointPosition.side_effect = lambda value, index, n=name: positions.__setitem__(n, value)
+        joints[name] = (joint, field, *limits)
+    head.head_joints = Mock(return_value=joints)
+    supervisor = Mock(getBasicTimeStep=Mock(return_value=20))
+    head.gaze(supervisor, 'look-down')
+    assert positions['head_2_joint'] == pytest.approx(-math.pi / 6)
+    head.gaze(supervisor, 'look-down')
+    assert positions['head_2_joint'] == -.98
+    with pytest.raises(ValueError, match='Head tilt limit reached'):
+        head.gaze(supervisor, 'look-down')
+    assert positions['head_1_joint'] == 0.3
+    joints['head_1_joint'][0].setJointPosition.assert_not_called()
+    head.validate_coordinates.assert_not_called()
     head.get_node.return_value.setPosition.assert_not_called()
     head.get_node.return_value.setOrientation.assert_not_called()
+    assert supervisor.step.call_count == 2
 
-@pytest.mark.parametrize('choice', ACTIONS)
+
+@pytest.mark.parametrize('choice', [*ACTIONS, {'action': 'look-at', 'target': 'floor_1'}])
 def test_fresh_sense_after_each_gaze_no_fabricated_relations(choice, capsys):
     import demo
     from scene_graph_interface import KnowledgeInterface
@@ -93,6 +172,7 @@ def test_fresh_sense_after_each_gaze_no_fabricated_relations(choice, capsys):
     memory = KnowledgeInterface()
     initial = scene()
     initial['objects'].append({'id':'table_1','type':'table','qualities':{}})
+    initial['objects'].append({'id':'floor_1','type':'floor','qualities':{}})
     found = scene(True)
     events=[]
     views=iter([initial, initial, found])
@@ -118,7 +198,11 @@ def test_fresh_sense_after_each_gaze_no_fabricated_relations(choice, capsys):
     assert 'PEL:' not in output  # Detailed graph diagnostics require debug mode.
 
     assert [o['Success'] for o in result['search_outcomes']] == [False,True]
-    assert gaze_key(choice) in llm.choose_gaze_action.call_args.kwargs['checked']
+    assert llm.choose_gaze_action.call_args.kwargs['checked'] == ()
+    if choice['action'] == 'look-at':
+        assert gaze_key(choice) not in {gaze_key(option) for option in llm.choose_gaze_action.call_args.args[2]}
+    else:
+        assert choice in llm.choose_gaze_action.call_args.args[2]
     assert [r for r in memory.observed_snapshot()['relations'] if r['subject']=='fork1'] == found['relations'][-1:]
     assert result['search_outcomes'][0]['Location'] == choice.get('target')
     assert 'reason' not in json.dumps(memory.snapshot())
@@ -155,11 +239,11 @@ def test_llm_prompt_is_one_gaze_decision():
     llm = SemanticMemory.__new__(SemanticMemory)
     llm.url, llm.model = 'http://test', 'test'
     response = Mock()
-    response.json.return_value = {'message':{'content':'{"action":"look-left","target":null,"reason":"Looking left may reveal new objects."}'}}
+    response.json.return_value = {'message':{'content':'{"action":"look-left","reason":"Looking left may reveal new objects."}'}}
     with patch('semantic_memory.requests.post',return_value=response) as post:
-        assert llm.choose_gaze_action('fork',CURRENT,ACTIONS,checked={'look-right'}) == {'action':'look-left', 'target':None, 'reason':'Looking left may reveal new objects.'}
+        assert llm.choose_gaze_action('fork',CURRENT,ACTIONS,checked={'look-right'}) == {'action':'look-left', 'reason':'Looking left may reveal new objects.'}
     prompt = post.call_args.kwargs['json']['messages'][0]['content']
-    assert 'Theme: fork' in prompt and 'Already checked: ["look-right"]' in prompt
+    assert 'Theme: fork' in prompt and 'checked' not in prompt
     assert 'gain new visual evidence' in prompt
 
 
@@ -221,3 +305,60 @@ def test_missing_head_joint_reports_actual_interface(head, missing, role):
     robot, _ = configured_head_tree(missing)
     with pytest.raises(ValueError, match=f"Head {role} joint '{missing}'.*Webots"):
         head.head_joints(robot)
+
+
+@pytest.mark.parametrize('direction', ['left', 'right'])
+def test_sweep_is_only_a_preference_and_directions_remain_repeatable(direction):
+    llm = Mock(choose_gaze_action=Mock(return_value={'action': f'look-{direction}'}))
+    checked = {'look-at(table_1)', 'look-left', 'look-right'}
+    for _ in range(3):
+        assert choose_gaze({'Theme': 'fork'}, CURRENT, llm, checked, sweep_direction=direction) == {
+            'action': f'look-{direction}'}
+        assert llm.choose_gaze_action.call_args.args[2] == [
+            {'action': 'look-at', 'target': 'chair_1'}, {'action': 'look-left'}, {'action': 'look-right'}]
+        assert llm.choose_gaze_action.call_args.kwargs['sweep_direction'] == direction
+
+
+def test_spa_sweep_survives_object_gaze_and_resets_for_new_search():
+    import demo
+    from scene_graph_interface import KnowledgeInterface
+    from test_search_recovery import scene, kg
+    events, offered, preferences = [], [], []
+    views = iter([scene(), scene(), scene(), scene(), scene(True), scene(), scene(True)])
+    choices = iter([{'action': 'look-left'}, {'action': 'look-at', 'target': 'worktop(1)'},
+                    {'action': 'look-left'}, {'action': 'look-left'}, {'action': 'look-right'}])
+    llm = Mock()
+    def choose(theme, current, options, checked, sweep_direction=None):
+        offered.append(deepcopy(options))
+        preferences.append(sweep_direction)
+        return next(choices)
+    llm.choose_gaze_action.side_effect = choose
+    def sense(**kwargs):
+        events.append('sense')
+        return {'scene_graph': next(views)}
+    bring_count = 0
+    def execute(planning, *args, **kwargs):
+        nonlocal bring_count
+        action = planning['plan'][0]['action']
+        events.append(action)
+        if action == 'pick':
+            bring_count += 1
+        return {'status': 'search_required' if action == 'pick' and bring_count == 1 else 'success',
+                'plan': planning['plan'], 'executed': []}
+    with patch('builtins.input', return_value='Bring me a fork'), \
+         patch('demo.observe_scene_with_vlm', side_effect=sense), \
+         patch('demo.execute_plan', side_effect=execute), \
+         patch('demo.plan_bring', return_value={'status': 'planned', 'plan': [{'action': 'pick', 'args': ['robot', 'fork1']}]}):
+        result = demo.spa_loop(KnowledgeInterface(), kg(), llm, None, execute=True, search=True)
+    left, right = {'action': 'look-left'}, {'action': 'look-right'}
+    assert left in offered[0] and right in offered[0]
+    for options in offered[1:4]:
+        assert left in options and right in options
+        assert {'action': 'look-at', 'target': 'drawer1'} in options
+    assert {'action': 'look-at', 'target': 'worktop(1)'} not in offered[2]
+    assert left in offered[4] and right in offered[4]
+    assert preferences == [None, 'left', 'left', 'left', None]
+    assert {'action': 'look-at', 'target': 'worktop(1)'} in offered[4]
+    assert events == ['sense', 'look-left', 'sense', 'look-at', 'sense', 'look-left',
+                      'sense', 'look-left', 'sense', 'pick', 'sense', 'look-right', 'sense', 'pick']
+    assert result['action_graph']['status'] == 'success'

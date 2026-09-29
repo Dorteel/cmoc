@@ -48,9 +48,12 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
     intention = None
     pending_search = None
     checked = set()
+    sweep_direction = None
     outcomes = []
     recovering = False
     current_identity_mapping = {}
+    execution_oracle = (ExecutionGroundingOracle(episodic.observed_snapshot(), robokg, debug=debug_search)
+                        if search else None)
 
     def sense(previous_result=None):
         nonlocal instruction
@@ -62,17 +65,18 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         return {"instruction": instruction, **observation}
 
     def consolidate_knowledge(state):
-        nonlocal intention, pending_search, recovering
+        nonlocal intention, pending_search, recovering, sweep_direction
         if pending_search is not None:
             outcome = search_result(pending_search, state['scene_graph'], robokg)
             outcomes.append(outcome)
             state['search_result'] = deepcopy(outcome)
             if outcome['Success']:
                 recovering = False
-            else:
-                checked.add(gaze_key({'action': pending_search.get('GazeAction', 'look-at'),
-                                      **({'target': pending_search['Location']}
-                                         if pending_search.get('GazeAction', 'look-at') == 'look-at' else {})}))
+                sweep_direction = None
+                checked.clear()
+            elif pending_search.get('GazeAction', 'look-at') == 'look-at':
+                checked.add(gaze_key({'action': 'look-at', 'target': pending_search['Location']}))
+            # A relative base turn exposes a new sector; it is not a globally checked target.
             search_trace(True, f"Fresh observation Theme found: {outcome['Success']}")
             pending_search = None
         episodic.merge_observation(state["scene_graph"])
@@ -85,13 +89,47 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         return state
 
     def plan(state):
-        nonlocal current_identity_mapping
+        nonlocal current_identity_mapping, sweep_direction, recovering
         # G1 remains sensed information only; consolidation starts planning.
         sense_graph = deepcopy(state)
         print('[PLAN] Building task frame', flush=True)
-        state = consolidate_knowledge(deepcopy(state))
-        # PEL is planning-only: normalize perceived IDs and link canonical concepts.
-        perceived = perceived_entity_linking(state["scene_graph"], robokg)
+        confirmed_aliases = {}
+        if search:
+            fresh = {obj['id']: obj for obj in state['scene_graph']['objects']}
+            execution_oracle._objects.update(deepcopy(fresh))
+            execution_oracle._current_observed_ids = frozenset(fresh)
+            execution_oracle._current_identity_mapping = {}
+            execution_oracle.optical_targets.clear()
+            if execute and execution_oracle.execution_bindings:
+                for identifier, obj in fresh.items():
+                    if identifier in execution_oracle.execution_bindings or not any(
+                            execution_oracle._objects[old]['type'] == obj['type']
+                            for old in execution_oracle.execution_bindings):
+                        continue
+                    try:
+                        instance = execution_oracle.resolve(identifier, require_current=True)
+                    except RuntimeError:
+                        continue  # No identity evidence: preserve the normal fresh ID.
+                    finally:
+                        # A reconciliation probe must not become execution history.
+                        execution_oracle.execution_bindings.pop(identifier, None)
+                        execution_oracle.optical_targets.pop(identifier, None)
+                    previous = [old for old, target in execution_oracle.execution_bindings.items()
+                                if target == instance]
+                    if len(previous) == 1 and previous[0] not in fresh:
+                        confirmed_aliases[identifier] = previous[0]
+                confirmed_aliases = {raw: old for raw, old in confirmed_aliases.items()
+                                     if list(confirmed_aliases.values()).count(old) == 1}
+                for raw, old in confirmed_aliases.items():
+                    search_trace(debug_search, f"[IDENTITY] {raw} -> "
+                                 f"{execution_oracle.execution_bindings[old]} -> {old}")
+        # PEL owns object and relation renaming; G1/VLM output stays unchanged.
+        perceived = perceived_entity_linking(state["scene_graph"], robokg,
+                                              confirmed_aliases=confirmed_aliases)
+        state = deepcopy(state)
+        if confirmed_aliases:
+            state['scene_graph'] = perceived['scene_graph']
+        state = consolidate_knowledge(state)
         current_identity_mapping = dict(perceived["identity_mapping"])
         world = episodic.observed_snapshot() if search else episodic.snapshot()
         remembered = perceived_entity_linking(world, robokg)
@@ -103,26 +141,38 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         state["aliases"] = remembered["aliases"]
         # Context follows planning identities; the G1 context is a separate copy.
         aliases = {alias: canonical for canonical, names in state['aliases'].items() for alias in names}
+        aliases.update(confirmed_aliases)
         for relation in state['context_graph']['relations']:
             for endpoint in ('subject', 'object'):
                 relation[endpoint] = aliases.get(relation[endpoint], relation[endpoint])
         state.update(bind_task(state["frame"], remembered, robokg,
                                **({"known_self": "TIAGo"} if search else {})))
-        if search and (state['bindings']['Theme'] is None or not theme_visible or recovering):
+        if search and not theme_visible:
             search_trace(debug_search, f"Search triggered: Theme={intention['Theme']!r}, "
                          f"binding={state['bindings']['Theme']!r}, visible={theme_visible}, recovering={recovering}")
-            chosen = choose_gaze(intention, sense_graph['scene_graph'], semantic_memory,
-                                 checked, debug=debug_search)
-            frame = search_frame(intention, chosen.get('target'))
-            if chosen['action'] != 'look-at':
-                frame['GazeAction'] = chosen['action']
-            print('[PLAN] Generating Search plan', flush=True)
-            planning = plan_search(frame)
+            try:
+                chosen = choose_gaze(intention, perceived['scene_graph'] if confirmed_aliases else sense_graph['scene_graph'], semantic_memory,
+                                     checked, debug=debug_search, sweep_direction=sweep_direction)
+                frame = search_frame(intention, chosen.get('target'))
+                if chosen['action'] != 'look-at':
+                    sweep_direction = chosen['action'].removeprefix('look-')
+                    frame['GazeAction'] = chosen['action']
+                print('[PLAN] Generating Search plan', flush=True)
+                planning = plan_search(frame)
+            except (ValueError, TimeoutError) as error:
+                sweep_direction = None
+                print(f'[SEARCH] Search failed: {error}', flush=True)
+                frame = search_frame(intention, None)
+                planning = {'status': 'failed', 'plan': [], 'reason': str(error)}
             compact = {'type': 'search', 'frame': frame, 'candidate': frame['Location'],
                        'planning': planning}
             return {**compact, 'bindings': {}, 'entity_links': {}, 'aliases': {}, 'issues': [],
                     'entity_positions': {}, 'sense_graph': sense_graph,
                     'planning_graph': deepcopy(compact), 'action_graph': None}
+        sweep_direction = None
+        checked.clear()
+        if search:
+            recovering = False
         state['frame_element_links'], state['frame_element_issues'] = ground_frame_elements(state['frame'], robokg, remembered)
         # These diagnostic issues do not change concrete Bring selection.
         state['issues'].extend(state['frame_element_issues'])
@@ -151,12 +201,12 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         nonlocal pending_search
         if plan_.get('type') == 'search':
             search_trace(debug_search, f"Executing gaze action: {plan_['planning']['plan']}")
+            execution_oracle._objects.update({o['id']: deepcopy(o) for o in episodic.observed_snapshot()['objects']})
+            execution_oracle._current_identity_mapping = current_identity_mapping
+            execution_oracle._current_observed_ids |= frozenset(current_identity_mapping.values())
             result = execute_plan(plan_['planning'], navigator, execute=execute,
                                   step_by_step=step_by_step,
-                                  execution_oracle=ExecutionGroundingOracle(
-                                      episodic.observed_snapshot(), robokg, debug=debug_search,
-                                      current_observed_ids=[o["id"] for o in plan_["sense_graph"]["scene_graph"]["objects"]],
-                                      current_identity_mapping=current_identity_mapping))
+                                  execution_oracle=execution_oracle)
             if result['status'] == 'success':
                 search_trace(debug_search, 'Fresh perception requested')
                 pending_search = deepcopy(plan_['frame'])

@@ -51,7 +51,7 @@ def resolve_concept(term, robokg):
     return matches[0]['id'] if len(matches) == 1 else None
 
 
-def perceived_entity_linking(scene_graph, robokg):
+def perceived_entity_linking(scene_graph, robokg, *, confirmed_aliases=None):
     """Perceived Entity Linking (PEL): copy, consolidate demo IDs, link concepts."""
     graph = deepcopy(scene_graph)
     renames, provenance, objects, concepts = {}, {}, {}, {}
@@ -73,6 +73,7 @@ def perceived_entity_linking(scene_graph, robokg):
         # Preserve the earlier mannequin-type rule, without generalizing to people.
         if obj['type'].strip().casefold() == 'mannequin':
             canonical = 'user'
+        canonical = (confirmed_aliases or {}).get(identifier, canonical)
         renames[identifier] = canonical
         if canonical != identifier:
             provenance.setdefault(canonical, []).append(identifier)
