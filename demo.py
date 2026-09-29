@@ -19,7 +19,7 @@ from perception_launcher import PerceptionLauncher
 from navigation import RoomNavigator
 from teleport_navigation import TeleportNavigator
 from observation import observe_scene_with_vlm
-from graph_snapshots import EPISODIC_GRAPH, write_graph_snapshot, episode_snapshot, add_frame_graph, action_snapshot
+from graph_snapshots import EPISODIC_GRAPH, write_graph_snapshot, episode_snapshot, add_frame_graph, action_snapshot, interpretation_snapshot
 from procedural_memory.planning.bringing_plan import plan_bring
 from plan_execution import execute_plan
 from perceived_entity_linking import perceived_entity_linking, bind_task, ground_frame_elements, _position
@@ -126,6 +126,11 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         # PEL owns object and relation renaming; G1/VLM output stays unchanged.
         perceived = perceived_entity_linking(state["scene_graph"], robokg,
                                               confirmed_aliases=confirmed_aliases)
+        # Preserve raw perception while recording only its own lexical grounding.
+        sense_graph['entity_links'] = {
+            raw: perceived['entity_links'][canonical]
+            for raw, canonical in perceived['identity_mapping'].items()
+            if canonical in perceived['entity_links']}
         state = deepcopy(state)
         if confirmed_aliases:
             state['scene_graph'] = perceived['scene_graph']
@@ -193,8 +198,8 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
                                  and any(step['action'] in ('navigate', 'pick') and step['args'][1] == obj['id']
                                          for step in state['planning'].get('plan', []))},
             "sense_graph": sense_graph,
-            "planning_graph": deepcopy(state),  # G2: entities and frame bindings.
-            "action_graph": None,  # Populated after Act with task-only results.
+            "planning_graph": interpretation_snapshot(state, sense_graph),
+            "action_graph": None,  # Resolved frame plus plan and execution results.
         }
 
     def act(plan_):
@@ -238,7 +243,14 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
         write_graph_snapshot("g1", state)
         plan_ = plan(state)
         write_graph_snapshot("episodic", {**episodic.snapshot(), "observed_evidence": episodic.observed_snapshot()})
+        write_graph_snapshot("g1", plan_["sense_graph"])
         g2_path = write_graph_snapshot("g2", plan_["planning_graph"])
+        if plan_.get('type') != 'search':
+            # Publish the actual plan before any navigation/manipulation can fail.
+            preview = {'status': plan_['planning']['status'],
+                       'plan': plan_['planning'].get('plan', []),
+                       'executed': [], 'failed_step': None}
+            write_graph_snapshot("g3", action_snapshot(preview, plan_))
         if debug_search:
             print("Frame:", plan_["frame"], flush=True)
             print("PEL:", plan_["entity_links"], flush=True)
@@ -249,7 +261,7 @@ def spa_loop(episodic, robokg, semantic_memory, navigator, *, scenario="existing
             if plan_["planning"]["status"] == "planned":
                 print("Plan:", plan_["planning"]["plan"], flush=True)
         result = act(plan_)
-        plan_["action_graph"] = action_snapshot(result)
+        plan_["action_graph"] = action_snapshot(result, plan_)
         task_complete = result["status"] == "success"
         write_graph_snapshot("g3", plan_["action_graph"])
         if result.get("reason") == "Interrupted":

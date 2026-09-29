@@ -1,5 +1,5 @@
 {
-  "instruction": "Bring me a fork",
+  "instruction": "Bring me a book",
   "scene_graph": {
     "objects": [
       {
@@ -13,8 +13,8 @@
         "qualities": {}
       },
       {
-        "id": "fork1",
-        "type": "ForkConnector",
+        "id": "book1",
+        "type": "bookConnector",
         "qualities": {}
       },
       {
@@ -51,7 +51,7 @@
       {
         "id": "episode_1",
         "type": "Episode",
-        "instruction": "Bring me a fork"
+        "instruction": "Bring me a book"
       },
       {
         "id": "observation_1",
@@ -79,13 +79,13 @@
         "id": "Theme_FE",
         "type": "FrameElement",
         "role": "Theme",
-        "semanticValue": "fork"
+        "semanticValue": "book"
       },
       {
         "id": "Source_FE",
         "type": "FrameElement",
         "role": "Source",
-        "semanticValue": "Unknown"
+        "semanticValue": "LIVING_ROOM1"
       },
       {
         "id": "Destination_FE",
@@ -98,7 +98,7 @@
         "type": "Entity"
       },
       {
-        "id": "fork1",
+        "id": "book1",
         "type": "Entity"
       },
       {
@@ -106,12 +106,52 @@
         "type": "Concept"
       },
       {
-        "id": "fork.n.01",
+        "id": "book.n.01",
         "type": "Concept"
       },
       {
         "id": "pedestrian.n.01",
         "type": "Concept"
+      },
+      {
+        "id": "LIVING_ROOM1.n.01",
+        "type": "Concept"
+      },
+      {
+        "id": "LIVING_ROOM1",
+        "type": "Entity"
+      },
+      {
+        "id": "Plan_1",
+        "type": "Plan"
+      },
+      {
+        "id": "navigate_1",
+        "type": "Action",
+        "action": "navigate",
+        "order": 1,
+        "status": "not_attempted"
+      },
+      {
+        "id": "pick_2",
+        "type": "Action",
+        "action": "pick",
+        "order": 2,
+        "status": "not_attempted"
+      },
+      {
+        "id": "navigate_3",
+        "type": "Action",
+        "action": "navigate",
+        "order": 3,
+        "status": "not_attempted"
+      },
+      {
+        "id": "place_4",
+        "type": "Action",
+        "action": "place",
+        "order": 4,
+        "status": "not_attempted"
       }
     ],
     "relations": [
@@ -143,7 +183,7 @@
       {
         "subject": "observation_1",
         "predicate": "observes",
-        "object": "fork1"
+        "object": "book1"
       },
       {
         "subject": "TIAGo",
@@ -151,9 +191,9 @@
         "object": "automaton.n.02"
       },
       {
-        "subject": "fork1",
+        "subject": "book1",
         "predicate": "linkedTo",
-        "object": "fork.n.01"
+        "object": "book.n.01"
       },
       {
         "subject": "user",
@@ -183,17 +223,27 @@
       {
         "subject": "Theme_FE",
         "predicate": "linkedTo",
-        "object": "fork.n.01"
+        "object": "book.n.01"
       },
       {
         "subject": "Theme_FE",
         "predicate": "bindsTo",
-        "object": "fork1"
+        "object": "book1"
       },
       {
         "subject": "BringingFrame_1",
         "predicate": "hasFrameElement",
         "object": "Source_FE"
+      },
+      {
+        "subject": "Source_FE",
+        "predicate": "linkedTo",
+        "object": "LIVING_ROOM1.n.01"
+      },
+      {
+        "subject": "Source_FE",
+        "predicate": "bindsTo",
+        "object": "LIVING_ROOM1"
       },
       {
         "subject": "BringingFrame_1",
@@ -209,27 +259,97 @@
         "subject": "Destination_FE",
         "predicate": "bindsTo",
         "object": "user"
+      },
+      {
+        "subject": "episode_1",
+        "predicate": "hasPlan",
+        "object": "Plan_1"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "navigate_1"
+      },
+      {
+        "subject": "navigate_1",
+        "predicate": "argument1",
+        "object": "TIAGo"
+      },
+      {
+        "subject": "navigate_1",
+        "predicate": "argument2",
+        "object": "LIVING_ROOM1"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "pick_2"
+      },
+      {
+        "subject": "pick_2",
+        "predicate": "argument1",
+        "object": "TIAGo"
+      },
+      {
+        "subject": "pick_2",
+        "predicate": "argument2",
+        "object": "book1"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "navigate_3"
+      },
+      {
+        "subject": "navigate_3",
+        "predicate": "argument1",
+        "object": "TIAGo"
+      },
+      {
+        "subject": "navigate_3",
+        "predicate": "argument2",
+        "object": "user"
+      },
+      {
+        "subject": "Plan_1",
+        "predicate": "hasAction",
+        "object": "place_4"
+      },
+      {
+        "subject": "place_4",
+        "predicate": "argument1",
+        "object": "TIAGo"
+      },
+      {
+        "subject": "place_4",
+        "predicate": "argument2",
+        "object": "book1"
+      },
+      {
+        "subject": "place_4",
+        "predicate": "argument3",
+        "object": "user"
       }
     ]
   },
   "entity_links": {
     "TIAGo": "automaton.n.02",
-    "fork1": "fork.n.01",
+    "book1": "book.n.01",
     "user": "pedestrian.n.01"
   },
   "frame": {
     "Agent": "robot",
-    "Theme": "fork",
-    "Source": null,
+    "Theme": "book",
+    "Source": "LIVING_ROOM1",
     "Destination": "user"
   },
   "bindings": {
     "Agent": "TIAGo",
-    "Theme": "fork1",
-    "Source": null,
+    "Theme": "book1",
+    "Source": "LIVING_ROOM1",
     "Destination": "user"
   },
-  "theme_concept": "fork.n.01",
+  "theme_concept": "book.n.01",
   "type": "bring",
   "issues": [],
   "aliases": {
@@ -239,13 +359,51 @@
   },
   "frame_element_links": {
     "Agent": "automaton.n.02",
-    "Theme": "fork.n.01",
-    "Source": null,
+    "Theme": "book.n.01",
+    "Source": "LIVING_ROOM1.n.01",
     "Destination": "pedestrian.n.01"
   },
   "frame_element_issues": [],
+  "planning": {
+    "status": "planned",
+    "plan": [
+      {
+        "action": "navigate",
+        "args": [
+          "TIAGo",
+          "LIVING_ROOM1"
+        ]
+      },
+      {
+        "action": "pick",
+        "args": [
+          "TIAGo",
+          "book1"
+        ]
+      },
+      {
+        "action": "navigate",
+        "args": [
+          "TIAGo",
+          "user"
+        ]
+      },
+      {
+        "action": "place",
+        "args": [
+          "TIAGo",
+          "book1",
+          "user"
+        ]
+      }
+    ],
+    "navigation_rooms": {
+      "LIVING_ROOM1": "LIVING_ROOM1",
+      "user": "LIVING_ROOM_1"
+    }
+  },
   "sense_graph": {
-    "instruction": "Bring me a fork",
+    "instruction": "Bring me a book",
     "scene_graph": {
       "objects": [
         {
@@ -259,8 +417,8 @@
           "qualities": {}
         },
         {
-          "id": "fork1",
-          "type": "ForkConnector",
+          "id": "book1",
+          "type": "bookConnector",
           "qualities": {}
         },
         {
@@ -301,7 +459,7 @@
         {
           "id": "instruction_1",
           "type": "Instruction",
-          "text": "Bring me a fork"
+          "text": "Bring me a book"
         },
         {
           "id": "observation_1",
@@ -341,7 +499,7 @@
         {
           "subject": "observation_1",
           "predicate": "observes",
-          "object": "fork1"
+          "object": "book1"
         },
         {
           "subject": "observation_1",
@@ -357,9 +515,44 @@
     },
     "entity_links": {
       "TIAGo": "automaton.n.02",
-      "fork1": "fork.n.01",
+      "book1": "book.n.01",
       "pedestrian_1": "pedestrian.n.01"
     }
   },
-  "stage": "G2"
+  "status": "planned",
+  "plan": [
+    {
+      "action": "navigate",
+      "args": [
+        "TIAGo",
+        "LIVING_ROOM1"
+      ]
+    },
+    {
+      "action": "pick",
+      "args": [
+        "TIAGo",
+        "book1"
+      ]
+    },
+    {
+      "action": "navigate",
+      "args": [
+        "TIAGo",
+        "user"
+      ]
+    },
+    {
+      "action": "place",
+      "args": [
+        "TIAGo",
+        "book1",
+        "user"
+      ]
+    }
+  ],
+  "executed": [],
+  "failed_step": null,
+  "episode_id": "episode_1",
+  "stage": "G3"
 }

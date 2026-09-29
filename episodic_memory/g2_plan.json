@@ -1,5 +1,5 @@
 {
-  "instruction": "Bring me a fork",
+  "instruction": "Bring me a book",
   "scene_graph": {
     "objects": [
       {
@@ -13,8 +13,8 @@
         "qualities": {}
       },
       {
-        "id": "fork1",
-        "type": "ForkConnector",
+        "id": "book1",
+        "type": "bookConnector",
         "qualities": {}
       },
       {
@@ -51,7 +51,7 @@
       {
         "id": "episode_1",
         "type": "Episode",
-        "instruction": "Bring me a fork"
+        "instruction": "Bring me a book"
       },
       {
         "id": "observation_1",
@@ -79,7 +79,7 @@
         "id": "Theme_FE",
         "type": "FrameElement",
         "role": "Theme",
-        "semanticValue": "fork"
+        "semanticValue": "book"
       },
       {
         "id": "Source_FE",
@@ -98,7 +98,7 @@
         "type": "Entity"
       },
       {
-        "id": "fork1",
+        "id": "book1",
         "type": "Entity"
       },
       {
@@ -106,7 +106,7 @@
         "type": "Concept"
       },
       {
-        "id": "fork.n.01",
+        "id": "book.n.01",
         "type": "Concept"
       },
       {
@@ -143,7 +143,7 @@
       {
         "subject": "observation_1",
         "predicate": "observes",
-        "object": "fork1"
+        "object": "book1"
       },
       {
         "subject": "TIAGo",
@@ -151,9 +151,9 @@
         "object": "automaton.n.02"
       },
       {
-        "subject": "fork1",
+        "subject": "book1",
         "predicate": "linkedTo",
-        "object": "fork.n.01"
+        "object": "book.n.01"
       },
       {
         "subject": "user",
@@ -183,12 +183,12 @@
       {
         "subject": "Theme_FE",
         "predicate": "linkedTo",
-        "object": "fork.n.01"
+        "object": "book.n.01"
       },
       {
         "subject": "Theme_FE",
         "predicate": "bindsTo",
-        "object": "fork1"
+        "object": "book1"
       },
       {
         "subject": "BringingFrame_1",
@@ -214,22 +214,22 @@
   },
   "entity_links": {
     "TIAGo": "automaton.n.02",
-    "fork1": "fork.n.01",
+    "book1": "book.n.01",
     "user": "pedestrian.n.01"
   },
   "frame": {
     "Agent": "robot",
-    "Theme": "fork",
+    "Theme": "book",
     "Source": null,
     "Destination": "user"
   },
   "bindings": {
     "Agent": "TIAGo",
-    "Theme": "fork1",
+    "Theme": "book1",
     "Source": null,
     "Destination": "user"
   },
-  "theme_concept": "fork.n.01",
+  "theme_concept": "book.n.01",
   "type": "bring",
   "issues": [],
   "aliases": {
@@ -239,13 +239,13 @@
   },
   "frame_element_links": {
     "Agent": "automaton.n.02",
-    "Theme": "fork.n.01",
+    "Theme": "book.n.01",
     "Source": null,
     "Destination": "pedestrian.n.01"
   },
   "frame_element_issues": [],
   "sense_graph": {
-    "instruction": "Bring me a fork",
+    "instruction": "Bring me a book",
     "scene_graph": {
       "objects": [
         {
@@ -259,8 +259,8 @@
           "qualities": {}
         },
         {
-          "id": "fork1",
-          "type": "ForkConnector",
+          "id": "book1",
+          "type": "bookConnector",
           "qualities": {}
         },
         {
@@ -301,7 +301,7 @@
         {
           "id": "instruction_1",
           "type": "Instruction",
-          "text": "Bring me a fork"
+          "text": "Bring me a book"
         },
         {
           "id": "observation_1",
@@ -341,7 +341,7 @@
         {
           "subject": "observation_1",
           "predicate": "observes",
-          "object": "fork1"
+          "object": "book1"
         },
         {
           "subject": "observation_1",
@@ -357,7 +357,7 @@
     },
     "entity_links": {
       "TIAGo": "automaton.n.02",
-      "fork1": "fork.n.01",
+      "book1": "book.n.01",
       "pedestrian_1": "pedestrian.n.01"
     }
   },

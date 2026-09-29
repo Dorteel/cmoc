@@ -52,7 +52,7 @@ def test_missing_scene_message_and_watch_start(tmp_path, capsys, watch):
     with patch.object(view_kg, 'ARTIFACT_DIRECTORY', tmp_path), \
          patch('sys.argv', argv), patch.object(view_kg, 'run_server') as server:
         view_kg.main()
-    assert capsys.readouterr().out.strip() == 'Scene graph not found: episodic_memory/scene_graph.json'
+    assert capsys.readouterr().out.strip() == f'Scene graph file not found: {tmp_path / "scene_graph.json"}'
     if watch:
         server.assert_called_once_with(tmp_path / 'scene_graph.json', None)
     else:

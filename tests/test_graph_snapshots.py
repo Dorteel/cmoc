@@ -48,7 +48,7 @@ def test_spa_writes_raw_g1_and_linked_g2():
     directory = graph_snapshots.ARTIFACT_DIRECTORY
     g1 = json.loads((directory / 'g1_sense.json').read_text())
     g2 = json.loads((directory / 'g2_plan.json').read_text())
-    assert set(g1) == {'instruction', 'scene_graph', 'context_graph'}
+    assert set(g1) == {'instruction', 'scene_graph', 'context_graph', 'entity_links'}
     assert g1['scene_graph'] == raw
     assert g2 == result['planning_graph']
     assert g2['scene_graph']['objects'][0]['id'] == 'user'
@@ -67,7 +67,7 @@ def test_viewer_shortcuts_and_missing_message(capsys):
             patch('sys.argv', ['view_kg.py', 'g2']), patch.object(view_kg, 'run_server') as server:
         view_kg.main()
         server.assert_not_called()
-    assert 'G2 snapshot not available yet' in capsys.readouterr().out
+    assert 'Scene graph file not found:' in capsys.readouterr().out
 
 
 def test_viewer_semantics_and_rdf_preservation(tmp_path):
@@ -80,7 +80,7 @@ def test_viewer_semantics_and_rdf_preservation(tmp_path):
         'type': 'bring'}
     path = graph_snapshots.write_graph_snapshot('g2', snapshot)
     data = view_kg.graph_to_data(view_kg.load_graph(path))
-    assert {'linkedTo', 'Theme', 'boundTheme', 'boundDestination'} <= {e['label'] for e in data['edges']}
+    assert {'linkedTo', 'hasFrameElement', 'bindsTo'} <= {e['label'] for e in data['edges']}
     assert {'Bringing', 'FORK_1', 'fork.n.01', 'user'} <= {n['label'] for n in data['nodes']}
     rdf_path = tmp_path / 'old.ttl'
     rdf_path.write_text('<urn:a> <urn:b> <urn:c> .')
@@ -157,15 +157,17 @@ def test_episode_identity_aliases_and_explicit_frame_elements():
     assert ('episode_1', 'hasFrame', 'BringingFrame_1') in edges(g2)
     for role, value in g2['bindings'].items():
         assert ('BringingFrame_1', 'hasFrameElement', role + '_FE') in edges(g2)
-        assert (role + '_FE', 'bindsTo', value) in edges(g2)
+        if value is not None:
+            assert (role + '_FE', 'bindsTo', value) in edges(g2)
+    assert g2['bindings']['Source'] is None
     rendered = view_kg.graph_to_data(view_kg.snapshot_to_graph(g2))
-    assert {'observedBy', 'hasObservation', 'hasFrameElement', 'bindsTo'} <= {
+    assert {'observedBy', 'observes', 'hasFrameElement', 'bindsTo'} <= {
         e['label'] for e in rendered['edges']}
     labels = {n['label'] for n in rendered['nodes']}
-    assert {'episode_1', 'observation_1', 'BringingFrame_1', 'Theme_FE', 'user'} <= labels
-    assert not {'person_1', 'pedestrian_1', 'mannequin'} & labels
+    assert {'observation_1', 'Bringing', 'Theme', 'person_1', 'Source = Unknown'} <= labels
+    assert not {'user', 'pedestrian_1', 'mannequin'} & labels  # Reuse G1's observed identity.
     rendered_g1 = view_kg.graph_to_data(view_kg.snapshot_to_graph(g1))
-    assert {'person_1', 'robot', 'episode_1'} <= {n['label'] for n in rendered_g1['nodes']}
+    assert {'person_1', 'robot', 'observation_1'} <= {n['label'] for n in rendered_g1['nodes']}
 
 
 def test_unresolved_frame_elements_are_visible_without_bindings():
@@ -177,7 +179,7 @@ def test_unresolved_frame_elements_are_visible_without_bindings():
     assert len([n for n in state['context_graph']['nodes'] if n['type'] == 'FrameElement']) == 4
     assert not any(r['predicate'] == 'bindsTo' for r in state['context_graph']['relations'])
     rendered = view_kg.graph_to_data(view_kg.snapshot_to_graph(state))
-    assert {'Agent_FE', 'Theme_FE', 'Source_FE', 'Destination_FE'} <= {n['label'] for n in rendered['nodes']}
+    assert {'Agent', 'Theme', 'Source = Unknown', 'Destination'} <= {n['label'] for n in rendered['nodes']}
 
 
 def test_provenance_and_semantic_links_do_not_dump_remembered_entities():
@@ -198,7 +200,7 @@ def test_provenance_and_semantic_links_do_not_dump_remembered_entities():
     assert g1['scene_graph'] == raw
     assert g1['perception_provenance'] == g2['perception_provenance'] == provenance
     assert g2['frame_element_links'] == {'Agent': 'robot.resolved', 'Theme': 'fork.resolved',
-                                         'Source': 'location.resolved', 'Destination': 'person.resolved'}
+                                         'Source': None, 'Destination': 'person.resolved'}
     assert g2['bindings']['Theme'] == 'FORK_1'
     assert g2['frame']['Theme'] == 'fork'
     relations = g2['context_graph']['relations']
@@ -210,7 +212,8 @@ def test_provenance_and_semantic_links_do_not_dump_remembered_entities():
     assert observation['perceptionBackend'] == 'ollama'
     graph = view_kg.snapshot_to_graph(g2)
     for role, concept in g2['frame_element_links'].items():
-        assert {'subject': role + '_FE', 'predicate': 'linkedTo', 'object': concept} in relations
+        if concept is not None:
+            assert {'subject': role + '_FE', 'predicate': 'linkedTo', 'object': concept} in relations
 
 
 def test_small_g2_with_real_fork_and_user_concepts_despite_large_memory():
@@ -244,7 +247,7 @@ def test_small_g2_with_real_fork_and_user_concepts_despite_large_memory():
     assert len(rendered['nodes']) <= 22
     assert len(rendered['edges']) <= 28
     assert not any(n['label'].startswith('unrelated_') for n in rendered['nodes'])
-    assert not {'person_1', 'pedestrian_1', 'mannequin', 'mannequin_1'} & {n['label'] for n in rendered['nodes']}
+    assert not {'user', 'pedestrian_1', 'mannequin', 'mannequin_1'} & {n['label'] for n in rendered['nodes']}
     print(f"Small G2: {len(g2['context_graph']['nodes'])} context nodes; "
           f"{len(rendered['nodes'])} rendered nodes, {len(rendered['edges'])} rendered edges")
 
@@ -281,6 +284,9 @@ def test_g2_context_is_constant_with_500_unrelated_world_and_scene_entities():
         assert not any('cabinet_' in str(node) for node in rendered['nodes'])
         assert not any(edge['label'] == 'aliases' for edge in rendered['edges'])
         assert sum(node['label'] == 'user' and node['kind'] == 'resource' for node in rendered['nodes']) == 1
+        # The omitted count changes, but no visible nodes or edges may grow.
+        for node in rendered['nodes']:
+            node['details'].pop('omitted_scene_entities', None)
         results.append((g2['context_graph'], rendered))
     assert results[0] == results[1]
 

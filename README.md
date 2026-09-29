@@ -194,22 +194,37 @@ local Ollama with `qwen3:1.7b`. Normal SPA does not invoke that fallback.
 own perception server; combine it with `--test-navigation` only against a prepared
 aligned Nav2 setup.
 
-### View live G1/G2
+### Viewing scene graphs
+
+Inspect the committed JSON graphs immediately after cloning, with Python 3.10+
+and only `rdflib` installed (`python -m pip install rdflib`). No ROS/ROS2,
+Webots, simulator, demo run, or generated runtime state is needed.
 
 ```bash
-python utils/view_kg.py g1
-python utils/view_kg.py g2
-python utils/view_kg.py g2 --watch
-python utils/view_kg.py g3
-python utils/view_kg.py path/to/graph.ttl
+python utils/view_kg.py episodic_memory/g1_sense.json
+python utils/view_kg.py episodic_memory/g2_plan.json
+python utils/view_kg.py episodic_memory/g3_action.json
+python utils/view_kg.py examples/my_scene_graph.json
+python utils/view_kg.py examples/my_plan.json --g1 path/to/g1_sense.json
 ```
 
-The existing local browser viewer supports both RDF (Turtle/XML/JSON-LD) and
-SPA JSON, retaining its pan/zoom/drag interface and one-second live reload.
-`--format` still overrides RDF format detection. Shortcuts resolve independently
-of the working directory. Missing snapshots produce a friendly message;
-`--watch` opens the viewer and waits for their creation. Use `python utils/view_kg.py g3 --watch`
-to inspect the ordered plan and attempted-action statuses.
+The read-only utility opens a local browser viewer with pan/zoom/drag and
+one-second reload. All browser assets are included; no CDN is required. Paths
+resolve from your working directory. `g1`, `g2`, and `g3` remain convenience
+aliases for the repository's files. Missing or invalid JSON produces a concise
+error; `--watch` optionally waits for a valid file.
+
+G2 is recognized by its `frame` field. Provenance comes from `--g1` when supplied,
+otherwise embedded `sense_graph`, otherwise sibling `g1_sense.json` (`g1.json`
+for `g2.json`). Missing or malformed optional G1 does not block rendering.
+Only matching observation `observes` links and their `linkedTo` WordNet links
+are added. Direct WordNet–FrameNet links come from the optional local static
+`knowledge/robokgnet/robokgnet.ttl`; unrelated G1/RoboKG triples are excluded.
+Stored predicate directions are preserved. Graphs without those links simply
+show their stored content; no provenance is invented. JSON files are never rewritten.
+
+RDF (Turtle/XML/JSON-LD) and schema viewing remain supported; `--format` overrides
+RDF format detection.
 
 Snapshots are successive knowledge states of one SPA Episode. G1 keeps the raw
 `scene_graph` unchanged and adds a JSON `context_graph` (nodes/relations):
@@ -218,29 +233,67 @@ Snapshots are successive knowledge states of one SPA Episode. G1 keeps the raw
 The Observation connects to each perceived entity through `observes`.
 Later cycles retain the Episode ID and number their Observations.
 
-G2 preserves that Episode/Observation and adds PEL concept links, canonical `user`
-with alias metadata, and `hasFrame → BringingFrame_1`. Its four
-`hasFrameElement` nodes (`Agent_FE`, `Theme_FE`, `Source_FE`, `Destination_FE`)
-carry `semanticValue` and, when resolved, `bindsTo` edges to concrete entities.
-Unresolved roles remain visible without `bindsTo`. The `frame` and `bindings`
-dictionaries remain separate. `frame_element_links` adds a third, semantic-grounding
-layer: roles first reuse PEL links for canonical entities or matching episodic
-types, then use RoboKGNet lexical resolution. Destination `user` thus inherits
-the canonical pedestrian concept. Missing/ambiguous links stay null with `frame_element_issues` also listed
-in `issues`; they do not change existing concrete plan selection.
-`linkedTo` connects each resolved FE to its concept independently of `bindsTo`.
+The compact viewer preserves the visible G1 observation in G2 and G3. Types,
+qualities and provenance stay in node details. The original instruction is a literal object of an
+`instruction` triple, for example `observation_1 → instruction → "Bring me a book"`.
+The same triple is preserved across the three views, using the original JSON text.
+G2/G3 connect the observation to Bringing through `hasFrame`. No separate
+instruction resource or NLP/history nodes are added. It selects up
+to six essential observed entities (people/robot first, then objects and locations)
+then immediate spatial endpoints, up to seven observed entities total when an
+instruction is present; unrelated ambient surfaces are
+omitted. The Observation details report the omitted count. Raw JSON stays intact.
 
-G1/G2 keep `perception_provenance` (`backend`, `model`, `fallback_used`); the Observation
-shows `generatedByModel`, `perceptionBackend`, and `fallbackUsed`. G2 is bounded
-to current perception, Episode/frame context, canonical user, referenced concepts,
-and selected concrete bindings. Full memory stays in `episodic_memory/scene_graph.json`.
-The G2 viewer renders only the compact task context (about 10–20 nodes), never
-the full `scene_graph`. Instruction, model provenance and types are node details;
-aliases remain in JSON without visible alias nodes.
-G3 contains only the same Episode, plan, ordered actions, attempts/status, and
-direct argument entities; it does not duplicate G1/G2 or world memory. This RDF translation exists only
-inside the viewer; saved knowledge remains JSON. Last valid graphs stay visible
-while invalid/missing files are retried. The UI uses text content for labels.
+G2 adds the Bringing frame and its four roles. Source is explicitly `Unknown`;
+its frame value and binding are null in the interpretation snapshot. G3 replaces
+that placeholder with the resolved Source and adds the actual generated plan.
+The demo publishes G3 **before the first execution step**, then updates attempt
+statuses, so failures do not hide the plan. Execution still uses the existing
+resolved bindings and legacy planner.
+
+Existing vocabulary is reused: `observes`, `observedBy`, `linkedTo`,
+`hasFrameElement`, `bindsTo`, `hasPlan`, `hasAction`, and `argument1`/`argument2`/
+`argument3`. The existing action `order` property supplies ordering; labels show
+`1. navigate`, `2. pick`, etc., without separate index/value nodes. The Bringing
+frame and role nodes reuse local RoboKG FrameNet URIs (CMOC Destination maps to
+FrameNet Goal). Stored aliases reuse G1's observed identities for frame bindings
+and action arguments. No transitive semantic neighborhoods are expanded.
+
+The committed example tells this story:
+
+- G1: TIAGo, a pedestrian, a fork, a table and a room, with observation/lexical links.
+- G2: Agent → TIAGo, Theme → fork, Destination → pedestrian, Source → Unknown.
+- G3: Source → KITCHEN, followed by navigate → pick → navigate → place.
+
+Visible counts are **10 → 16 → 21**. Tests enforce `<20`, `<2×G1`, and `<2×G1+5`,
+and check that G3 adds exactly Source, Plan and four action nodes while removing
+Unknown. These are upper bounds, not targets. The JSON retains all evidence;
+the viewer is an explanatory lens, not a knowledge-base dump.
+
+Run the standalone viewer and progression checks from the repository root:
+
+```bash
+python -m pip install rdflib pytest
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_view_kg_*.py -q
+python utils/view_kg.py episodic_memory/g1_sense.json
+python utils/view_kg.py episodic_memory/g2_plan.json
+python utils/view_kg.py episodic_memory/g3_action.json
+```
+
+In the existing development environment, also check snapshot publication and
+execution integration (these tests import the demo and use its development dependencies):
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_graph_snapshots.py tests/test_bring_execution.py -q
+```
+
+To regenerate the committed examples using the actual legacy PDDL planner,
+without a simulator (this intentionally rewrites the example JSON files):
+
+```bash
+python -m pip install rdflib 'unified-planning[fast-downward]'
+python examples/visualization/generate_bringing.py
+```
 
 ### Simulator details and manual checks
 

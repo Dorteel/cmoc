@@ -1,9 +1,6 @@
 .env
 .venv
 *.pyc
-episodic_memory/g1_sense.json
-episodic_memory/g2_plan.json
-episodic_memory/g3_action.json
 build/
 log/
 install/

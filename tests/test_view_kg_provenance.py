@@ -111,3 +111,46 @@ def test_compact_search_g2_loads_without_fabricated_provenance(tmp_path):
     path.write_bytes(original)
     assert set(view_kg.load_graph(path)) == set(view_kg.snapshot_to_graph(snapshot))
     assert path.read_bytes() == original
+
+
+@pytest.mark.parametrize('override', [False, True])
+def test_renamed_g2_resolves_file_provenance(snapshots, override):
+    p1, p2, _, _, semantic_link = snapshots
+    renamed = p2.with_name('my_plan.json')
+    p2.rename(renamed)
+    expected = set(view_kg.load_graph(renamed))
+    options = {}
+    if override:
+        moved = p1.with_name('custom_observations.json')
+        p1.rename(moved)
+        options['g1_path'] = moved
+    graph = view_kg.load_graph(renamed, **options)
+    assert semantic_link in graph
+    assert set(graph) == expected
+
+
+@pytest.mark.parametrize('content', ['{broken', 'null', '{"context_graph": {"nodes": [null]}}'])
+def test_invalid_optional_g1_still_renders(snapshots, content):
+    p1, p2, _, g2, _ = snapshots
+    p1.write_text(content)
+    graph = view_kg.load_graph(p2)
+    assert set(graph) == set(view_kg.snapshot_to_graph(g2))
+    assert view_kg.graph_to_data(graph)['nodes']
+
+
+def test_explicit_missing_g1_overrides_sibling(snapshots, tmp_path):
+    _, p2, _, g2, _ = snapshots
+    graph = view_kg.load_graph(p2, g1_path=tmp_path / 'absent.json')
+    assert set(graph) == set(view_kg.snapshot_to_graph(g2))
+
+
+def test_explicit_g1_cli_and_reload(snapshots, monkeypatch):
+    from unittest.mock import patch
+    p1, p2, _, _, _ = snapshots
+    with patch('sys.argv', ['view_kg.py', str(p2), '--g1', str(p1)]), \
+            patch.object(view_kg, 'run_server') as server:
+        assert view_kg.main() == 0
+    server.assert_called_once_with(p2, None, g1_path=p1)
+    stamp = view_kg.graph_stamp(p2, p1)
+    p1.write_text('{}')
+    assert view_kg.graph_stamp(p2, p1) != stamp

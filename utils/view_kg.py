@@ -1,4 +1,4 @@
-"""Live RDF, scene graph, task schema, and SPA snapshot viewer: python utils/view_kg.py g2 --watch."""
+"""Standalone scene graph viewer: python utils/view_kg.py <scene_graph.json>."""
 
 import argparse
 import hashlib
@@ -28,14 +28,197 @@ def resolve_path(value):
 
 
 def missing_message(path):
-    if path.name == "scene_graph.json":
-        return "Scene graph not found: episodic_memory/scene_graph.json"
-    stage = next((key.upper() for key, name in SNAPSHOTS.items() if path.name == name), "Graph")
-    return f"{stage} snapshot not available yet. Run demo.py through the corresponding stage first."
+    return f"Scene graph file not found: {path}"
 
 
-def snapshot_to_graph(data):
+def is_bringing(data):
+    return isinstance(data.get('frame'), dict) and 'Source' in data['frame']
+
+
+def is_observation(data):
+    return 'frame' not in data and 'scene_graph' in data and any(
+        item.get('type') == 'Observation' for item in data.get('context_graph', {}).get('nodes', []))
+
+
+def explanatory_graph(data, sense=None):
+    """A bounded, read-only explanation, with properties in details rather than nodes.
+
+    Selection is based only on stored observations, aliases, bindings and plans.
+    The raw scene and its omitted entities remain intact in the input JSON.
+    """
+    stage = 'G3' if 'plan' in data else 'G2' if is_bringing(data) else 'G1'
+    sense = sense or data.get('sense_graph') or data
+    scene = sense.get('scene_graph', {})
+    objects = {item['id']: item for item in scene.get('objects', [])}
+    context = sense.get('context_graph', {})
+    observation = next((item for item in context.get('nodes', [])
+                        if item.get('type') == 'Observation'), None)
+    instruction_record = next((item for item in context.get('nodes', [])
+                               if item.get('type') == 'Instruction'), {})
+    instruction_text = sense.get('instruction', instruction_record.get('text', data.get('instruction')))
+    has_instruction = isinstance(instruction_text, str)
+    links = sense.get('entity_links', {})
+    nodes, relations = {}, set()
+
+    def add(identifier, kind='Entity', **details):
+        nodes.setdefault(identifier, {'id': identifier, 'type': kind}).update(details)
+        return identifier
+
+    def edge(subject, predicate, target):
+        relations.add((subject, predicate, target))
+
+    # Keep people, the observer and a small sample of perceptual objects, then
+    # their immediate spatial endpoints. Never select by simulator memory.
+    people = {'robot', 'tiago', 'person', 'pedestrian', 'mannequin', 'user'}
+    locations = {'location', 'room'}
+    ambient = {'cabinet', 'wall', 'floor', 'ceiling', 'door', 'window'}
+    def priority(item):
+        kind = item.get('type', '').casefold().removesuffix('connector')
+        return (0 if kind in people else 3 if kind in ambient else 2 if kind in locations else 1,
+                item['id'])
+    selected = [item['id'] for item in sorted(objects.values(), key=priority)
+                if priority(item)[0] < 3][:6]
+    for relation in scene.get('relations', []):
+        if (relation['subject'] in selected and relation['object'] in objects
+                and relation['object'] not in selected and len(selected) < (7 if has_instruction else 8)):
+            selected.append(relation['object'])
+    for identifier in selected:
+        item = objects[identifier]
+        add(identifier, item.get('type', 'Entity'), qualities=item.get('qualities', {}))
+    if observation:
+        obs = add(observation['id'], 'Observation', **{k: v for k, v in observation.items()
+                                                     if k not in ('id', 'type')})
+        nodes[obs]['omitted_scene_entities'] = len(objects) - len(selected)
+        # Reuse the observed robot for the existing generic observer identity.
+        robots = [key for key in selected if objects[key].get('type', '').casefold() in ('robot', 'tiago')]
+        observer = next((r['object'] for r in context.get('relations', [])
+                         if r['subject'] == obs and r['predicate'] == 'observedBy'), None)
+        if observer:
+            observer = robots[0] if observer == 'robot' and len(robots) == 1 else observer
+            add(observer, 'Robot')
+            edge(obs, 'observedBy', observer)
+        observed = {r['object'] for r in context.get('relations', [])
+                    if r['subject'] == obs and r['predicate'] == 'observes'}
+        for identifier in selected:
+            if identifier in observed:
+                edge(obs, 'observes', identifier)
+    for relation in scene.get('relations', []):
+        if relation['subject'] in nodes and relation['object'] in nodes:
+            edge(relation['subject'], relation['predicate'], relation['object'])
+    # At most one stored lexical concept per selected entity; no semantic crawl.
+    for identifier in selected:
+        if links.get(identifier):
+            concept = add(links[identifier], 'Concept')
+            edge(identifier, 'linkedTo', concept)
+    # Older snapshots can store the same grounding in context relations.
+    grounded = {subject for subject, predicate, _ in relations if predicate == 'linkedTo'}
+    eligible = set(selected) | ({observation['id']} if observation else set())
+    for relation in context.get('relations', []):
+        source = relation['subject']
+        if relation['predicate'] == 'linkedTo' and source in eligible and source not in grounded:
+            edge(source, 'linkedTo', add(relation['object'], 'Concept'))
+            grounded.add(source)
+    base_ids = set(nodes)
+
+    # Explicit aliases map task identities back onto the same observation nodes.
+    aliases = data.get('aliases', {})
+    def identity(value):
+        if value in nodes:
+            return value
+        observed_aliases = [alias for alias in aliases.get(value, []) if alias in base_ids]
+        if len(observed_aliases) == 1:
+            return observed_aliases[0]
+        return value
+
+    if stage != 'G1':
+        frame = add('BringingFrame_1', 'Bringing', display_label='Bringing')
+        if observation:
+            edge(observation['id'], 'hasFrame', frame)
+        bindings = data.get('bindings', {})
+        for role in ('Agent', 'Theme', 'Destination', 'Source'):
+            role_id = add(role + '_FE', 'FrameElement', role=role,
+                          semanticValue=data['frame'].get(role), display_label=role)
+            edge(frame, 'hasFrameElement', role_id)
+            target = bindings.get(role)
+            concept = data.get('frame_element_links', {}).get(role)
+            if role == 'Source' and stage == 'G3':
+                concept = None  # Resolution adds a binding, not a semantic neighborhood.
+            if concept is None and target is not None and role != 'Source':
+                concept = data.get('entity_links', {}).get(target)
+            if target is not None:
+                target = identity(target)
+                add(target)
+                edge(role_id, 'bindsTo', target)
+            elif role == 'Source':
+                edge(role_id, 'bindsTo', add('Unknown', 'Unknown'))
+                nodes[role_id]['display_label'] = 'Source = Unknown'
+            elif role == 'Theme' and concept is None:
+                # A requested value is a concept, not a fabricated perceived item.
+                requested = data['frame'].get(role)
+                if requested:
+                    edge(role_id, 'semanticValue', add('requested:' + requested, 'Concept', display_label=requested))
+            if concept:
+                add(concept, 'Concept')
+                edge(role_id, 'linkedTo', concept)
+                if target is not None:
+                    stored = data.get('entity_links', {}).get(bindings.get(role))
+                    if stored == concept:
+                        edge(target, 'linkedTo', concept)
+        # Source resolution should not introduce a fresh semantic neighborhood.
+        # G3 inherits the G2 lexical links; Source's concrete binding is sufficient.
+        if stage == 'G3':
+            plan = add('Plan_1', 'Plan', status=data.get('status'))
+            edge(frame, 'hasPlan', plan)
+            attempts = {item['step']: item['status'] for item in data.get('executed', [])}
+            for order, step in enumerate(data.get('plan', []), 1):
+                action = add(f"{step['action']}_{order}", 'Action', order=order,
+                             action=step['action'], arguments=step['args'],
+                             status=attempts.get(order, 'not_attempted'),
+                             display_label=f"{order}. {step['action']}")
+                edge(plan, 'hasAction', action)
+                for position, argument in enumerate(step['args'], 1):
+                    target = identity(argument)
+                    add(target)
+                    edge(action, f'argument{position}', target)
+
+    graph = Graph()
+    def term(identifier):
+        if nodes[identifier]['type'] == 'FrameElement':
+            role = nodes[identifier]['role']
+            # CMOC calls FrameNet's Goal role Destination.
+            return URIRef(FRAMENET + quote('Bringing/FE/' + ('Goal' if role == 'Destination' else role), safe=''))
+        if nodes[identifier]['type'] == 'Bringing':
+            return URIRef(FRAMENET + 'Bringing')
+        return URIRef('urn:cmoc:' + ('concept' if nodes[identifier]['type'] == 'Concept' else 'entity')
+                      + ':' + quote(str(identifier), safe=''))
+    graph.node_details = {term(key): value for key, value in nodes.items()}
+    for subject, predicate, target in relations:
+        graph.add((term(subject), URIRef('urn:cmoc:predicate:' + quote(predicate, safe='')), term(target)))
+    if has_instruction:
+        subject = observation['id'] if observation else ('BringingFrame_1' if stage != 'G1' else None)
+        if subject is not None:
+            literal = Literal(instruction_text)
+            graph.add((term(subject), URIRef('urn:cmoc:predicate:instruction'), literal))
+            graph.node_details[literal] = {'id': instruction_text, 'type': 'Instruction'}
+    graph.explanatory = True
+    graph.stage = stage
+    return graph
+
+
+def check_visualization_sizes(g1, g2, g3):
+    """Strict regression guard on the actual visible payloads, not raw JSON sizes."""
+    counts = [len(item['nodes']) for item in (g1, g2, g3)]
+    limits = [20, 2 * counts[0], 2 * counts[0] + 5]
+    for stage, count, limit in zip(('G1', 'G2', 'G3'), counts, limits):
+        if count >= limit:
+            raise ValueError(f'{stage} visualization too large: {count} nodes (must be < {limit})')
+    return counts
+
+
+def snapshot_to_graph(data, sense=None, *, compact=True):
     """Visualization-only RDF adapter; never change the stored JSON representation."""
+    if compact and (is_bringing(data) or is_observation(data)):
+        return explanatory_graph(data, sense)
     graph = Graph()
     def node(kind, value):
         return URIRef("urn:cmoc:" + kind + ":" + quote(str(value), safe=""))
@@ -111,9 +294,9 @@ LINKED_TO = URIRef('urn:cmoc:predicate:linkedTo')
 def g1_path_for_g2(path):
     if path.name == SNAPSHOTS['g2']:
         return path.with_name(SNAPSHOTS['g1'])
-    if path.name == 'g2.json':
+    if path.name in ('g2.json', 'g3.json'):
         return path.with_name('g1.json')
-    return None
+    return path.with_name(SNAPSHOTS['g1'])
 
 
 def add_g1_provenance(graph, g1, semantic_path=None):
@@ -137,7 +320,11 @@ def add_g1_provenance(graph, g1, semantic_path=None):
                 stages[concept] = 'WordNet concept'
     semantic_path = SEMANTIC_GRAPH if semantic_path is None else semantic_path
     if concepts and semantic_path.exists():
-        semantic = Graph().parse(semantic_path, format='turtle')
+        try:
+            semantic = Graph().parse(semantic_path, format='turtle')
+        except Exception:
+            # The optional static mapping must not prevent scene inspection.
+            semantic = Graph()
         # Snapshot concepts use synset IDs; the RDF resource uses the same IDs
         # under its WordNet namespace. Keep the viewer's existing node identity.
         for concept in concepts:
@@ -164,28 +351,58 @@ def load_schema_documents(path):
 
 
 # Load a complete snapshot before replacing anything the browser can see.
-def load_graph(path, rdf_format=None):
+def read_scene_json(path):
+    """Reject invalid JSON/scene shapes without falling through to an RDF parser."""
+    try:
+        data = json.loads(path.read_bytes())
+        if not isinstance(data, dict) or not any(
+                key in data for key in ('scene_graph', 'objects', 'context_graph', 'frame')):
+            raise ValueError('expected a scene graph object')
+        return data
+    except (ValueError, UnicodeError) as error:
+        raise ValueError(f"Invalid scene graph JSON: {path}") from error
+
+
+def scene_json_to_graph(data, path, *, compact=True):
+    try:
+        return snapshot_to_graph(data, compact=compact)
+    except (KeyError, TypeError, ValueError, AttributeError) as error:
+        raise ValueError(f"Invalid scene graph JSON: {path}") from error
+
+
+def load_graph(path, rdf_format=None, *, g1_path=None):
+    path = Path(path).expanduser().resolve()
     if path.is_dir() and rdf_format is None:
         graph = Graph()
         graph.schema_documents = load_schema_documents(path)
         return graph
-    source = path.read_bytes()
     if path.suffix.lower() == ".json" and rdf_format is None:
-        data = json.loads(source)
-        if data is None:
-            raise ValueError("G3 action snapshot not available yet; run demo.py through Act.")
-        if isinstance(data, dict) and ("scene_graph" in data or "objects" in data or "context_graph" in data or "frame" in data):
-            graph = snapshot_to_graph(data)
-            g1_path = g1_path_for_g2(path)
-            if g1_path is not None:
-                g1_data = data.get('sense_graph')
-                if g1_data is None and g1_path.exists():
-                    g1_data = json.loads(g1_path.read_bytes())
-                if isinstance(g1_data, dict):
-                    add_g1_provenance(graph, snapshot_to_graph(g1_data))
-            return graph
+        data = read_scene_json(path)
+        # Optional embedded provenance must not prevent rendering the main file.
+        graph = scene_json_to_graph({key: value for key, value in data.items()
+                                     if key != 'sense_graph'}, path)
+        # A frame identifies G2/G3 even when the file has been renamed or moved.
+        if 'frame' in data:
+            try:
+                if g1_path is not None:
+                    provenance_path = Path(g1_path).expanduser().resolve()
+                    g1_data = read_scene_json(provenance_path)
+                elif isinstance(data.get('sense_graph'), dict):
+                    provenance_path, g1_data = path, data['sense_graph']
+                else:
+                    provenance_path = g1_path_for_g2(path)
+                    g1_data = read_scene_json(provenance_path)
+                g1 = scene_json_to_graph(g1_data, provenance_path, compact=False)
+            except (OSError, ValueError):
+                pass  # Missing or invalid optional provenance leaves G2 intact.
+            else:
+                if getattr(graph, 'explanatory', False):
+                    graph = scene_json_to_graph({**data, 'sense_graph': g1_data}, path)
+                else:
+                    add_g1_provenance(graph, g1)
+        return graph
     graph = Graph()
-    graph.parse(data=source, format=rdf_format or guess_format(str(path)) or "turtle",
+    graph.parse(data=path.read_bytes(), format=rdf_format or guess_format(str(path)) or "turtle",
                 publicID=path.as_uri())
     return graph
 
@@ -216,7 +433,7 @@ def graph_to_data(graph):
         types = sorted(graph.objects(term, RDF.type), key=str) if not isinstance(term, Literal) else []
         visible_types.update(types)
         kind = "literal" if isinstance(term, Literal) else "blank" if isinstance(term, BNode) else "resource"
-        label = str(term) if kind == "literal" else local_name(term)
+        label = node_details.get(term, {}).get("display_label") or (str(term) if kind == "literal" else local_name(term))
         nodes.append({
             "details": {**node_details.get(term, {}), **({"provenance_stage": stages[term]} if term in stages else {})},
             "id": identifiers[term], "label": (stages[term] + ": " if term in stages else "") + label[:60] + ("…" if len(label) > 60 else ""),
@@ -225,14 +442,16 @@ def graph_to_data(graph):
             "value": str(term) if kind == "literal" else None,
             "language": term.language if kind == "literal" else None,
             "datatype": str(term.datatype) if kind == "literal" and term.datatype else None,
-            "color": "#d9dee5" if kind == "literal" else type_color(types[0]) if types else "#b4c4d6",
+            "color": "#d9dee5" if kind == "literal" else type_color(types[0]) if types else
+                     type_color(node_details[term]["type"]) if term in node_details else "#b4c4d6",
         })
     edges = [{"source": identifiers[subject], "target": identifiers[obj],
               "label": local_name(predicate), "uri": str(predicate)}
              for subject, predicate, obj in sorted(graph, key=lambda triple: tuple(term.n3() for term in triple))]
     legend = [{"label": local_name(item), "uri": str(item), "color": type_color(item)}
               for item in sorted(visible_types, key=str)]
-    return {"nodes": nodes, "edges": edges, "legend": legend}
+    return {"nodes": nodes, "edges": edges, "legend": legend,
+            **({"stage": graph.stage} if hasattr(graph, "stage") else {})}
 
 
 # Display-only family groups and hierarchy; no ontology or scene facts are changed.
@@ -404,10 +623,10 @@ def schemas_to_data(documents):
         {'label': 'Slot', 'color': family_color('Object', 'slot')}]}
 
 
-def graph_stamp(path):
+def graph_stamp(path, g1_path=None):
     """Schema directories also reload when an existing JSON file is edited."""
     paths = [path, *sorted(path.glob('*.json'))] if path.is_dir() else [path]
-    g1_path = g1_path_for_g2(path)
+    g1_path = Path(g1_path) if g1_path is not None else g1_path_for_g2(path)
     if g1_path is not None:
         paths.extend(item for item in (g1_path, SEMANTIC_GRAPH) if item.exists())
     return tuple((str(item), stat.st_mtime_ns, stat.st_size, stat.st_ino)
@@ -573,7 +792,8 @@ async function refresh(){
     const response=await fetch('/graph',{cache:'no-store'});if(!response.ok)throw Error(response.status);
     const state=await response.json();
     if(state.revision!==revision){render(state.data);revision=state.revision}
-    status.textContent=state.error || `${nodes.length} nodes · ${edges.length} edges · Live · Drag to move, scroll to zoom`;
+    document.querySelector('h1').textContent=({G1:'G1 · Sense: initial observation',G2:'G2 · Plan: Bringing interpretation',G3:'G3 · Act: resolved frame and ordered plan'})[state.data.stage] || 'Knowledge graph';
+    status.textContent=state.error || `${state.data.stage || "Graph"} · ${nodes.length} nodes · ${edges.length} edges · Live · Drag to move, scroll to zoom`;
   }catch(error){status.textContent='Connection lost — retrying…'}
   setTimeout(refresh,1000);
 }
@@ -582,15 +802,15 @@ transform();tick();refresh();
 
 
 # Publish snapshots with a lock so each request sees matching data and status.
-def watch_graph(path, rdf_format, state, lock, stopped, tree=False):
+def watch_graph(path, rdf_format, state, lock, stopped, tree=False, g1_path=None):
     last_stamp = None
     while not stopped.is_set():
         try:
-            stamp = graph_stamp(path)
+            stamp = graph_stamp(path, g1_path)
             if stamp != last_stamp:
-                graph = load_graph(path, rdf_format)
+                graph = load_graph(path, rdf_format, g1_path=g1_path)
                 data = scene_tree_data(graph) if tree else graph_to_data(graph)
-                if graph_stamp(path) != stamp:
+                if graph_stamp(path, g1_path) != stamp:
                     raise ValueError("file changed during parsing")
                 with lock:
                     state.update(data=data, revision=state["revision"] + 1, error=None)
@@ -604,7 +824,7 @@ def watch_graph(path, rdf_format, state, lock, stopped, tree=False):
         stopped.wait(1)
 
 
-def run_server(path, rdf_format=None, *, tree=False):
+def run_server(path, rdf_format=None, *, tree=False, g1_path=None):
     page = build_html().encode()
     state = {"revision": 0, "data": {"nodes": [], "edges": [], "legend": []},
              "error": "Waiting for the first valid graph…"}
@@ -626,7 +846,7 @@ def run_server(path, rdf_format=None, *, tree=False):
         return [body]
 
     with make_server("127.0.0.1", 0, application) as server:
-        watcher = threading.Thread(target=watch_graph, args=(path, rdf_format, state, lock, stopped, tree), daemon=True)
+        watcher = threading.Thread(target=watch_graph, args=(path, rdf_format, state, lock, stopped, tree, g1_path), daemon=True)
         watcher.start()
         url = f"http://127.0.0.1:{server.server_port}/"
         print(f"Watching {path}\nViewer: {url}\nPress Ctrl+C to stop.", flush=True)
@@ -643,7 +863,8 @@ def run_server(path, rdf_format=None, *, tree=False):
 # The module entry point keeps invocation independent of ROS or project setup.
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("path", help="scene_graph, schemas, g1/g2/g3, JSON scene/snapshot, schema directory, or RDF file")
+    parser.add_argument("path", help="JSON scene graph path (also: g1/g2/g3 aliases, scene_graph, schemas, or RDF file)")
+    parser.add_argument("--g1", type=Path, help="Optional G1 JSON provenance file for G2")
     parser.add_argument("--tree", action="store_true", help="Display scene_graph as a hierarchy with secondary cross-links")
     parser.add_argument("--watch", action="store_true", help="Wait for a missing graph; live reload is always enabled")
     parser.add_argument("--format", choices=("turtle", "xml", "json-ld"), help="Override format detection")
@@ -651,16 +872,20 @@ def main():
     path = resolve_path(arguments.path)
     if arguments.tree and (path.name != "scene_graph.json" or arguments.format):
         parser.error("--tree requires scene_graph (or a scene_graph.json path), without --format")
-    if not path.exists():
-        print(missing_message(path))
+    try:
+        load_graph(path, arguments.format, g1_path=arguments.g1)
+    except (OSError, ValueError) as error:
+        print(missing_message(path) if isinstance(error, FileNotFoundError) else str(error))
         if not arguments.watch:
-            return
-    elif arguments.path == "g3" and json.loads(path.read_text()) is None:
-        print("G3 action snapshot not available yet; run demo.py through Act.")
-        if not arguments.watch:
-            return
-    run_server(path, arguments.format, **({"tree": True} if arguments.tree else {}))
+            return 1
+    options = {}
+    if arguments.tree:
+        options['tree'] = True
+    if arguments.g1 is not None:
+        options['g1_path'] = arguments.g1.expanduser().resolve()
+    run_server(path, arguments.format, **options)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

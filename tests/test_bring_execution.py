@@ -180,5 +180,36 @@ def test_spa_writes_planned_g3_and_stops_on_failed_execution():
     assert result['action_graph'] == g3
     assert g3['episode_id'] == 'episode_1' and g3['status'] == 'failed'
     assert len(g3['executed']) == 2 and len(g3['plan']) == 4
-    assert len(g3['context_graph']['nodes']) == 6
-    assert 'scene_graph' not in g3
+    assert sum(n['type'] == 'Action' for n in g3['context_graph']['nodes']) == 4
+    assert g3['bindings']['Source'] == 'KITCHEN'
+    assert g3['sense_graph'] == result['sense_graph']
+    assert result['planning_graph']['bindings']['Source'] is None
+
+
+def test_g3_is_published_before_first_execution_step():
+    import json
+    import demo
+    import graph_snapshots
+    from scene_graph_interface import KnowledgeInterface
+    scene = world()
+    scene['objects'] += [{'id': identifier, 'type': kind, 'qualities': {}}
+                         for identifier, kind in [('robot', 'robot'), ('user', 'person'),
+                                                  ('tablefork1', 'ForkConnector')]]
+    kg = Mock()
+    kg.resolve_concept.return_value = []
+
+    def first_step(*args, **kwargs):
+        g2 = json.loads((graph_snapshots.ARTIFACT_DIRECTORY / 'g2_plan.json').read_text())
+        g3 = json.loads((graph_snapshots.ARTIFACT_DIRECTORY / 'g3_action.json').read_text())
+        assert g2['bindings']['Source'] is None
+        assert g3['bindings']['Source'] == 'KITCHEN'
+        assert g3['plan'] == STEPS and g3['executed'] == []
+        assert len([n for n in g3['context_graph']['nodes'] if n['type'] == 'Action']) == 4
+        return False
+
+    with patch('builtins.input', return_value=''), \
+            patch('demo.observe_scene_with_vlm', return_value={'scene_graph': scene}), \
+            patch('demo.plan_bring', return_value=PLANNING), \
+            patch('plan_execution.execute_step', side_effect=first_step) as dispatch:
+        demo.spa_loop(KnowledgeInterface(), kg, Mock(), Mock(), execute=True)
+    dispatch.assert_called_once()

@@ -1,5 +1,5 @@
 {
-  "instruction": "Bring me a fork",
+  "instruction": "Bring me a book",
   "scene_graph": {
     "objects": [
       {
@@ -13,8 +13,8 @@
         "qualities": {}
       },
       {
-        "id": "fork1",
-        "type": "ForkConnector",
+        "id": "book1",
+        "type": "bookConnector",
         "qualities": {}
       },
       {
@@ -55,7 +55,7 @@
       {
         "id": "instruction_1",
         "type": "Instruction",
-        "text": "Bring me a fork"
+        "text": "Bring me a book"
       },
       {
         "id": "observation_1",
@@ -95,7 +95,7 @@
       {
         "subject": "observation_1",
         "predicate": "observes",
-        "object": "fork1"
+        "object": "book1"
       },
       {
         "subject": "observation_1",
@@ -111,7 +111,7 @@
   },
   "entity_links": {
     "TIAGo": "automaton.n.02",
-    "fork1": "fork.n.01",
+    "book1": "book.n.01",
     "pedestrian_1": "pedestrian.n.01"
   }
 }

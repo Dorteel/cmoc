@@ -98,8 +98,24 @@ def add_frame_graph(state):
                 declared.add(identifier)
 
 
-def action_snapshot(result):
-    """Task-only G3: ordered plan and attempts, never a world-memory copy."""
+def interpretation_snapshot(state, sense_graph):
+    """Publish the interpretation before Source resolution, separately from execution."""
+    snapshot = deepcopy(state)
+    for key in ('planning', 'plan', 'executed', 'failed_step', 'action_graph', 'planning_graph', 'entity_positions'):
+        snapshot.pop(key, None)
+    snapshot['frame']['Source'] = None
+    snapshot['bindings']['Source'] = None
+    snapshot.get('frame_element_links', {})['Source'] = None
+    snapshot['sense_graph'] = deepcopy(sense_graph)
+    snapshot['stage'] = 'G2'
+    add_frame_graph(snapshot)
+    source = next(node for node in snapshot['context_graph']['nodes'] if node['id'] == 'Source_FE')
+    source['semanticValue'] = 'Unknown'
+    return snapshot
+
+
+def action_snapshot(result, state=None):
+    """Keep the resolved interpretation alongside the actual ordered plan."""
     snapshot = deepcopy(result)
     nodes = [{'id': 'episode_1', 'type': 'Episode', 'status': result['status']},
              {'id': 'Plan_1', 'type': 'Plan'}]
@@ -115,5 +131,15 @@ def action_snapshot(result):
     if result.get('reason'):
         nodes[0]['reason'] = result['reason']
     snapshot['episode_id'] = 'episode_1'
+    if state is not None and state.get('type') != 'search':
+        resolved = deepcopy(state)
+        # Only snapshot data, never execution coordinates or nested prior artifacts.
+        for key in ('action_graph', 'planning_graph', 'entity_positions'):
+            resolved.pop(key, None)
+        add_frame_graph(resolved)
+        context = resolved['context_graph']
+        nodes = context['nodes'] + [node for node in nodes if node['id'] != 'episode_1']
+        relations = context['relations'] + relations
+        snapshot = {**resolved, **snapshot, 'stage': 'G3'}
     snapshot['context_graph'] = {'nodes': nodes, 'relations': relations}
     return snapshot
